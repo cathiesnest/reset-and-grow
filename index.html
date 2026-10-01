@@ -1,54 +1,52 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="RESET & GROW — Your money, your next move. A gentle financial organization and personal growth toolbox by Cathiesnest Digital.">
-<title>RESET & GROW — Your Money, Your Next Move</title>
 
-<!-- Google Analytics -->
+<title>Reset & Grow — Your Money, Your Next Move</title>
+
+<meta name="description" content="Reset & Grow is a gentle financial organization toolbox to help you see your money clearly and find your next move.">
+
+<!-- Google Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- GA4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GEFWPKEB6Z"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-GEFWPKEB6Z', {
-  send_page_view: true
+  anonymize_ip: true
 });
 
 function trackEvent(name, params = {}) {
   try {
-    if (typeof gtag === 'function') {
-      gtag('event', name, params);
+    if (typeof gtag === "function") {
+      gtag("event", name, params);
     }
   } catch (e) {}
 }
 </script>
 
-<!-- Playfair Display -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-<!-- jsPDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 <style>
 :root {
   --sage: #C8D0C0;
-  --sage-dark: #AEB9A5;
   --charcoal: #1C1C1C;
   --line: #555555;
-  --cream: #F2EFE9;
-  --white: #FFFFFF;
+  --offwhite: #F2EFE9;
   --green: #2E9E5B;
-  --green-dark: #237A46;
   --gold: #D4A94A;
-  --muted: #66645F;
-  --danger: #9B4B4B;
-  --shadow: 0 10px 30px rgba(28,28,28,.08);
-  --serif: "Playfair Display", Georgia, serif;
-  --sans: Inter, Arial, sans-serif;
+  --white: #ffffff;
+  --soft: #e9ede5;
+  --muted: #62675f;
+  --danger: #9a4b43;
+  --shadow: 0 12px 35px rgba(28,28,28,.08);
+  --radius: 22px;
 }
 
 * {
@@ -63,7 +61,7 @@ body {
   margin: 0;
   background: var(--sage);
   color: var(--charcoal);
-  font-family: var(--sans);
+  font-family: Inter, Arial, sans-serif;
   line-height: 1.6;
 }
 
@@ -82,393 +80,360 @@ a {
   color: inherit;
 }
 
-.top-rule,
-.bottom-rule {
+.container {
+  width: min(1180px, calc(100% - 32px));
+  margin: auto;
+}
+
+/* ---------- COVER ---------- */
+
+.cover {
+  min-height: 100vh;
+  padding: 22px 0 28px;
+  display: flex;
+  flex-direction: column;
+}
+
+.rule {
   height: 1px;
   background: var(--line);
-  width: calc(100% - 36px);
-  margin: 18px auto;
+  width: 100%;
 }
 
-.top-rule {
-  margin-bottom: 0;
-}
-
-.bottom-rule {
-  margin-top: 40px;
-}
-
-header {
-  padding: 24px 5vw 10px;
-}
-
-.nav {
-  max-width: 1250px;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-}
-
-.brand-mini {
-  font-family: var(--serif);
-  font-size: 1.15rem;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-}
-
-.menu-toggle {
-  display: none;
-  background: transparent;
-  border: 1px solid var(--line);
-  padding: 8px 12px;
-}
-
-.nav-links {
-  display: flex;
-  gap: 18px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
-.nav-links button {
-  background: transparent;
-  border: 0;
-  color: var(--charcoal);
-  font-size: .82rem;
-  letter-spacing: .04em;
-  padding: 7px 4px;
-}
-
-.nav-links button:hover {
-  text-decoration: underline;
-}
-
-.hero {
-  min-height: 670px;
-  max-width: 1250px;
-  margin: 0 auto;
-  padding: 55px 5vw 65px;
+.cover-inner {
+  flex: 1;
   display: grid;
   grid-template-columns: 42% 58%;
   align-items: center;
   gap: 30px;
+  padding: 50px 4% 35px;
 }
 
-.hero-visual {
-  min-height: 500px;
+.cover-visual {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .oval {
-  width: min(360px, 78%);
-  height: 500px;
-  background: var(--cream);
-  border-radius: 50% / 42%;
+  width: min(390px, 85%);
+  aspect-ratio: .68;
+  border-radius: 50%;
+  background: var(--offwhite);
   position: relative;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   box-shadow: var(--shadow);
+}
+
+.oval-content {
+  position: absolute;
+  inset: 12%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .plant {
   position: absolute;
-  left: 22%;
-  bottom: 16%;
-  width: 16px;
-  height: 230px;
-  background: #4C7953;
-  border-radius: 100px;
-  transform: rotate(-7deg);
+  top: 12%;
+  left: 24%;
+  width: 52%;
+  height: 40%;
+}
+
+.stem {
+  position: absolute;
+  width: 7px;
+  height: 150px;
+  background: #55785a;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  border-radius: 10px;
 }
 
 .leaf {
   position: absolute;
-  width: 75px;
-  height: 34px;
-  background: #5D9465;
+  width: 85px;
+  height: 45px;
+  background: #5e875f;
   border-radius: 100% 0 100% 0;
 }
 
-.leaf.one { left: -55px; top: 35px; transform: rotate(-25deg); }
-.leaf.two { left: 8px; top: 5px; transform: rotate(35deg); }
-.leaf.three { left: -58px; top: 90px; transform: rotate(-35deg); }
-.leaf.four { left: 8px; top: 70px; transform: rotate(40deg); }
-.leaf.five { left: -48px; top: 145px; transform: rotate(-30deg); }
-
-.coin {
-  position: absolute;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: var(--gold);
-  border: 4px solid #B78E32;
-  box-shadow: 0 5px 10px rgba(0,0,0,.12);
+.leaf.one {
+  left: 4%;
+  top: 35%;
+  transform: rotate(-28deg);
 }
 
-.coin::after {
-  content: "$";
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  font-family: var(--serif);
-  font-weight: bold;
-  color: #6F5420;
+.leaf.two {
+  right: 0;
+  top: 18%;
+  transform: rotate(25deg) scaleX(-1);
 }
 
-.coin.one { left: 14%; bottom: 14%; }
-.coin.two { left: 30%; bottom: 9%; width: 58px; height: 58px; }
-.coin.three { left: 39%; bottom: 18%; width: 42px; height: 42px; }
+.leaf.three {
+  left: 2%;
+  top: 2%;
+  transform: rotate(-10deg);
+}
 
 .tablet {
-  position: absolute;
-  right: 10%;
-  bottom: 22%;
-  width: 175px;
-  height: 245px;
-  background: #202020;
-  border-radius: 22px;
-  padding: 11px;
-  transform: rotate(8deg);
-  box-shadow: 0 14px 24px rgba(0,0,0,.2);
+  width: 62%;
+  height: 32%;
+  background: #303a31;
+  border-radius: 16px;
+  border: 7px solid #222822;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 10px 20px rgba(0,0,0,.18);
 }
 
 .tablet-screen {
-  height: 100%;
-  background: #F8F7F3;
-  border-radius: 13px;
-  position: relative;
-  overflow: hidden;
-}
-
-.chart-title {
-  font-size: 10px;
-  padding: 15px 12px;
-  font-weight: 700;
-}
-
-.chart {
   position: absolute;
-  left: 18px;
-  right: 18px;
-  top: 65px;
-  bottom: 45px;
-  border-left: 1px solid #BBB;
-  border-bottom: 1px solid #BBB;
+  inset: 8%;
+  background: #eef3eb;
+  border-radius: 6px;
+  overflow: hidden;
 }
 
 .chart-line {
   position: absolute;
-  width: 160px;
-  height: 90px;
-  border-top: 5px solid var(--green);
-  transform: rotate(-25deg);
-  left: 3px;
-  top: 50px;
-  border-radius: 50%;
+  left: 12%;
+  right: 12%;
+  bottom: 20%;
+  height: 50%;
+  border-bottom: 3px solid var(--green);
+  transform: skewY(-25deg);
 }
 
-.chart-button {
+.chart-line::after {
+  content: "";
   position: absolute;
-  bottom: 15px;
-  left: 20px;
-  right: 20px;
-  height: 25px;
-  border-radius: 20px;
+  right: -1px;
+  top: -1px;
+  width: 0;
+  height: 0;
+  border-left: 9px solid var(--green);
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+
+.chart-bars {
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  bottom: 10%;
+  height: 18%;
+  display: flex;
+  align-items: end;
+  gap: 8px;
+}
+
+.chart-bars span {
+  flex: 1;
   background: var(--green);
+  opacity: .75;
+}
+
+.chart-bars span:nth-child(1) { height: 35%; }
+.chart-bars span:nth-child(2) { height: 55%; }
+.chart-bars span:nth-child(3) { height: 42%; }
+.chart-bars span:nth-child(4) { height: 75%; }
+.chart-bars span:nth-child(5) { height: 100%; }
+
+.coins {
+  position: absolute;
+  bottom: 9%;
+  left: 13%;
+  width: 30%;
+  height: 18%;
+}
+
+.coin {
+  position: absolute;
+  width: 52px;
+  height: 18px;
+  background: var(--gold);
+  border: 2px solid #ad8531;
+  border-radius: 50%;
+  box-shadow: 0 3px 0 #b78e37;
+}
+
+.coin:nth-child(1) {
+  bottom: 0;
+  left: 5%;
+}
+
+.coin:nth-child(2) {
+  bottom: 14px;
+  left: 20%;
+}
+
+.coin:nth-child(3) {
+  bottom: 28px;
+  left: 36%;
+}
+
+.coin:nth-child(4) {
+  bottom: 14px;
+  left: 48%;
+}
+
+.cover-copy {
+  text-align: right;
+  padding-right: 3%;
 }
 
 .star {
-  font-size: 2rem;
-  line-height: 1;
-  margin-bottom: 25px;
+  font-size: 28px;
+  margin-bottom: 15px;
+  display: block;
 }
 
-.hero-copy {
-  text-align: right;
-}
-
-.hero-title {
-  font-family: var(--serif);
-  font-size: clamp(4rem, 8vw, 7rem);
+.cover-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(48px, 7vw, 105px);
   line-height: .88;
-  font-weight: 500;
-  letter-spacing: .08em;
-  margin: 0;
-}
-
-.hero-tagline {
-  font-family: var(--serif);
-  font-size: clamp(1rem, 1.7vw, 1.5rem);
-  letter-spacing: .22em;
-  line-height: 1.5;
-  margin: 32px 0 0;
-}
-
-.hero-description {
-  max-width: 520px;
-  margin: 28px 0 0 auto;
-  color: #41413D;
-}
-
-.primary-btn,
-.secondary-btn,
-.danger-btn {
-  border: 0;
-  padding: 12px 19px;
-  border-radius: 4px;
+  letter-spacing: .07em;
   font-weight: 600;
-  transition: .2s ease;
+  margin: 0;
 }
 
-.primary-btn {
-  background: var(--green);
-  color: white;
+.cover-tagline {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(17px, 2.2vw, 31px);
+  line-height: 1.15;
+  letter-spacing: .22em;
+  margin-top: 32px;
 }
 
-.primary-btn:hover {
-  background: var(--green-dark);
-  transform: translateY(-1px);
-}
-
-.secondary-btn {
-  background: var(--cream);
-  color: var(--charcoal);
-  border: 1px solid #AAA69D;
-}
-
-.secondary-btn:hover {
-  background: white;
-}
-
-.danger-btn {
-  background: var(--danger);
-  color: white;
-}
-
-.hero-actions {
-  margin-top: 26px;
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.powered {
-  font-family: var(--serif);
+.cover-footer {
   text-align: center;
-  font-size: 1rem;
-  margin: 0 0 35px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(13px, 1.2vw, 18px);
+  padding: 22px;
 }
 
-main {
-  max-width: 1250px;
-  margin: 0 auto;
-  padding: 0 5vw 70px;
+/* ---------- NAV ---------- */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(200,208,192,.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(85,85,85,.3);
 }
 
-.section {
-  margin: 45px 0;
-  scroll-margin-top: 25px;
-}
-
-.section-heading {
+.nav-inner {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: end;
   gap: 20px;
-  margin-bottom: 22px;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 12px;
+  padding: 14px 0;
 }
 
-.section-heading h2 {
-  font-family: var(--serif);
-  font-size: clamp(2rem, 4vw, 3.4rem);
+.logo {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 600;
+  letter-spacing: .08em;
+  font-size: 20px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.nav-links button {
+  border: 0;
+  background: transparent;
+  padding: 7px 10px;
+  border-radius: 999px;
+  color: var(--charcoal);
+  font-size: 12px;
+}
+
+.nav-links button:hover {
+  background: rgba(255,255,255,.45);
+}
+
+/* ---------- GENERAL ---------- */
+
+section {
+  padding: 80px 0;
+}
+
+.section-head {
+  margin-bottom: 35px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+h2 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(34px, 5vw, 58px);
   line-height: 1;
-  font-weight: 500;
-  margin: 0;
+  margin: 8px 0 12px;
 }
 
-.section-heading p {
-  margin: 0;
-  max-width: 500px;
-  color: #4D4C48;
+h3 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 25px;
+  margin: 0 0 8px;
+}
+
+.section-head p {
+  max-width: 680px;
+  color: #4f544d;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+  gap: 20px;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(2, minmax(0,1fr));
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, minmax(0,1fr));
 }
 
 .card {
-  background: rgba(242,239,233,.88);
-  border: 1px solid rgba(85,85,85,.25);
-  padding: 24px;
+  background: rgba(242,239,233,.82);
+  border: 1px solid rgba(28,28,28,.08);
+  border-radius: var(--radius);
+  padding: 25px;
   box-shadow: var(--shadow);
 }
 
-.card h3 {
-  font-family: var(--serif);
-  font-size: 1.55rem;
-  font-weight: 500;
-  margin: 0 0 8px;
-}
-
-.card p {
-  color: var(--muted);
-  margin-top: 0;
-}
-
-.feature-card {
-  min-height: 180px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.feature-card button {
-  align-self: flex-start;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.field.full {
-  grid-column: 1 / -1;
-}
-
-label {
-  font-size: .84rem;
-  font-weight: 700;
-  letter-spacing: .02em;
+.soft-card {
+  background: rgba(255,255,255,.48);
+  border-radius: 18px;
+  padding: 20px;
 }
 
 input,
 select,
 textarea {
   width: 100%;
-  border: 1px solid #A6A39B;
-  background: #FFFDF9;
+  border: 1px solid rgba(28,28,28,.22);
+  background: rgba(255,255,255,.75);
   color: var(--charcoal);
-  padding: 11px 12px;
-  border-radius: 3px;
+  padding: 12px 14px;
+  border-radius: 12px;
   outline: none;
 }
 
@@ -476,363 +441,359 @@ input:focus,
 select:focus,
 textarea:focus {
   border-color: var(--green);
-  box-shadow: 0 0 0 2px rgba(46,158,91,.14);
+  box-shadow: 0 0 0 3px rgba(46,158,91,.12);
 }
 
-textarea {
-  min-height: 90px;
-  resize: vertical;
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 16px;
+}
+
+.btn {
+  border: 0;
+  background: var(--charcoal);
+  color: white;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: transform .15s ease, opacity .15s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  opacity: .92;
+}
+
+.btn-green {
+  background: var(--green);
+}
+
+.btn-light {
+  background: rgba(255,255,255,.7);
+  color: var(--charcoal);
+  border: 1px solid rgba(28,28,28,.12);
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: var(--charcoal);
+}
+
+.btn-danger {
+  background: var(--danger);
 }
 
 .actions {
   display: flex;
-  gap: 10px;
   flex-wrap: wrap;
+  gap: 10px;
   margin-top: 18px;
-}
-
-.results {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-top: 22px;
 }
 
 .result {
-  background: #FFFDF9;
-  padding: 17px;
-  border: 1px solid #C9C5BC;
+  margin-top: 20px;
+  padding: 20px;
+  background: rgba(200,208,192,.6);
+  border-radius: 16px;
 }
 
-.result span {
-  display: block;
-  font-size: .76rem;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  color: var(--muted);
-}
-
-.result strong {
-  display: block;
-  font-family: var(--serif);
-  font-size: 1.65rem;
-  margin-top: 4px;
-}
-
-.feedback {
-  margin-top: 18px;
-  padding: 16px;
-  background: rgba(46,158,91,.09);
-  border-left: 3px solid var(--green);
-}
-
-.warning {
-  background: rgba(155,75,75,.08);
-  border-left-color: var(--danger);
+.big-number {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 38px;
+  font-weight: 600;
 }
 
 .muted {
   color: var(--muted);
+  font-size: 13px;
 }
 
-.small {
-  font-size: .82rem;
+.good {
+  color: var(--green);
+  font-weight: 700;
 }
 
-.grocery-table {
-  width: 100%;
-  border-collapse: collapse;
+.warn {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.center {
+  text-align: center;
+}
+
+/* ---------- HOME ---------- */
+
+.hero-message {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(28px,4vw,48px);
+  line-height: 1.1;
+  max-width: 780px;
+}
+
+.feature-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.feature-card p {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* ---------- GROCERY ---------- */
+
+.grocery-row {
+  display: grid;
+  grid-template-columns: 1.5fr .6fr .8fr .8fr auto;
+  gap: 8px;
+  align-items: end;
+}
+
+.grocery-list {
   margin-top: 20px;
-  background: #FFFDF9;
 }
 
-.grocery-table th,
-.grocery-table td {
-  padding: 10px;
-  border-bottom: 1px solid #D7D3CB;
-  text-align: left;
-  font-size: .9rem;
+.grocery-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(28,28,28,.1);
+  align-items: center;
 }
 
-.grocery-table th {
-  font-family: var(--serif);
-  font-weight: 500;
-  font-size: 1rem;
+.grocery-item.purchased {
+  opacity: .55;
+  text-decoration: line-through;
 }
 
-.delete-btn {
-  background: transparent;
-  border: 1px solid #BBAFAA;
-  padding: 6px 9px;
-  border-radius: 3px;
-}
+/* ---------- CALCULATOR ---------- */
 
-.tabs {
+.calc-tabs {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
-.tab {
-  border: 1px solid #9B988F;
-  background: transparent;
-  padding: 9px 13px;
-  border-radius: 3px;
+.calc-tabs button {
+  border: 1px solid rgba(28,28,28,.18);
+  background: rgba(255,255,255,.5);
+  padding: 9px 14px;
+  border-radius: 999px;
 }
 
-.tab.active {
+.calc-tabs button.active {
   background: var(--charcoal);
   color: white;
 }
 
-.calc-output {
-  margin-top: 18px;
-  padding: 20px;
-  background: #FFFDF9;
-  border: 1px solid #C9C5BC;
+.calc-panel {
+  display: none;
 }
 
-.buddy-tip {
-  min-height: 100px;
-  display: flex;
-  align-items: center;
-  padding: 22px;
-  background: #FFFDF9;
-  border-left: 4px solid var(--green);
-  font-family: var(--serif);
-  font-size: 1.25rem;
+.calc-panel.active {
+  display: block;
 }
 
-.history-item {
-  background: #FFFDF9;
-  border: 1px solid #C9C5BC;
-  padding: 17px;
-  margin-bottom: 10px;
+/* ---------- COPILOT ---------- */
+
+.chat-box {
+  background: rgba(255,255,255,.5);
+  border-radius: 18px;
+  padding: 18px;
+  min-height: 180px;
 }
 
-.history-header {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  align-items: center;
+.chat-answer {
+  background: var(--offwhite);
+  padding: 18px;
+  border-radius: 16px;
+  margin-bottom: 12px;
 }
 
-.history-header strong {
-  font-family: var(--serif);
-  font-size: 1.25rem;
+.chat-answer strong {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 20px;
 }
 
-.learning-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-}
-
-.learning-card {
-  background: var(--cream);
-  padding: 22px;
-  border: 1px solid #B7B3AA;
-}
-
-.learning-card h3 {
-  font-family: var(--serif);
-  margin-top: 0;
-}
-
-.disclosure {
-  font-size: .76rem;
-  color: #5B5954;
-  margin-top: 15px;
-}
-
-.social-links {
+.quick-questions {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
+  margin: 15px 0;
 }
 
-.privacy-box {
-  background: rgba(255,255,255,.35);
-  border: 1px solid rgba(85,85,85,.25);
-  padding: 20px;
+.quick-questions button {
+  border: 1px solid rgba(28,28,28,.15);
+  background: rgba(255,255,255,.6);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 12px;
 }
 
-footer {
-  padding: 35px 5vw 50px;
+/* ---------- HISTORY ---------- */
+
+.history-item {
+  border-left: 3px solid var(--green);
+  padding: 14px 18px;
+  background: rgba(255,255,255,.4);
+  border-radius: 0 15px 15px 0;
+  margin-bottom: 12px;
+}
+
+/* ---------- GROW ---------- */
+
+.grow-card {
   text-align: center;
 }
 
-.footer-title {
-  font-family: var(--serif);
-  font-size: 1.7rem;
-  letter-spacing: .08em;
+.grow-card .icon {
+  font-size: 36px;
+}
+
+.disclosure {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 18px;
+}
+
+/* ---------- FOOTER ---------- */
+
+footer {
+  padding: 55px 0;
+  border-top: 1px solid var(--line);
+}
+
+.footer-brand {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 28px;
 }
 
 .footer-links {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
-  gap: 16px;
-  margin: 18px 0;
+  gap: 15px;
+  margin: 20px 0;
 }
 
 .footer-links a {
-  font-size: .82rem;
+  font-size: 13px;
+  text-decoration: none;
 }
 
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.45);
-  display: none;
-  place-items: center;
-  padding: 20px;
-  z-index: 1000;
+.footer-links a:hover {
+  text-decoration: underline;
 }
 
-.modal {
-  max-width: 520px;
-  width: 100%;
-  background: var(--cream);
-  padding: 28px;
-  box-shadow: 0 25px 70px rgba(0,0,0,.25);
+.disclaimer {
+  font-size: 11px;
+  color: var(--muted);
+  max-width: 800px;
 }
 
-.modal h3 {
-  font-family: var(--serif);
-  font-size: 2rem;
-  margin-top: 0;
-}
-
-.hidden {
-  display: none !important;
-}
+/* ---------- TOAST ---------- */
 
 .toast {
   position: fixed;
   right: 20px;
   bottom: 20px;
+  z-index: 100;
   background: var(--charcoal);
   color: white;
-  padding: 12px 17px;
-  border-radius: 3px;
-  z-index: 2000;
+  padding: 13px 18px;
+  border-radius: 999px;
+  transform: translateY(120px);
   opacity: 0;
-  transform: translateY(10px);
-  transition: .25s;
-  pointer-events: none;
+  transition: .3s ease;
+  font-size: 13px;
 }
 
 .toast.show {
-  opacity: 1;
   transform: translateY(0);
+  opacity: 1;
 }
 
-@media (max-width: 950px) {
-  .hero {
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 850px) {
+  .cover-inner {
     grid-template-columns: 1fr;
     text-align: center;
   }
 
-  .hero-copy {
+  .cover-copy {
     text-align: center;
+    padding: 0;
+    order: -1;
   }
 
-  .hero-description {
-    margin-left: auto;
-    margin-right: auto;
+  .cover-title {
+    font-size: clamp(50px, 14vw, 85px);
   }
 
-  .hero-actions {
-    justify-content: center;
+  .cover-tagline {
+    font-size: 16px;
   }
 
-  .grid,
-  .learning-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .grid-3,
+  .grid-2 {
+    grid-template-columns: 1fr;
   }
 
-  .results {
-    grid-template-columns: repeat(2, 1fr);
+  .nav-inner {
+    flex-direction: column;
   }
 
   .nav-links {
-    display: none;
+    justify-content: center;
   }
 
-  .menu-toggle {
-    display: block;
-  }
-
-  .nav-links.open {
-    display: flex;
-    position: absolute;
-    left: 5vw;
-    right: 5vw;
-    top: 70px;
-    background: var(--cream);
-    padding: 15px;
-    box-shadow: var(--shadow);
-    z-index: 20;
+  .grocery-row {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
-@media (max-width: 650px) {
-  .hero {
-    padding-top: 30px;
-    min-height: auto;
+@media (max-width: 560px) {
+  section {
+    padding: 60px 0;
   }
 
-  .hero-visual {
-    min-height: 380px;
+  .container {
+    width: min(100% - 22px, 1180px);
   }
 
-  .oval {
-    height: 390px;
-  }
-
-  .tablet {
-    transform: scale(.78) rotate(8deg);
-    right: 2%;
-    bottom: 18%;
-  }
-
-  .hero-title {
-    font-size: 3.5rem;
-  }
-
-  .hero-tagline {
-    font-size: .9rem;
-    letter-spacing: .14em;
-  }
-
-  .grid,
-  .learning-grid,
   .form-grid {
     grid-template-columns: 1fr;
   }
 
-  .results {
-    grid-template-columns: 1fr 1fr;
+  .grocery-row {
+    grid-template-columns: 1fr;
   }
 
-  .section-heading {
-    display: block;
+  .grocery-item {
+    grid-template-columns: 1fr auto;
   }
 
-  .section-heading p {
-    margin-top: 10px;
+  .cover {
+    min-height: auto;
   }
 
-  .grocery-table {
-    display: block;
-    overflow-x: auto;
+  .cover-inner {
+    padding-top: 45px;
   }
 
-  .top-rule,
-  .bottom-rule {
-    width: calc(100% - 20px);
+  .oval {
+    width: 75%;
   }
 }
 </style>
@@ -840,2595 +801,65 @@ footer {
 
 <body>
 
-<div class="top-rule"></div>
+<!-- COVER -->
+<header class="cover">
+  <div class="container">
+    <div class="rule"></div>
+  </div>
 
-<header>
-  <nav class="nav" aria-label="Main navigation">
-    <div class="brand-mini">Reset & Grow</div>
-    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Open navigation">Menu</button>
+  <div class="cover-inner container">
 
-    <div class="nav-links" id="navLinks">
-      <button onclick="goTo('home')">Home</button>
-      <button onclick="goTo('money-map')">Money Map</button>
-      <button onclick="goTo('grocery')">Grocery</button>
-      <button onclick="goTo('calculator')">Calculator</button>
-      <button onclick="goTo('copilot')">Co-Pilot</button>
-      <button onclick="goTo('buddy')">Money Buddy</button>
-      <button onclick="goTo('wellness')">Wellness</button>
-      <button onclick="goTo('what-if')">What If?</button>
-      <button onclick="goTo('history')">History</button>
-      <button onclick="goTo('grow')">Grow</button>
+    <div class="cover-visual">
+      <div class="oval" aria-label="Plant, coins and tablet growth illustration">
+        <div class="plant">
+          <div class="stem"></div>
+          <div class="leaf one"></div>
+          <div class="leaf two"></div>
+          <div class="leaf three"></div>
+        </div>
+
+        <div class="tablet">
+          <div class="tablet-screen">
+            <div class="chart-line"></div>
+            <div class="chart-bars">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="coins">
+          <div class="coin"></div>
+          <div class="coin"></div>
+          <div class="coin"></div>
+          <div class="coin"></div>
+        </div>
+      </div>
     </div>
-  </nav>
+
+    <div class="cover-copy">
+      <span class="star">✦</span>
+      <h1 class="cover-title">RESET<br>&amp; GROW</h1>
+      <div class="cover-tagline">
+        YOUR MONEY,<br>
+        YOUR NEXT MOVE
+      </div>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="rule"></div>
+  </div>
+
+  <div class="cover-footer">
+    Powered by Cathiesnest Digital
+  </div>
 </header>
 
-<section class="hero" id="home">
-
-  <div class="hero-visual">
-    <div class="oval" aria-label="Illustration of plant, coins and tablet showing growth">
-      <div class="plant">
-        <div class="leaf one"></div>
-        <div class="leaf two"></div>
-        <div class="leaf three"></div>
-        <div class="leaf four"></div>
-        <div class="leaf five"></div>
-      </div>
-
-      <div class="coin one"></div>
-      <div class="coin two"></div>
-      <div class="coin three"></div>
-
-      <div class="tablet">
-        <div class="tablet-screen">
-          <div class="chart-title">YOUR GROWTH</div>
-          <div class="chart">
-            <div class="chart-line"></div>
-          </div>
-          <div class="chart-button"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="hero-copy">
-    <div class="star">✦</div>
-
-    <h1 class="hero-title">RESET<br>&amp; GROW</h1>
-
-    <div class="hero-tagline">
-      YOUR MONEY,<br>
-      YOUR NEXT MOVE
-    </div>
-
-    <p class="hero-description">
-      A gentle digital toolbox for organizing your money,
-      exploring everyday calculations, building healthier habits,
-      and finding your next learning step.
-    </p>
-
-    <div class="hero-actions">
-      <button class="primary-btn" onclick="goTo('money-map'); trackEvent('money_map_started')">
-        Start Your Money Map
-      </button>
-
-      <button class="secondary-btn" onclick="goTo('calculator'); trackEvent('calculator_used',{calculator_type:'basic_navigation'})">
-        Explore Calculators
-      </button>
-    </div>
-  </div>
-
-</section>
-
-<p class="powered">Powered by Cathiesnest Digital</p>
-
-<main>
-
-<!-- FEATURE OVERVIEW -->
-
-<section class="section" id="features">
-  <div class="section-heading">
-    <h2>Your Digital Toolbox</h2>
-    <p>Small tools for clearer decisions, calmer planning, and your next step.</p>
-  </div>
-
-  <div class="grid">
-
-    <div class="card feature-card">
-      <div>
-        <h3>My Money Map</h3>
-        <p>Map income, essentials, debt, savings and flexible spending.</p>
-      </div>
-      <button class="primary-btn" onclick="goTo('money-map')">Open Money Map</button>
-    </div>
-
-    <div class="card feature-card">
-      <div>
-        <h3>Grocery Map</h3>
-        <p>Plan your shopping and keep an eye on your grocery target.</p>
-      </div>
-      <button class="secondary-btn" onclick="goTo('grocery')">Open Grocery Map</button>
-    </div>
-
-    <div class="card feature-card">
-      <div>
-        <h3>Global Calculator</h3>
-        <p>Useful everyday calculations in one calm workspace.</p>
-      </div>
-      <button class="secondary-btn" onclick="goTo('calculator')">Open Calculator</button>
-    </div>
-
-    <div class="card feature-card">
-      <div>
-        <h3>AI Co-Pilot</h3>
-        <p>Get simple answers about supported money topics.</p>
-      </div>
-      <button class="secondary-btn" onclick="goTo('copilot'); trackEvent('copilot_opened')">Ask Co-Pilot</button>
-    </div>
-
-    <div class="card feature-card">
-      <div>
-        <h3>Money Buddy</h3>
-        <p>Receive gentle suggestions based on your own numbers.</p>
-      </div>
-      <button class="secondary-btn" onclick="goTo('buddy'); trackEvent('money_buddy_opened')">Meet Money Buddy</button>
-    </div>
-
-    <div class="card feature-card">
-      <div>
-        <h3>What If?</h3>
-        <p>Explore hypothetical changes before making them.</p>
-      </div>
-      <button class="secondary-btn" onclick="goTo('what-if')">Try What If?</button>
-    </div>
-
-    <div class="card feature-card">
-      <div>
-        <h3>Health &amp; Wellness</h3>
-        <p>Track simple habits that support everyday balance.</p>
-      </div>
-      <button class="secondary-btn" onclick="goTo('wellness')">Check In</button>
-    </div>
-
-    <div class="card feature-card">
-      <div>
-        <h3>Monthly History</h3>
-        <p>Keep a private local record of your monthly maps.</p>
-      </div>
-      <button class="secondary-btn" onclick="goTo('history')">View History</button>
-    </div>
-
-    <div class="card feature-card">
-      <div>
-        <h3>Grow Your Map</h3>
-        <p>Your next investment doesn't always have to be money.</p>
-      </div>
-      <button class="secondary-btn" onclick="goTo('grow')">Explore Learning</button>
-    </div>
-
-  </div>
-</section>
-
-
-<!-- MONEY MAP -->
-
-<section class="section" id="money-map">
-  <div class="section-heading">
-    <h2>My Money Map</h2>
-    <p>Start with what you know. You can always adjust it later.</p>
-  </div>
-
-  <div class="card">
-
-    <div class="form-grid">
-
-      <div class="field">
-        <label for="currency">Currency</label>
-        <select id="currency">
-          <option>PHP</option>
-          <option>USD</option>
-          <option>EUR</option>
-          <option>GBP</option>
-          <option>AUD</option>
-          <option>CAD</option>
-          <option>SGD</option>
-          <option>AED</option>
-          <option>SAR</option>
-          <option>JPY</option>
-          <option>INR</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="mapMonth">Month</label>
-        <input type="month" id="mapMonth">
-      </div>
-
-      <div class="field">
-        <label for="income">Monthly Income</label>
-        <input type="number" id="income" min="0" step="0.01" placeholder="0">
-      </div>
-
-      <div class="field">
-        <label for="essentials">Essential Expenses</label>
-        <input type="number" id="essentials" min="0" step="0.01" placeholder="0">
-      </div>
-
-      <div class="field">
-        <label for="debt">Debt Payments</label>
-        <input type="number" id="debt" min="0" step="0.01" placeholder="0">
-      </div>
-
-      <div class="field">
-        <label for="savings">Savings</label>
-        <input type="number" id="savings" min="0" step="0.01" placeholder="0">
-      </div>
-
-      <div class="field">
-        <label for="flexible">Flexible Spending</label>
-        <input type="number" id="flexible" min="0" step="0.01" placeholder="0">
-      </div>
-
-      <div class="field">
-        <label for="goal">Monthly Goal</label>
-        <input type="text" id="goal" placeholder="e.g. Build a small buffer">
-      </div>
-
-      <div class="field full">
-        <label for="moneyNotes">Notes</label>
-        <textarea id="moneyNotes" placeholder="Optional notes about this month's map..."></textarea>
-      </div>
-
-    </div>
-
-    <div class="actions">
-      <button class="primary-btn" onclick="calculateMoneyMap()">Map My Money</button>
-      <button class="secondary-btn" onclick="saveMonthlyMap()">Save This Month</button>
-      <button class="secondary-btn" onclick="resetMoneyMap()">Reset</button>
-    </div>
-
-    <div id="moneyResults" class="results"></div>
-    <div id="moneyFeedback"></div>
-
-  </div>
-</section>
-
-
-<!-- GROCERY -->
-
-<section class="section" id="grocery">
-  <div class="section-heading">
-    <h2>Grocery Map</h2>
-    <p>Plan the list before the list plans your wallet.</p>
-  </div>
-
-  <div class="card">
-
-    <div class="form-grid">
-
-      <div class="field">
-        <label for="groceryItem">Item</label>
-        <input id="groceryItem" placeholder="e.g. Rice">
-      </div>
-
-      <div class="field">
-        <label for="groceryQty">Quantity</label>
-        <input id="groceryQty" placeholder="e.g. 1">
-      </div>
-
-      <div class="field">
-        <label for="groceryPrice">Estimated Price</label>
-        <input type="number" id="groceryPrice" min="0" step="0.01" placeholder="0">
-      </div>
-
-      <div class="field">
-        <label for="groceryCategory">Category</label>
-        <select id="groceryCategory">
-          <option>Food</option>
-          <option>Household</option>
-          <option>Personal Care</option>
-          <option>Baby</option>
-          <option>Pet</option>
-          <option>Other</option>
-        </select>
-      </div>
-
-    </div>
-
-    <div class="actions">
-      <button class="primary-btn" onclick="addGroceryItem()">Add Item</button>
-      <button class="secondary-btn" onclick="clearPurchased()">Clear Purchased</button>
-    </div>
-
-    <div class="form-grid" style="margin-top:20px;">
-      <div class="field">
-        <label for="groceryBudget">Grocery Budget</label>
-        <input type="number" id="groceryBudget" min="0" step="0.01" placeholder="0">
-      </div>
-    </div>
-
-    <div id="grocerySummary" class="results"></div>
-
-    <div id="groceryTable"></div>
-
-  </div>
-</section>
-
-
-<!-- CALCULATOR -->
-
-<section class="section" id="calculator">
-  <div class="section-heading">
-    <h2>Global Calculator</h2>
-    <p>Simple calculations for everyday decisions.</p>
-  </div>
-
-  <div class="card">
-
-    <div class="tabs">
-      <button class="tab active" onclick="showCalc('currencyCalc',this)">Currency</button>
-      <button class="tab" onclick="showCalc('percentageCalc',this)">Percentage</button>
-      <button class="tab" onclick="showCalc('discountCalc',this)">Discount</button>
-      <button class="tab" onclick="showCalc('tipCalc',this)">Tip</button>
-      <button class="tab" onclick="showCalc('splitCalc',this)">Split Bill</button>
-      <button class="tab" onclick="showCalc('savingsCalc',this)">Savings</button>
-      <button class="tab" onclick="showCalc('debtCalc',this)">Debt</button>
-      <button class="tab" onclick="showCalc('basicCalc',this)">Basic</button>
-    </div>
-
-    <!-- Currency -->
-    <div id="currencyCalc" class="calc-panel">
-      <h3>Currency Calculator</h3>
-      <p class="muted small">Enter the exchange rate you want to use. This calculator does not invent live rates.</p>
-
-      <div class="form-grid">
-        <div class="field">
-          <label>Amount</label>
-          <input type="number" id="fxAmount" placeholder="0">
-        </div>
-
-        <div class="field">
-          <label>Exchange Rate</label>
-          <input type="number" id="fxRate" placeholder="e.g. 58.5">
-        </div>
-
-        <div class="field">
-          <label>From</label>
-          <select id="fxFrom">
-            <option>PHP</option><option>USD</option><option>EUR</option><option>GBP</option><option>AUD</option><option>CAD</option><option>SGD</option><option>AED</option><option>SAR</option><option>JPY</option><option>INR</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label>To</label>
-          <select id="fxTo">
-            <option>USD</option><option>PHP</option><option>EUR</option><option>GBP</option><option>AUD</option><option>CAD</option><option>SGD</option><option>AED</option><option>SAR</option><option>JPY</option><option>INR</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="actions">
-        <button class="primary-btn" onclick="calculateFX()">Calculate</button>
-      </div>
-
-      <div id="fxResult" class="calc-output"></div>
-    </div>
-
-    <!-- Percentage -->
-    <div id="percentageCalc" class="calc-panel hidden">
-      <h3>Percentage</h3>
-      <div class="form-grid">
-        <div class="field">
-          <label>Percentage</label>
-          <input type="number" id="percentValue" placeholder="10">
-        </div>
-        <div class="field">
-          <label>Of Number</label>
-          <input type="number" id="percentBase" placeholder="100">
-        </div>
-      </div>
-      <div class="actions">
-        <button class="primary-btn" onclick="calculatePercentage()">Calculate</button>
-      </div>
-      <div id="percentResult" class="calc-output"></div>
-    </div>
-
-    <!-- Discount -->
-    <div id="discountCalc" class="calc-panel hidden">
-      <h3>Discount</h3>
-      <div class="form-grid">
-        <div class="field">
-          <label>Original Price</label>
-          <input type="number" id="discountPrice" placeholder="100">
-        </div>
-        <div class="field">
-          <label>Discount %</label>
-          <input type="number" id="discountPercent" placeholder="20">
-        </div>
-      </div>
-      <div class="actions">
-        <button class="primary-btn" onclick="calculateDiscount()">Calculate</button>
-      </div>
-      <div id="discountResult" class="calc-output"></div>
-    </div>
-
-    <!-- Tip -->
-    <div id="tipCalc" class="calc-panel hidden">
-      <h3>Tip</h3>
-      <div class="form-grid">
-        <div class="field">
-          <label>Bill</label>
-          <input type="number" id="tipBill" placeholder="1000">
-        </div>
-        <div class="field">
-          <label>Tip %</label>
-          <input type="number" id="tipPercent" placeholder="10">
-        </div>
-        <div class="field">
-          <label>People</label>
-          <input type="number" id="tipPeople" min="1" value="1">
-        </div>
-      </div>
-      <div class="actions">
-        <button class="primary-btn" onclick="calculateTip()">Calculate</button>
-      </div>
-      <div id="tipResult" class="calc-output"></div>
-    </div>
-
-    <!-- Split -->
-    <div id="splitCalc" class="calc-panel hidden">
-      <h3>Split Bill</h3>
-      <div class="form-grid">
-        <div class="field">
-          <label>Total</label>
-          <input type="number" id="splitTotal" placeholder="1000">
-        </div>
-        <div class="field">
-          <label>People</label>
-          <input type="number" id="splitPeople" min="1" value="2">
-        </div>
-      </div>
-      <div class="actions">
-        <button class="primary-btn" onclick="calculateSplit()">Calculate</button>
-      </div>
-      <div id="splitResult" class="calc-output"></div>
-    </div>
-
-    <!-- Savings -->
-    <div id="savingsCalc" class="calc-panel hidden">
-      <h3>Savings</h3>
-      <div class="form-grid">
-        <div class="field">
-          <label>Target</label>
-          <input type="number" id="saveTarget" placeholder="10000">
-        </div>
-        <div class="field">
-          <label>Current Savings</label>
-          <input type="number" id="saveCurrent" placeholder="1000">
-        </div>
-        <div class="field">
-          <label>Monthly Contribution</label>
-          <input type="number" id="saveMonthly" placeholder="1000">
-        </div>
-      </div>
-      <div class="actions">
-        <button class="primary-btn" onclick="calculateSavings()">Calculate</button>
-      </div>
-      <div id="saveResult" class="calc-output"></div>
-    </div>
-
-    <!-- Debt -->
-    <div id="debtCalc" class="calc-panel hidden">
-      <h3>Debt Payment Estimate</h3>
-      <div class="form-grid">
-        <div class="field">
-          <label>Balance</label>
-          <input type="number" id="debtBalance" placeholder="10000">
-        </div>
-        <div class="field">
-          <label>Monthly Payment</label>
-          <input type="number" id="debtPayment" placeholder="1000">
-        </div>
-        <div class="field">
-          <label>Annual Interest % (optional)</label>
-          <input type="number" id="debtInterest" placeholder="0">
-        </div>
-      </div>
-      <div class="actions">
-        <button class="primary-btn" onclick="calculateDebt()">Calculate</button>
-      </div>
-      <div id="debtResult" class="calc-output"></div>
-      <p class="small muted">This is a simplified educational estimate and is not a lender calculation.</p>
-    </div>
-
-    <!-- Basic -->
-    <div id="basicCalc" class="calc-panel hidden">
-      <h3>Everyday Calculator</h3>
-      <div class="field">
-        <label>Expression</label>
-        <input id="basicExpression" placeholder="e.g. 1250 + 300 - 50">
-      </div>
-      <div class="actions">
-        <button class="primary-btn" onclick="calculateBasic()">Calculate</button>
-      </div>
-      <div id="basicResult" class="calc-output"></div>
-    </div>
-
-  </div>
-</section>
-
-
-<!-- COPILOT -->
-
-<section class="section" id="copilot">
-  <div class="section-heading">
-    <h2>AI Co-Pilot</h2>
-    <p>Ask about the supported money topics inside this toolbox.</p>
-  </div>
-
-  <div class="card">
-
-    <div class="field">
-      <label for="copilotQuestion">Your question</label>
-      <textarea id="copilotQuestion" placeholder="e.g. What is flexible spending?"></textarea>
-    </div>
-
-    <div class="actions">
-      <button class="primary-btn" onclick="askCopilot()">Ask Co-Pilot</button>
-    </div>
-
-    <div id="copilotAnswer" class="feedback hidden"></div>
-
-    <p class="small muted">
-      Co-Pilot V1 uses built-in educational guidance rather than a live generative AI service.
-    </p>
-
-  </div>
-</section>
-
-
-<!-- MONEY BUDDY -->
-
-<section class="section" id="buddy">
-  <div class="section-heading">
-    <h2>Money Buddy</h2>
-    <p>A gentle look at the numbers you've entered — no judgment attached.</p>
-  </div>
-
-  <div class="card">
-
-    <div id="buddyTip" class="buddy-tip">
-      Map your money first, then Money Buddy can look for a gentle next step.
-    </div>
-
-    <div class="actions">
-      <button class="primary-btn" onclick="generateMoneyBuddyTip()">Give Me a Tip</button>
-    </div>
-
-    <p class="small muted">
-      Money Buddy provides general educational suggestions, not professional financial advice.
-    </p>
-
-  </div>
-</section>
-
-
-<!-- WHAT IF -->
-
-<section class="section" id="what-if">
-  <div class="section-heading">
-    <h2>What If?</h2>
-    <p>Explore a hypothetical change without changing your saved Money Map.</p>
-  </div>
-
-  <div class="card">
-
-    <div class="form-grid">
-
-      <div class="field">
-        <label>Current Remaining</label>
-        <input type="number" id="whatCurrent" placeholder="Use your Money Map or enter a value">
-      </div>
-
-      <div class="field">
-        <label>Scenario</label>
-        <select id="whatScenario">
-          <option value="save">Save Extra Amount</option>
-          <option value="grocery">Reduce Grocery Spending</option>
-          <option value="flexible">Reduce Flexible Spending</option>
-          <option value="income">Increase Income</option>
-          <option value="debt">Increase Debt Payment</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label>Amount</label>
-        <input type="number" id="whatAmount" placeholder="1000">
-      </div>
-
-    </div>
-
-    <div class="actions">
-      <button class="primary-btn" onclick="runWhatIf()">Explore Scenario</button>
-    </div>
-
-    <div id="whatResult" class="calc-output"></div>
-
-    <p class="small muted">
-      This is hypothetical math only. It does not predict future financial outcomes.
-    </p>
-
-  </div>
-</section>
-
-
-<!-- WELLNESS -->
-
-<section class="section" id="wellness">
-  <div class="section-heading">
-    <h2>Health &amp; Wellness</h2>
-    <p>A healthier money map is easier to maintain when you're taking care of yourself, too. 🌱</p>
-  </div>
-
-  <div class="card">
-
-    <div class="grid">
-
-      <label class="card">
-        <input type="checkbox" id="wSleep"> Sleep
-      </label>
-
-      <label class="card">
-        <input type="checkbox" id="wWater"> Water
-      </label>
-
-      <label class="card">
-        <input type="checkbox" id="wMovement"> Movement
-      </label>
-
-      <label class="card">
-        <input type="checkbox" id="wPersonal"> Personal Time
-      </label>
-
-      <label class="card">
-        <input type="checkbox" id="wHabit"> Healthy Habit
-      </label>
-
-    </div>
-
-    <div class="form-grid" style="margin-top:18px;">
-
-      <div class="field">
-        <label>Mood</label>
-        <select id="wMood">
-          <option value="">Choose if you want</option>
-          <option>Low</option>
-          <option>Okay</option>
-          <option>Good</option>
-          <option>Great</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label>Energy</label>
-        <select id="wEnergy">
-          <option value="">Choose if you want</option>
-          <option>Low</option>
-          <option>Okay</option>
-          <option>Good</option>
-          <option>High</option>
-        </select>
-      </div>
-
-      <div class="field full">
-        <label>Notes</label>
-        <textarea id="wNotes" placeholder="Optional personal notes..."></textarea>
-      </div>
-
-    </div>
-
-    <div class="actions">
-      <button class="primary-btn" onclick="saveWellness()">Save Today's Check-In</button>
-      <button class="secondary-btn" onclick="clearWellness()">Clear</button>
-    </div>
-
-    <div id="wellnessSummary" class="feedback"></div>
-
-    <p class="small muted">
-      This is a general wellness organization tool, not medical advice.
-    </p>
-
-  </div>
-</section>
-
-
-<!-- HISTORY -->
-
-<section class="section" id="history">
-  <div class="section-heading">
-    <h2>Monthly History</h2>
-    <p>Your saved maps stay on this device unless you clear them.</p>
-  </div>
-
-  <div class="card">
-
-    <div id="historyList"></div>
-
-    <div id="compareArea" class="hidden" style="margin-top:20px;">
-      <h3>Compare Months</h3>
-
-      <div class="form-grid">
-        <div class="field">
-          <label>Month A</label>
-          <select id="historyA"></select>
-        </div>
-
-        <div class="field">
-          <label>Month B</label>
-          <select id="historyB"></select>
-        </div>
-      </div>
-
-      <div class="actions">
-        <button class="primary-btn" onclick="compareHistory()">Compare</button>
-      </div>
-
-      <div id="comparisonResult"></div>
-    </div>
-
-  </div>
-</section>
-
-
-<!-- PDF / SHARE -->
-
-<section class="section" id="tools">
-  <div class="section-heading">
-    <h2>Save &amp; Share</h2>
-    <p>Keep your personal numbers private unless you choose to share them.</p>
-  </div>
-
-  <div class="grid">
-
-    <div class="card">
-      <h3>Download My Money Map</h3>
-      <p>Create a simple PDF summary of your current map.</p>
-      <button class="primary-btn" onclick="generatePDF()">Download PDF</button>
-    </div>
-
-    <div class="card">
-      <h3>Share</h3>
-      <p>Share a simple message without automatically exposing your financial figures.</p>
-      <button class="secondary-btn" onclick="shareMoneyMap()">Share</button>
-    </div>
-
-    <div class="card">
-      <h3>Email My Money Map</h3>
-      <p>Open your email app with a privacy-conscious summary.</p>
-      <button class="secondary-btn" onclick="emailMoneyMap()">Email</button>
-    </div>
-
-  </div>
-</section>
-
-
-<!-- GROW -->
-
-<section class="section" id="grow">
-  <div class="section-heading">
-    <h2>Grow Your Map 🌱</h2>
-    <p>Your next investment doesn't always have to be money. Sometimes it's a skill.</p>
-  </div>
-
-  <div class="learning-grid">
-
-    <div class="learning-card">
-      <h3>AI &amp; Digital Skills</h3>
-      <p>Explore skills that can help you work more comfortably with digital tools.</p>
-      <button class="secondary-btn" onclick="learningCategory('AI & Digital Skills')">Explore</button>
-    </div>
-
-    <div class="learning-card">
-      <h3>Administration</h3>
-      <p>Build practical organization and operations skills.</p>
-      <button class="secondary-btn" onclick="learningCategory('Administration')">Explore</button>
-    </div>
-
-    <div class="learning-card">
-      <h3>Business</h3>
-      <p>Learn concepts that can support your next project or opportunity.</p>
-      <button class="secondary-btn" onclick="learningCategory('Business')">Explore</button>
-    </div>
-
-    <div class="learning-card">
-      <h3>Marketing</h3>
-      <p>Develop practical skills around communication and digital visibility.</p>
-      <button class="secondary-btn" onclick="learningCategory('Marketing')">Explore</button>
-    </div>
-
-    <div class="learning-card">
-      <h3>Career Development</h3>
-      <p>Keep building the skills behind your next professional move.</p>
-      <button class="secondary-btn" onclick="learningCategory('Career Development')">Explore</button>
-    </div>
-
-    <div class="learning-card">
-      <h3>Personal Development</h3>
-      <p>Make room for learning, reflection and your next chapter.</p>
-
-      <button class="primary-btn" onclick="openAlison()">
-        Explore Personal Development
-      </button>
-
-      <p class="disclosure">
-        Some links may be affiliate links. If you choose to enroll through one,
-        we may earn a commission at no extra cost to you.
-      </p>
-    </div>
-
-  </div>
-</section>
-
-
-<!-- COMMUNITY -->
-
-<section class="section" id="community">
-
-  <div class="section-heading">
-    <h2>Keep Growing</h2>
-    <p>Keep growing with CathiesNest Digital. 🌱</p>
-  </div>
-
-  <div class="card">
-
-    <div class="social-links">
-
-      <a
-        class="secondary-btn"
-        href="https://ph.pinterest.com/CathiesnestDigitalHub/"
-        target="_blank"
-        rel="noopener noreferrer"
-        onclick="trackEvent('pinterest_click')">
-        Pinterest
-      </a>
-
-      <a
-        class="secondary-btn"
-        href="https://www.facebook.com/profile.php?id=61580857530656"
-        target="_blank"
-        rel="noopener noreferrer"
-        onclick="trackEvent('facebook_click')">
-        Facebook
-      </a>
-
-      <a
-        class="primary-btn"
-        href="https://cathiesnest.github.io/tabing-guhit-3.0/"
-        target="_blank"
-        rel="noopener noreferrer"
-        onclick="trackEvent('tabing_guhit_click')">
-        Find Your Niche →
-      </a>
-
-    </div>
-
-    <p style="margin-top:20px;">
-      Four questions. One clearer next step.
-    </p>
-
-  </div>
-
-</section>
-
-
-<!-- PRIVACY -->
-
-<section class="section" id="privacy">
-
-  <div class="section-heading">
-    <h2>Privacy</h2>
-    <p>Your personal map should remain yours.</p>
-  </div>
-
-  <div class="privacy-box">
-
-    <p>
-      Financial Money Map is designed to work without a bank connection,
-      financial account or password.
-    </p>
-
-    <ul>
-      <li>Your Money Map entries are stored locally on your device.</li>
-      <li>Grocery information is stored locally on your device.</li>
-      <li>Wellness information is stored locally on your device.</li>
-      <li>Analytics measure feature interactions rather than your financial amounts.</li>
-      <li>Your actual financial figures are not intentionally sent to Google Analytics.</li>
-      <li>You can clear locally stored information at any time.</li>
-    </ul>
-
-    <button class="danger-btn" onclick="confirmClearData()">
-      Clear My Data
-    </button>
-
-  </div>
-
-</section>
-
-</main>
-
-<div class="bottom-rule"></div>
-
-<footer>
-
-  <div class="footer-title">RESET &amp; GROW</div>
-
-  <p>See your money clearly. Find your next move. 🌱</p>
-
-  <div class="footer-links">
-    <a href="#privacy">Privacy</a>
-    <a href="#tools">Save &amp; Share</a>
-    <a href="https://ph.pinterest.com/CathiesnestDigitalHub/" target="_blank" rel="noopener noreferrer">Pinterest</a>
-    <a href="https://www.facebook.com/profile.php?id=61580857530656" target="_blank" rel="noopener noreferrer">Facebook</a>
-    <a href="https://cathiesnest.github.io/tabing-guhit-3.0/" target="_blank" rel="noopener noreferrer">Tabing Guhit</a>
-  </div>
-
-  <p class="small">
-    Educational organization tool — not financial, investment, tax, legal,
-    medical or professional advice.
-  </p>
-
-  <p class="powered">Powered by Cathiesnest Digital</p>
-
-</footer>
-
-<div id="toast" class="toast"></div>
-
-<script>
-/* =========================================================
-   RESET & GROW — FINANCIAL MONEY MAP
-   ========================================================= */
-
-const ALISON_AFFILIATE_URL =
-  "https://alison.com/courses/personal-development?utm_source=alison_user&utm_medium=affiliate&utm_campaign=42404117";
-
-const STORAGE = {
-  money: "financialMoneyMap",
-  history: "financialMoneyMapHistory",
-  groceries: "financialMoneyMapGroceries",
-  wellness: "financialMoneyMapWellness"
-};
-
-let groceries = [];
-let currentMoneyMap = {};
-let buddyTipIndex = 0;
-
-const moneyTips = [
-  "Small changes count. Look for one category that feels easiest to adjust.",
-  "If your remaining amount is positive, consider keeping some of it as breathing room.",
-  "A realistic savings target can be more useful than an ambitious target you cannot maintain.",
-  "Reviewing your grocery list before shopping can help you separate essentials from impulse items.",
-  "You do not have to change everything at once. One clear next step is enough.",
-  "If flexible spending feels high, choose one small category to review rather than cutting everything."
-];
-
-
-/* =========================================================
-   NAVIGATION
-   ========================================================= */
-
-function goTo(id) {
-  const element = document.getElementById(id);
-
-  if (element) {
-    element.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  }
-
-  const nav = document.getElementById("navLinks");
-  if (nav) nav.classList.remove("open");
-}
-
-function toggleMenu() {
-  document.getElementById("navLinks").classList.toggle("open");
-}
-
-
-/* =========================================================
-   UTILITIES
-   ========================================================= */
-
-function number(id) {
-  const value = parseFloat(document.getElementById(id)?.value);
-  return Number.isFinite(value) ? value : 0;
-}
-
-function safeNumber(value) {
-  const n = Number(value);
-  return Number.isFinite(n) ? n : 0;
-}
-
-function money(value, currency = "PHP") {
-  const n = safeNumber(value);
-
-  try {
-    return new Intl.NumberFormat(undefined, {
-      style: "currency",
-      currency,
-      maximumFractionDigits: 2
-    }).format(n);
-  } catch (e) {
-    return `${currency} ${n.toFixed(2)}`;
-  }
-}
-
-function toast(message) {
-  const el = document.getElementById("toast");
-  el.textContent = message;
-  el.classList.add("show");
-
-  setTimeout(() => {
-    el.classList.remove("show");
-  }, 2500);
-}
-
-function getMonthLabel() {
-  const value = document.getElementById("mapMonth").value;
-
-  if (!value) {
-    const now = new Date();
-    return now.toLocaleDateString(undefined, {
-      month: "long",
-      year: "numeric"
-    });
-  }
-
-  const date = new Date(value + "-01T12:00:00");
-
-  return date.toLocaleDateString(undefined, {
-    month: "long",
-    year: "numeric"
-  });
-}
-
-function currentCurrency() {
-  return document.getElementById("currency").value || "PHP";
-}
-
-
-/* =========================================================
-   MONEY MAP
-   ========================================================= */
-
-function calculateMoneyMap(showToast = true) {
-
-  const income = number("income");
-  const essentials = number("essentials");
-  const debt = number("debt");
-  const savings = number("savings");
-  const flexible = number("flexible");
-
-  const totalOutflow =
-    essentials +
-    debt +
-    savings +
-    flexible;
-
-  const remaining = income - totalOutflow;
-
-  const savingsPct =
-    income > 0 ? (savings / income) * 100 : 0;
-
-  const essentialsPct =
-    income > 0 ? (essentials / income) * 100 : 0;
-
-  const flexiblePct =
-    income > 0 ? (flexible / income) * 100 : 0;
-
-  currentMoneyMap = {
-    month: getMonthLabel(),
-    currency: currentCurrency(),
-    income,
-    essentials,
-    debt,
-    savings,
-    flexible,
-    totalOutflow,
-    remaining,
-    savingsPct,
-    essentialsPct,
-    flexiblePct,
-    goal: document.getElementById("goal").value,
-    notes: document.getElementById("moneyNotes").value
-  };
-
-  document.getElementById("moneyResults").innerHTML = `
-    <div class="result">
-      <span>Total Outflow</span>
-      <strong>${money(totalOutflow, currentCurrency())}</strong>
-    </div>
-
-    <div class="result">
-      <span>Remaining</span>
-      <strong>${money(remaining, currentCurrency())}</strong>
-    </div>
-
-    <div class="result">
-      <span>Savings</span>
-      <strong>${savingsPct.toFixed(1)}%</strong>
-    </div>
-
-    <div class="result">
-      <span>Essentials</span>
-      <strong>${essentialsPct.toFixed(1)}%</strong>
-    </div>
-  `;
-
-  let feedback = "";
-
-  if (income === 0 && totalOutflow === 0) {
-    feedback = "Add a few numbers and we'll map them together.";
-  } else if (remaining < 0) {
-    feedback = `
-      <div class="feedback warning">
-        Your current entries are above the income entered.
-        You may want to review the easiest flexible category first.
-      </div>
-    `;
-  } else if (remaining === 0) {
-    feedback = `
-      <div class="feedback">
-        Your current entries use the income entered.
-        There isn't extra room showing yet, but this gives you a starting map.
-      </div>
-    `;
-  } else {
-    feedback = `
-      <div class="feedback">
-        Okay. We have something to work with.
-        Your current entries leave ${money(remaining, currentCurrency())}
-        after the amounts entered.
-      </div>
-    `;
-  }
-
-  document.getElementById("moneyFeedback").innerHTML = feedback;
-
-  if (showToast) {
-    toast("Your Money Map is ready. 🌱");
-    trackEvent("money_map_completed");
-  }
-
-  saveMoneyState();
-}
-
-function saveMoneyState() {
-  try {
-    localStorage.setItem(
-      STORAGE.money,
-      JSON.stringify(currentMoneyMap)
-    );
-  } catch (e) {}
-}
-
-function loadMoneyState() {
-
-  try {
-
-    const saved = JSON.parse(
-      localStorage.getItem(STORAGE.money)
-    );
-
-    if (!saved) return;
-
-    document.getElementById("income").value = saved.income || "";
-    document.getElementById("essentials").value = saved.essentials || "";
-    document.getElementById("debt").value = saved.debt || "";
-    document.getElementById("savings").value = saved.savings || "";
-    document.getElementById("flexible").value = saved.flexible || "";
-    document.getElementById("goal").value = saved.goal || "";
-    document.getElementById("moneyNotes").value = saved.notes || "";
-
-    if (saved.currency) {
-      document.getElementById("currency").value = saved.currency;
-    }
-
-    calculateMoneyMap(false);
-
-  } catch (e) {}
-}
-
-function resetMoneyMap() {
-
-  [
-    "income",
-    "essentials",
-    "debt",
-    "savings",
-    "flexible",
-    "goal",
-    "moneyNotes"
-  ].forEach(id => {
-    document.getElementById(id).value = "";
-  });
-
-  document.getElementById("moneyResults").innerHTML = "";
-  document.getElementById("moneyFeedback").innerHTML = "";
-
-  currentMoneyMap = {};
-
-  try {
-    localStorage.removeItem(STORAGE.money);
-  } catch (e) {}
-
-  toast("Money Map reset.");
-}
-
-
-/* =========================================================
-   GROCERY MAP
-   ========================================================= */
-
-function loadGroceries() {
-
-  try {
-    const saved = JSON.parse(
-      localStorage.getItem(STORAGE.groceries)
-    );
-
-    groceries = Array.isArray(saved) ? saved : [];
-
-  } catch (e) {
-    groceries = [];
-  }
-
-  renderGroceries();
-}
-
-function saveGroceries() {
-
-  try {
-    localStorage.setItem(
-      STORAGE.groceries,
-      JSON.stringify(groceries)
-    );
-  } catch (e) {}
-}
-
-function addGroceryItem() {
-
-  const item = document.getElementById("groceryItem").value.trim();
-  const quantity = document.getElementById("groceryQty").value.trim();
-  const price = number("groceryPrice");
-  const category = document.getElementById("groceryCategory").value;
-
-  if (!item) {
-    toast("Please enter an item first.");
-    return;
-  }
-
-  groceries.push({
-    id: Date.now(),
-    item,
-    quantity,
-    price,
-    category,
-    purchased: false
-  });
-
-  saveGroceries();
-  renderGroceries();
-
-  document.getElementById("groceryItem").value = "";
-  document.getElementById("groceryQty").value = "";
-  document.getElementById("groceryPrice").value = "";
-
-  trackEvent("grocery_item_added");
-
-  toast("Grocery item added.");
-}
-
-function renderGroceries() {
-
-  const total = groceries.reduce(
-    (sum, item) => sum + safeNumber(item.price),
-    0
-  );
-
-  const budget = number("groceryBudget");
-  const remaining = budget - total;
-
-  document.getElementById("grocerySummary").innerHTML = `
-    <div class="result">
-      <span>Items</span>
-      <strong>${groceries.length}</strong>
-    </div>
-
-    <div class="result">
-      <span>Total</span>
-      <strong>${money(total, currentCurrency())}</strong>
-    </div>
-
-    <div class="result">
-      <span>Budget</span>
-      <strong>${money(budget, currentCurrency())}</strong>
-    </div>
-
-    <div class="result">
-      <span>Remaining</span>
-      <strong>${money(remaining, currentCurrency())}</strong>
-    </div>
-  `;
-
-  let feedback = "";
-
-  if (groceries.length === 0) {
-    feedback = `
-      <div class="feedback">
-        Your grocery map is waiting for its first item. 🌱
-      </div>
-    `;
-  } else if (budget > 0 && remaining < 0) {
-    feedback = `
-      <div class="feedback warning">
-        You're currently over the grocery target.
-        Want to review a few non-essential items?
-      </div>
-    `;
-  } else if (budget > 0) {
-    feedback = `
-      <div class="feedback">
-        You have ${money(remaining, currentCurrency())}
-        of grocery room left based on the target entered.
-      </div>
-    `;
-  }
-
-  const table = groceries.length
-    ? `
-      <table class="grocery-table">
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Qty</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Purchased</th>
-            <th></th>
-          </tr>
-        </thead>
-
-        <tbody>
-          ${groceries.map(item => `
-            <tr>
-              <td>${escapeHTML(item.item)}</td>
-              <td>${escapeHTML(item.quantity || "-")}</td>
-              <td>${escapeHTML(item.category)}</td>
-              <td>${money(item.price, currentCurrency())}</td>
-              <td>
-                <input
-                  type="checkbox"
-                  ${item.purchased ? "checked" : ""}
-                  onchange="togglePurchased(${item.id})"
-                  aria-label="Mark ${escapeHTML(item.item)} as purchased">
-              </td>
-              <td>
-                <button class="delete-btn" onclick="deleteGrocery(${item.id})">
-                  Delete
-                </button>
-              </td>
-            </tr>
-          `).join("")}
-        </tbody>
-      </table>
-    `
-    : "";
-
-  document.getElementById("groceryTable").innerHTML =
-    feedback + table;
-}
-
-function togglePurchased(id) {
-
-  const item = groceries.find(
-    item => item.id === id
-  );
-
-  if (!item) return;
-
-  item.purchased = !item.purchased;
-
-  saveGroceries();
-  renderGroceries();
-}
-
-function deleteGrocery(id) {
-
-  groceries = groceries.filter(
-    item => item.id !== id
-  );
-
-  saveGroceries();
-  renderGroceries();
-}
-
-function clearPurchased() {
-
-  groceries = groceries.filter(
-    item => !item.purchased
-  );
-
-  saveGroceries();
-  renderGroceries();
-
-  toast("Purchased items cleared.");
-}
-
-document.getElementById("groceryBudget").addEventListener(
-  "input",
-  renderGroceries
-);
-
-
-/* =========================================================
-   CALCULATORS
-   ========================================================= */
-
-function showCalc(id, button) {
-
-  document.querySelectorAll(".calc-panel").forEach(panel => {
-    panel.classList.add("hidden");
-  });
-
-  document.getElementById(id).classList.remove("hidden");
-
-  document.querySelectorAll(".tab").forEach(tab => {
-    tab.classList.remove("active");
-  });
-
-  button.classList.add("active");
-
-  trackEvent("calculator_used", {
-    calculator_type: id
-  });
-}
-
-function calculateFX() {
-
-  const amount = number("fxAmount");
-  const rate = number("fxRate");
-
-  if (amount === 0 || rate <= 0) {
-    document.getElementById("fxResult").textContent =
-      "Enter an amount and a valid exchange rate.";
-    return;
-  }
-
-  const result = amount * rate;
-
-  const from = document.getElementById("fxFrom").value;
-  const to = document.getElementById("fxTo").value;
-
-  document.getElementById("fxResult").innerHTML =
-    `<strong>${amount.toFixed(2)} ${from} = ${result.toFixed(2)} ${to}</strong>`;
-}
-
-function calculatePercentage() {
-
-  const pct = number("percentValue");
-  const base = number("percentBase");
-
-  const result = (pct / 100) * base;
-
-  document.getElementById("percentResult").textContent =
-    `${pct}% of ${base} = ${result.toFixed(2)}`;
-}
-
-function calculateDiscount() {
-
-  const price = number("discountPrice");
-  const pct = number("discountPercent");
-
-  const discount = price * (pct / 100);
-  const finalPrice = price - discount;
-
-  document.getElementById("discountResult").innerHTML = `
-    Discount: <strong>${discount.toFixed(2)}</strong><br>
-    Final price: <strong>${finalPrice.toFixed(2)}</strong>
-  `;
-}
-
-function calculateTip() {
-
-  const bill = number("tipBill");
-  const pct = number("tipPercent");
-  const people = Math.max(1, number("tipPeople"));
-
-  const tip = bill * pct / 100;
-  const total = bill + tip;
-  const perPerson = total / people;
-
-  document.getElementById("tipResult").innerHTML = `
-    Tip: <strong>${tip.toFixed(2)}</strong><br>
-    Total: <strong>${total.toFixed(2)}</strong><br>
-    Per person: <strong>${perPerson.toFixed(2)}</strong>
-  `;
-}
-
-function calculateSplit() {
-
-  const total = number("splitTotal");
-  const people = Math.max(1, number("splitPeople"));
-
-  const perPerson = total / people;
-
-  document.getElementById("splitResult").innerHTML =
-    `Each person: <strong>${perPerson.toFixed(2)}</strong>`;
-}
-
-function calculateSavings() {
-
-  const target = number("saveTarget");
-  const current = number("saveCurrent");
-  const monthly = number("saveMonthly");
-
-  const remaining = Math.max(0, target - current);
-
-  if (monthly <= 0) {
-    document.getElementById("saveResult").textContent =
-      "Enter a monthly contribution greater than zero.";
-    return;
-  }
-
-  const months = Math.ceil(remaining / monthly);
-
-  document.getElementById("saveResult").innerHTML = `
-    Remaining target: <strong>${remaining.toFixed(2)}</strong><br>
-    Estimated months: <strong>${months}</strong>
-  `;
-}
-
-function calculateDebt() {
-
-  const balance = number("debtBalance");
-  const payment = number("debtPayment");
-  const annualInterest = number("debtInterest");
-
-  if (payment <= 0) {
-    document.getElementById("debtResult").textContent =
-      "Enter a monthly payment greater than zero.";
-    return;
-  }
-
-  if (annualInterest <= 0) {
-
-    const months = Math.ceil(balance / payment);
-
-    document.getElementById("debtResult").innerHTML =
-      `Simplified estimate: <strong>${months} month(s)</strong>`;
-
-    return;
-  }
-
-  const monthlyRate = annualInterest / 100 / 12;
-
-  if (payment <= balance * monthlyRate) {
-
-    document.getElementById("debtResult").textContent =
-      "At this rate and payment, the balance would not decrease under this simplified model.";
-
-    return;
-  }
-
-  const months =
-    -Math.log(
-      1 - (monthlyRate * balance / payment)
-    ) /
-    Math.log(1 + monthlyRate);
-
-  document.getElementById("debtResult").innerHTML =
-    `Simplified estimate: <strong>${Math.ceil(months)} month(s)</strong>`;
-}
-
-function calculateBasic() {
-
-  const expression =
-    document.getElementById("basicExpression").value.trim();
-
-  if (!/^[0-9+\-*/().%\s]+$/.test(expression)) {
-
-    document.getElementById("basicResult").textContent =
-      "Please use numbers and basic arithmetic operators only.";
-
-    return;
-  }
-
-  try {
-
-    const result = Function(
-      `"use strict"; return (${expression})`
-    )();
-
-    if (!Number.isFinite(result)) {
-      throw new Error();
-    }
-
-    document.getElementById("basicResult").innerHTML =
-      `<strong>${result}</strong>`;
-
-  } catch (e) {
-
-    document.getElementById("basicResult").textContent =
-      "That expression could not be calculated.";
-  }
-}
-
-
-/* =========================================================
-   CO-PILOT
-   ========================================================= */
-
-function askCopilot() {
-
-  const question =
-    document.getElementById("copilotQuestion")
-      .value
-      .toLowerCase()
-      .trim();
-
-  const answerBox =
-    document.getElementById("copilotAnswer");
-
-  if (!question) {
-
-    answerBox.textContent =
-      "Ask me a money-mapping question and I'll help where I can.";
-
-    answerBox.classList.remove("hidden");
-
-    return;
-  }
-
-  let answer = "";
-
-  if (
-    question.includes("flexible") &&
-    question.includes("spend")
-  ) {
-
-    answer =
-      "Flexible spending usually refers to expenses that can vary or may be adjusted, such as entertainment, dining out, hobbies, or some optional purchases.";
-
-  } else if (
-    question.includes("essential") ||
-    question.includes("necess")
-  ) {
-
-    answer =
-      "Essential expenses are the costs you generally need to keep your household or daily life running, such as housing, basic food, utilities, transportation, or required payments.";
-
-  } else if (
-    question.includes("grocery") ||
-    question.includes("shopping")
-  ) {
-
-    answer =
-      "Start with the Grocery Map. Add your items, quantities and estimated prices, then set a grocery target so you can see your running total.";
-
-  } else if (
-    question.includes("discount")
-  ) {
-
-    answer =
-      "A discount calculator takes the original price and discount percentage, then shows the discount amount and the resulting price.";
-
-  } else if (
-    question.includes("saving") ||
-    question.includes("save")
-  ) {
-
-    answer =
-      "A savings goal becomes easier to map when you know three things: the target, what you've already saved, and how much you can contribute regularly.";
-
-  } else if (
-    question.includes("budget")
-  ) {
-
-    answer =
-      "A budget is simply a plan for how you expect money to be used. The goal isn't perfection — it's having enough visibility to make your next decision more intentionally.";
-
-  } else if (
-    question.includes("debt")
-  ) {
-
-    answer =
-      "Debt planning can start with knowing the balance, payment amount and, where available, the interest rate. The Debt Calculator here provides only a simplified estimate.";
-
-  } else if (
-    question.includes("remaining") ||
-    question.includes("left")
-  ) {
-
-    answer =
-      "Remaining is the amount left after subtracting the expenses, debt payments, savings and flexible spending entered into your Money Map.";
-
-  } else if (
-    question.includes("what if")
-  ) {
-
-    answer =
-      "The What If? tool lets you explore a hypothetical change without changing your saved Money Map.";
-
-  } else {
-
-    answer =
-      "I don't have enough information to answer that reliably yet. I can currently help with Money Map concepts, grocery planning, savings, budgeting, discounts, debt estimates and the calculators in this app.";
-  }
-
-  answerBox.innerHTML = `<strong>Co-Pilot:</strong> ${answer}`;
-  answerBox.classList.remove("hidden");
-
-  let topic = "other";
-
-  if (question.includes("grocery")) topic = "grocery";
-  else if (question.includes("saving")) topic = "savings";
-  else if (question.includes("debt")) topic = "debt";
-  else if (question.includes("budget")) topic = "budget";
-  else if (question.includes("discount")) topic = "discount";
-  else if (question.includes("flexible")) topic = "flexible_spending";
-
-  trackEvent("copilot_opened");
-  trackEvent("copilot_question_submitted", {
-    topic
-  });
-}
-
-
-/* =========================================================
-   MONEY BUDDY
-   ========================================================= */
-
-function generateMoneyBuddyTip() {
-
-  if (!currentMoneyMap.income) {
-    calculateMoneyMap(false);
-  }
-
-  const map = currentMoneyMap;
-
-  if (!map.income) {
-
-    document.getElementById("buddyTip").textContent =
-      "Add a few numbers to My Money Map first, then I can offer a more contextual suggestion.";
-
-    return;
-  }
-
-  let tip = "";
-
-  if (map.remaining < 0) {
-
-    tip =
-      "Your current entries are above the income entered. Start by reviewing the easiest flexible category rather than trying to change everything at once.";
-
-  } else if (
-    groceries.length > 0 &&
-    number("groceryBudget") > 0 &&
-    groceries.reduce((s, i) => s + safeNumber(i.price), 0) > number("groceryBudget")
-  ) {
-
-    const total =
-      groceries.reduce((s, i) => s + safeNumber(i.price), 0);
-
-    const over =
-      total - number("groceryBudget");
-
-    tip =
-      `Your grocery map is currently ${money(over, currentCurrency())} above the target entered. You could review a few non-essential items or compare prices.`;
-
-  } else if (
-    map.flexible > 0 &&
-    map.flexiblePct > 25
-  ) {
-
-    tip =
-      "Flexible spending is currently a noticeable part of the income entered. Even a small review of one category could create more breathing room.";
-
-  } else if (
-    map.savings <= 0
-  ) {
-
-    tip =
-      "There isn't a savings amount entered yet. If it feels realistic, consider starting with a small amount rather than waiting for a perfect month.";
-
-  } else if (
-    map.remaining > 0
-  ) {
-
-    tip =
-      `You currently have ${money(map.remaining, map.currency)} remaining after the amounts entered. You could keep part of that as a buffer or direct part toward your goal.`;
-
-  } else {
-
-    tip =
-      moneyTips[buddyTipIndex % moneyTips.length];
-
-    buddyTipIndex++;
-  }
-
-  document.getElementById("buddyTip").textContent =
-    tip;
-
-  trackEvent("money_buddy_tip_generated");
-
-  toast("Money Buddy has a thought. 🌱");
-}
-
-
-/* =========================================================
-   WHAT IF
-   ========================================================= */
-
-function runWhatIf() {
-
-  let current = number("whatCurrent");
-
-  if (
-    current === 0 &&
-    currentMoneyMap &&
-    Number.isFinite(currentMoneyMap.remaining)
-  ) {
-    current = currentMoneyMap.remaining;
-    document.getElementById("whatCurrent").value = current;
-  }
-
-  const amount = number("whatAmount");
-  const scenario = document.getElementById("whatScenario").value;
-
-  let hypothetical = current;
-
-  if (scenario === "save") {
-    hypothetical = current - amount;
-  }
-
-  if (scenario === "grocery") {
-    hypothetical = current + amount;
-  }
-
-  if (scenario === "flexible") {
-    hypothetical = current + amount;
-  }
-
-  if (scenario === "income") {
-    hypothetical = current + amount;
-  }
-
-  if (scenario === "debt") {
-    hypothetical = current - amount;
-  }
-
-  const labels = {
-    save: "saving extra",
-    grocery: "reducing grocery spending",
-    flexible: "reducing flexible spending",
-    income: "increasing income",
-    debt: "increasing debt payment"
-  };
-
-  document.getElementById("whatResult").innerHTML = `
-    <strong>Current:</strong>
-    ${money(current, currentCurrency())}
-    <br><br>
-
-    <strong>What if ${labels[scenario]} by
-    ${money(amount, currentCurrency())}?</strong>
-
-    <br><br>
-
-    <strong>Hypothetical remaining:</strong>
-    ${money(hypothetical, currentCurrency())}
-  `;
-
-  trackEvent("what_if_used");
-}
-
-
-/* =========================================================
-   WELLNESS
-   ========================================================= */
-
-function saveWellness() {
-
-  const wellness = {
-
-    date: new Date().toISOString(),
-
-    sleep:
-      document.getElementById("wSleep").checked,
-
-    water:
-      document.getElementById("wWater").checked,
-
-    movement:
-      document.getElementById("wMovement").checked,
-
-    personal:
-      document.getElementById("wPersonal").checked,
-
-    habit:
-      document.getElementById("wHabit").checked,
-
-    mood:
-      document.getElementById("wMood").value,
-
-    energy:
-      document.getElementById("wEnergy").value,
-
-    notes:
-      document.getElementById("wNotes").value
-
-  };
-
-  try {
-
-    localStorage.setItem(
-      STORAGE.wellness,
-      JSON.stringify(wellness)
-    );
-
-  } catch (e) {}
-
-  generateWellnessSummary();
-
-  trackEvent("wellness_checkin", {
-    feature: "wellness"
-  });
-
-  toast("Today's check-in is saved.");
-}
-
-function generateWellnessSummary() {
-
-  const checks = [
-    document.getElementById("wSleep").checked,
-    document.getElementById("wWater").checked,
-    document.getElementById("wMovement").checked,
-    document.getElementById("wPersonal").checked,
-    document.getElementById("wHabit").checked
-  ];
-
-  const completed =
-    checks.filter(Boolean).length;
-
-  document.getElementById("wellnessSummary").textContent =
-    `${completed} of 5 simple habits checked today. Small steps count. 🌱`;
-}
-
-function loadWellness() {
-
-  try {
-
-    const saved = JSON.parse(
-      localStorage.getItem(STORAGE.wellness)
-    );
-
-    if (!saved) return;
-
-    document.getElementById("wSleep").checked =
-      !!saved.sleep;
-
-    document.getElementById("wWater").checked =
-      !!saved.water;
-
-    document.getElementById("wMovement").checked =
-      !!saved.movement;
-
-    document.getElementById("wPersonal").checked =
-      !!saved.personal;
-
-    document.getElementById("wHabit").checked =
-      !!saved.habit;
-
-    document.getElementById("wMood").value =
-      saved.mood || "";
-
-    document.getElementById("wEnergy").value =
-      saved.energy || "";
-
-    document.getElementById("wNotes").value =
-      saved.notes || "";
-
-    generateWellnessSummary();
-
-  } catch (e) {}
-}
-
-function clearWellness() {
-
-  [
-    "wSleep",
-    "wWater",
-    "wMovement",
-    "wPersonal",
-    "wHabit"
-  ].forEach(id => {
-    document.getElementById(id).checked = false;
-  });
-
-  document.getElementById("wMood").value = "";
-  document.getElementById("wEnergy").value = "";
-  document.getElementById("wNotes").value = "";
-
-  try {
-    localStorage.removeItem(STORAGE.wellness);
-  } catch (e) {}
-
-  document.getElementById("wellnessSummary").textContent =
-    "Start with one small check-in today.";
-
-  toast("Wellness check-in cleared.");
-}
-
-
-/* =========================================================
-   MONTHLY HISTORY
-   ========================================================= */
-
-function saveMonthlyMap() {
-
-  calculateMoneyMap(false);
-
-  if (!currentMoneyMap.income) {
-    toast("Add your Money Map numbers first.");
-    return;
-  }
-
-  let history = [];
-
-  try {
-
-    history =
-      JSON.parse(
-        localStorage.getItem(STORAGE.history)
-      ) || [];
-
-  } catch (e) {
-    history = [];
-  }
-
-  const record = {
-    id: Date.now(),
-    ...currentMoneyMap,
-    groceryBudget: number("groceryBudget"),
-    groceryTotal: groceries.reduce(
-      (sum, item) => sum + safeNumber(item.price),
-      0
-    )
-  };
-
-  history.push(record);
-
-  try {
-
-    localStorage.setItem(
-      STORAGE.history,
-      JSON.stringify(history)
-    );
-
-  } catch (e) {
-
-    toast("Your browser could not save this month.");
-    return;
-  }
-
-  renderHistory();
-
-  trackEvent("monthly_map_saved");
-
-  toast("This month's map has been saved. 🌱");
-
-  goTo("history");
-}
-
-function loadHistory() {
-
-  renderHistory();
-
-}
-
-function getHistory() {
-
-  try {
-
-    return JSON.parse(
-      localStorage.getItem(STORAGE.history)
-    ) || [];
-
-  } catch (e) {
-
-    return [];
-  }
-}
-
-function renderHistory() {
-
-  const history = getHistory();
-
-  const container =
-    document.getElementById("historyList");
-
-  if (!history.length) {
-
-    container.innerHTML = `
-      <div class="feedback">
-        Your monthly map history will appear here after you save your first month.
-      </div>
-    `;
-
-    document.getElementById("compareArea")
-      .classList.add("hidden");
-
-    return;
-  }
-
-  document.getElementById("compareArea")
-    .classList.remove("hidden");
-
-  container.innerHTML = history
-    .slice()
-    .reverse()
-    .map(record => `
-      <div class="history-item">
-
-        <div class="history-header">
-
-          <strong>${escapeHTML(record.month)}</strong>
-
-          <button
-            class="delete-btn"
-            onclick="deleteHistory(${record.id})">
-            Delete
-          </button>
-
-        </div>
-
-        <p>
-          Income:
-          <strong>${money(record.income, record.currency)}</strong>
-          &nbsp; · &nbsp;
-
-          Remaining:
-          <strong>${money(record.remaining, record.currency)}</strong>
-        </p>
-
-        <p class="small muted">
-          Savings: ${money(record.savings, record.currency)}
-          · Essentials: ${money(record.essentials, record.currency)}
-          · Flexible: ${money(record.flexible, record.currency)}
-        </p>
-
-      </div>
-    `)
-    .join("");
-
-  const options = history.map(record => `
-    <option value="${record.id}">
-      ${escapeHTML(record.month)}
-    </option>
-  `).join("");
-
-  document.getElementById("historyA").innerHTML = options;
-  document.getElementById("historyB").innerHTML = options;
-
-  trackEvent("history_viewed");
-}
-
-function deleteHistory(id) {
-
-  const history =
-    getHistory().filter(
-      record => record.id !== id
-    );
-
-  try {
-
-    localStorage.setItem(
-      STORAGE.history,
-      JSON.stringify(history)
-    );
-
-  } catch (e) {}
-
-  renderHistory();
-
-  toast("Saved month removed.");
-}
-
-function compareHistory() {
-
-  const history = getHistory();
-
-  const a =
-    history.find(
-      item =>
-        item.id ==
-        document.getElementById("historyA").value
-    );
-
-  const b =
-    history.find(
-      item =>
-        item.id ==
-        document.getElementById("historyB").value
-    );
-
-  if (!a || !b) return;
-
-  const incomeChange =
-    b.income - a.income;
-
-  const remainingChange =
-    b.remaining - a.remaining;
-
-  const savingsChange =
-    b.savings - a.savings;
-
-  const flexibleChange =
-    b.flexible - a.flexible;
-
-  document.getElementById("comparisonResult").innerHTML = `
-    <div class="results">
-
-      <div class="result">
-        <span>Income Change</span>
-        <strong>${money(incomeChange, b.currency)}</strong>
-      </div>
-
-      <div class="result">
-        <span>Remaining Change</span>
-        <strong>${money(remainingChange, b.currency)}</strong>
-      </div>
-
-      <div class="result">
-        <span>Savings Change</span>
-        <strong>${money(savingsChange, b.currency)}</strong>
-      </div>
-
-      <div class="result">
-        <span>Flexible Change</span>
-        <strong>${money(flexibleChange, b.currency)}</strong>
-      </div>
-
-    </div>
-
-    <div class="feedback">
-      This comparison simply shows the mathematical difference between the two saved months.
-    </div>
-  `;
-}
-
-
-/* =========================================================
-   PDF
-   ========================================================= */
-
-function generatePDF() {
-
-  calculateMoneyMap(false);
-
-  if (!currentMoneyMap.income) {
-
-    toast("Map your money first before creating the PDF.");
-    return;
-  }
-
-  if (
-    !window.jspdf ||
-    !window.jspdf.jsPDF
-  ) {
-
-    toast("PDF service is currently unavailable.");
-    return;
-  }
-
-  const {
-    jsPDF
-  } = window.jspdf;
-
-  const doc = new jsPDF();
-
-  let y = 22;
-
-  doc.setFont("times", "bold");
-  doc.setFontSize(24);
-
-  doc.text(
-    "RESET & GROW",
-    20,
-    y
-  );
-
-  y += 10;
-
-  doc.setFontSize(11);
-  doc.setFont("times", "normal");
-
-  doc.text(
-    "YOUR MONEY, YOUR NEXT MOVE",
-    20,
-    y
-  );
-
-  y += 15;
-
-  doc.line(20, y, 190, y);
-
-  y += 12;
-
-  doc.setFontSize(12);
-
-  const lines = [
-    `Month: ${currentMoneyMap.month}`,
-    `Currency: ${currentMoneyMap.currency}`,
-    `Income: ${money(currentMoneyMap.income, currentMoneyMap.currency)}`,
-    `Essential Expenses: ${money(currentMoneyMap.essentials, currentMoneyMap.currency)}`,
-    `Debt Payments: ${money(currentMoneyMap.debt, currentMoneyMap.currency)}`,
-    `Savings: ${money(currentMoneyMap.savings, currentMoneyMap.currency)}`,
-    `Flexible Spending: ${money(currentMoneyMap.flexible, currentMoneyMap.currency)}`,
-    `Remaining: ${money(currentMoneyMap.remaining, currentMoneyMap.currency)}`,
-    `Grocery Budget: ${money(number("groceryBudget"), currentMoneyMap.currency)}`,
-    `Grocery Total: ${money(groceries.reduce((s,i)=>s+safeNumber(i.price),0), currentMoneyMap.currency)}`
-  ];
-
-  lines.forEach(line => {
-
-    doc.text(line, 20, y);
-    y += 8;
-
-  });
-
-  y += 5;
-
-  doc.line(20, y, 190, y);
-
-  y += 12;
-
-  doc.setFont("times", "bold");
-  doc.text("Monthly Goal", 20, y);
-
-  y += 7;
-
-  doc.setFont("times", "normal");
-
-  const goal =
-    currentMoneyMap.goal || "No goal entered.";
-
-  doc.text(
-    doc.splitTextToSize(goal, 165),
-    20,
-    y
-  );
-
-  y += 18;
-
-  doc.setFont("times", "italic");
-
-  doc.text(
-    "Small steps. Clearer direction.",
-    20,
-    y
-  );
-
-  y += 10;
-
-  doc.setFontSize(8);
-
-  doc.text(
-    "Educational organization tool. Not financial, investment, tax, legal, medical or professional advice.",
-    20,
-    y
-  );
-
-  doc.save(
-    `Financial-Money-Map-${currentMoneyMap.month.replace(/\s+/g,"-")}.pdf`
-  );
-
-  trackEvent("pdf_downloaded");
-
-  toast("Your Money Map PDF is ready.");
-}
-
-
-/* =========================================================
-   SHARE + EMAIL
-   ========================================================= */
-
-async function shareMoneyMap() {
-
-  const message =
-    "I mapped my month with RESET & GROW 🌱 Small steps. Clearer direction.";
-
-  trackEvent("share", {
-    feature: "money_map",
-    share_method:
-      navigator.share ? "web_share" : "clipboard"
-  });
-
-  if (navigator.share) {
-
-    try {
-
-      await navigator.share({
-        title: "RESET & GROW",
-        text: message
-      });
-
-      return;
-
-    } catch (e) {}
-  }
-
-  try {
-
-    await navigator.clipboard.writeText(message);
-
-    toast("Share message copied.");
-
-  } catch (e) {
-
-    toast(message);
-  }
-}
-
-function emailMoneyMap() {
-
-  calculateMoneyMap(false);
-
-  const subject =
-    encodeURIComponent(
-      "My RESET & GROW Money Map"
-    );
-
-  const body =
-    encodeURIComponent(
-      `I mapped my month with RESET & GROW 🌱
-
-Small steps. Clearer direction.
-
-Month: ${currentMoneyMap.month || ""}
-Currency: ${currentMoneyMap.currency || ""}
-
-This message was created from my personal Money Map.
-`
-    );
-
-  window.location.href =
-    `mailto:?subject=${subject}&body=${body}`;
-
-  trackEvent("money_map_emailed");
-}
-
-
-/* =========================================================
-   LEARNING / ALISON
-   ========================================================= */
-
-function learningCategory(category) {
-
-  trackEvent(
-    "learning_category_selected",
-    {
-      learning_category: category
-    }
-  );
-
-  toast(
-    `${category} learning resources are coming into focus. 🌱`
-  );
-}
-
-function openAlison() {
-
-  trackEvent(
-    "alison_click",
-    {
-      source: "financial_money_map",
-      placement: "grow_your_map",
-      learning_category: "personal_development"
-    }
-  );
-
-  window.open(
-    ALISON_AFFILIATE_URL,
-    "_blank",
-    "noopener,noreferrer"
-  );
-}
-
-
-/* =========================================================
-   CLEAR DATA
-   ========================================================= */
-
-function confirmClearData() {
-
-  const confirmed =
-    window.confirm(
-      "Clear your locally stored Money Map, grocery, history and wellness data? This cannot be undone."
-    );
-
-  if (!confirmed) return;
-
-  try {
-
-    Object.values(STORAGE).forEach(
-      key => localStorage.removeItem(key)
-    );
-
-  } catch (e) {}
-
-  groceries = [];
-  currentMoneyMap = {};
-
-  document.getElementById("moneyResults").innerHTML = "";
-  document.getElementById("moneyFeedback").innerHTML = "";
-
-  renderGroceries();
-  renderHistory();
-  clearWellness();
-
-  toast("Your local data has been cleared.");
-}
-
-
-/* =========================================================
-   SECURITY / HTML ESCAPING
-   ========================================================= */
-
-function escapeHTML(value) {
-
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-
-/* =========================================================
-   INITIALIZE
-   ========================================================= */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
-
-    const monthInput =
-      document.getElementById("mapMonth");
-
-    if (monthInput) {
-
-      const now = new Date();
-
-      monthInput.value =
-        `${now.getFullYear()}-${String(
-          now.getMonth() + 1
-        ).padStart(2, "0")}`;
-    }
-
-    loadMoneyState();
-    loadGroceries();
-    loadWellness();
-    loadHistory();
-
-    trackEvent("page_view", {
-      page: "reset_and_grow"
-    });
-
-  }
-);
-</script>
-
-</body>
-</html>
+<!-- NAV -->
+<nav clas
+```
