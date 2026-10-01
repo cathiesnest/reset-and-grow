@@ -604,6 +604,58 @@ label {
   display: block;
 }
 
+/* ---------- GLOBAL CURRENCY CONVERTER ---------- */
+
+.converter-card {
+  background: rgba(242,239,233,.82);
+  border: 1px solid rgba(28,28,28,.08);
+  border-radius: var(--radius);
+  padding: 25px;
+  box-shadow: var(--shadow);
+}
+
+.converter-rate {
+  margin-top: 15px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.converter-status {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.converter-status.loading {
+  color: var(--charcoal);
+  font-weight: 600;
+}
+
+.converter-status.error {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.converter-result {
+  margin-top: 22px;
+  padding: 22px;
+  background: rgba(200,208,192,.6);
+  border-radius: 18px;
+}
+
+.converter-result .conversion-line {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.converter-result .converted-value {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(32px,5vw,48px);
+  font-weight: 600;
+  line-height: 1.1;
+  margin: 5px 0;
+}
+
 /* ---------- COPILOT ---------- */
 
 .chat-box {
@@ -869,6 +921,7 @@ footer {
       <button onclick="goTo('money-map')">Money Map</button>
       <button onclick="goTo('grocery-map')">Grocery</button>
       <button onclick="goTo('calculator')">Calculator</button>
+      <button onclick="goTo('currency-converter')">FX Converter</button>
       <button onclick="goTo('copilot')">Co-Pilot</button>
       <button onclick="goTo('money-buddy')">Money Buddy</button>
       <button onclick="goTo('what-if')">What If?</button>
@@ -1255,12 +1308,114 @@ footer {
   </div>
 </section>
 
+<!-- GLOBAL CURRENCY CONVERTER -->
+<section id="currency-converter">
+  <div class="container">
+
+    <div class="section-head">
+      <span class="eyebrow">04 · Foreign exchange</span>
+      <h2>Global Currency Converter</h2>
+      <p>
+        Convert currencies using the latest available reference rates from
+        the exchange-rate service. Rates can change throughout the day.
+      </p>
+    </div>
+
+    <div class="converter-card">
+
+      <div class="form-grid">
+
+        <div>
+          <label for="globalFromCurrency">From currency</label>
+          <select id="globalFromCurrency">
+            <option value="PHP" selected>PHP — Philippine Peso</option>
+            <option value="USD">USD — US Dollar</option>
+            <option value="EUR">EUR — Euro</option>
+            <option value="GBP">GBP — British Pound</option>
+            <option value="JPY">JPY — Japanese Yen</option>
+            <option value="AUD">AUD — Australian Dollar</option>
+            <option value="CAD">CAD — Canadian Dollar</option>
+            <option value="SGD">SGD — Singapore Dollar</option>
+            <option value="AED">AED — UAE Dirham</option>
+            <option value="SAR">SAR — Saudi Riyal</option>
+            <option value="INR">INR — Indian Rupee</option>
+            <option value="CHF">CHF — Swiss Franc</option>
+            <option value="HKD">HKD — Hong Kong Dollar</option>
+            <option value="NZD">NZD — New Zealand Dollar</option>
+            <option value="CNY">CNY — Chinese Yuan</option>
+            <option value="KRW">KRW — South Korean Won</option>
+            <option value="THB">THB — Thai Baht</option>
+            <option value="MYR">MYR — Malaysian Ringgit</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="globalToCurrency">To currency</label>
+          <select id="globalToCurrency">
+            <option value="USD" selected>USD — US Dollar</option>
+            <option value="PHP">PHP — Philippine Peso</option>
+            <option value="EUR">EUR — Euro</option>
+            <option value="GBP">GBP — British Pound</option>
+            <option value="JPY">JPY — Japanese Yen</option>
+            <option value="AUD">AUD — Australian Dollar</option>
+            <option value="CAD">CAD — Canadian Dollar</option>
+            <option value="SGD">SGD — Singapore Dollar</option>
+            <option value="AED">AED — UAE Dirham</option>
+            <option value="SAR">SAR — Saudi Riyal</option>
+            <option value="INR">INR — Indian Rupee</option>
+            <option value="CHF">CHF — Swiss Franc</option>
+            <option value="HKD">HKD — Hong Kong Dollar</option>
+            <option value="NZD">NZD — New Zealand Dollar</option>
+            <option value="CNY">CNY — Chinese Yuan</option>
+            <option value="KRW">KRW — South Korean Won</option>
+            <option value="THB">THB — Thai Baht</option>
+            <option value="MYR">MYR — Malaysian Ringgit</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="globalCurrencyAmount">Amount</label>
+          <input
+            id="globalCurrencyAmount"
+            type="number"
+            min="0"
+            step="any"
+            value="1000"
+            placeholder="1000">
+        </div>
+
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-green" onclick="convertGlobalCurrency()">
+          Convert
+        </button>
+
+        <button class="btn btn-light" onclick="resetGlobalCurrencyConverter()">
+          Reset
+        </button>
+      </div>
+
+      <div id="globalCurrencyStatus" class="converter-status"></div>
+
+      <div id="globalCurrencyResult"></div>
+
+      <p class="muted" style="margin-top:18px;">
+        Reference rates are supplied by an external exchange-rate service and
+        may differ from the rate offered by banks, cards, money-transfer services
+        or exchange counters.
+      </p>
+
+    </div>
+  </div>
+</section>
+
 <!-- COPILOT -->
 <section id="copilot">
   <div class="container">
 
     <div class="section-head">
-      <span class="eyebrow">04 · Built-in guidance</span>
+      <span class="eyebrow">05 · Built-in guidance</span>
       <h2>AI Co-Pilot</h2>
       <p>
         Ask about the tools and everyday money concepts.
@@ -1300,7 +1455,7 @@ footer {
   <div class="container">
 
     <div class="section-head">
-      <span class="eyebrow">05 · Gentle observations</span>
+      <span class="eyebrow">06 · Gentle observations</span>
       <h2>Money Buddy</h2>
       <p>
         Money Buddy looks at the numbers you entered and offers simple,
@@ -1332,7 +1487,7 @@ footer {
   <div class="container">
 
     <div class="section-head">
-      <span class="eyebrow">06 · Explore possibilities</span>
+      <span class="eyebrow">07 · Explore possibilities</span>
       <h2>What If?</h2>
       <p>Try a hypothetical change and see what the numbers would look like.</p>
     </div>
@@ -1385,7 +1540,7 @@ footer {
   <div class="container">
 
     <div class="section-head">
-      <span class="eyebrow">07 · Take care of the person behind the numbers</span>
+      <span class="eyebrow">08 · Take care of the person behind the numbers</span>
       <h2>Health &amp; Wellness</h2>
       <p>
         A healthier money map is easier to maintain when you're taking care of yourself, too. 🌱
@@ -1447,7 +1602,7 @@ footer {
   <div class="container">
 
     <div class="section-head">
-      <span class="eyebrow">08 · Look back gently</span>
+      <span class="eyebrow">09 · Look back gently</span>
       <h2>Monthly History</h2>
       <p>Keep a private record of the maps you choose to save on this device.</p>
     </div>
@@ -1473,7 +1628,7 @@ footer {
   <div class="container">
 
     <div class="section-head center">
-      <span class="eyebrow">09 · Grow your map</span>
+      <span class="eyebrow">10 · Grow your map</span>
       <h2>Grow Your Map 🌱</h2>
 
       <p style="margin-left:auto;margin-right:auto;">
@@ -1494,8 +1649,11 @@ footer {
     </div>
 
     <p class="disclosure">
-      Some links may be affiliate links. If you choose to enroll through one,
-      we may earn a commission at no extra cost to you.
+      The Alison link shared on this website belongs to the site's owner,
+      who is a registered Alison Affiliate Partner and may earn a commission
+      from qualifying purchases or actions, at no extra cost to you.
+      This is a paid referral arrangement only. It does not represent an
+      endorsement by Alison or a partnership between Reset &amp; Grow and Alison.
     </p>
 
     <div class="card center" style="margin-top:30px;">
@@ -1606,6 +1764,14 @@ footer {
 
 const ALISON_AFFILIATE_URL =
 "https://alison.com/courses/personal-development?utm_source=alison_user&utm_medium=affiliate&utm_campaign=42404117";
+
+/*
+  Global Currency Converter
+  Uses Frankfurter's public exchange-rate API.
+  No API key is stored in this frontend.
+*/
+const FX_API_BASE =
+"https://api.frankfurter.app";
 
 const STORAGE = {
   money: "financialMoneyMap",
@@ -2207,6 +2373,208 @@ function calculateBasic() {
 }
 
 /* =========================================================
+   GLOBAL CURRENCY CONVERTER
+========================================================= */
+
+async function convertGlobalCurrency() {
+
+  const from =
+    $("globalFromCurrency").value;
+
+  const to =
+    $("globalToCurrency").value;
+
+  const amount =
+    parseFloat($("globalCurrencyAmount").value);
+
+  const status =
+    $("globalCurrencyStatus");
+
+  const resultBox =
+    $("globalCurrencyResult");
+
+  resultBox.innerHTML = "";
+
+  if (!Number.isFinite(amount) || amount < 0) {
+
+    status.className = "converter-status error";
+
+    status.textContent =
+      "Enter a valid amount.";
+
+    return;
+  }
+
+  if (from === to) {
+
+    status.className = "converter-status";
+
+    status.textContent =
+      "Same currency selected. No exchange-rate lookup is needed.";
+
+    resultBox.innerHTML = `
+      <div class="converter-result">
+        <div class="conversion-line">
+          ${amount.toLocaleString(undefined,{maximumFractionDigits:2})} ${from}
+        </div>
+
+        <div class="converted-value">
+          ${formatCurrencyValue(amount,to)}
+        </div>
+
+        <div class="converter-rate">
+          Exchange rate: 1 ${from} = 1 ${to}
+        </div>
+      </div>
+    `;
+
+    trackEvent("global_currency_conversion", {
+      from_currency: from,
+      to_currency: to,
+      same_currency: true
+    });
+
+    return;
+  }
+
+  status.className =
+    "converter-status loading";
+
+  status.textContent =
+    "Getting the latest available reference rate…";
+
+  try {
+
+    const url =
+      `${FX_API_BASE}/latest?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
+
+    const response =
+      await fetch(url, {
+        method: "GET",
+        headers: {
+          "Accept": "application/json"
+        }
+      });
+
+    if (!response.ok) {
+      throw new Error("Exchange-rate request failed.");
+    }
+
+    const data =
+      await response.json();
+
+    const rate =
+      Number(data?.rates?.[to]);
+
+    if (!Number.isFinite(rate) || rate <= 0) {
+      throw new Error("No valid exchange rate was returned.");
+    }
+
+    const converted =
+      amount * rate;
+
+    const dateText =
+      data.date
+        ? `Reference date: ${data.date}`
+        : "Latest available reference rate";
+
+    status.className =
+      "converter-status";
+
+    status.textContent =
+      "Conversion completed.";
+
+    resultBox.innerHTML = `
+      <div class="converter-result">
+
+        <div class="conversion-line">
+          ${amount.toLocaleString(undefined,{maximumFractionDigits:2})} ${from}
+        </div>
+
+        <div class="converted-value">
+          ${formatCurrencyValue(converted,to)}
+        </div>
+
+        <div class="converter-rate">
+          1 ${from} = ${formatRate(rate)} ${to}
+        </div>
+
+        <div class="converter-rate">
+          ${dateText}
+        </div>
+
+      </div>
+    `;
+
+    trackEvent("global_currency_conversion", {
+      from_currency: from,
+      to_currency: to
+    });
+
+  } catch (error) {
+
+    status.className =
+      "converter-status error";
+
+    status.textContent =
+      "I couldn't retrieve the exchange rate right now.";
+
+    resultBox.innerHTML = `
+      <div class="result">
+        <strong>Exchange rate unavailable</strong>
+        <p>
+          Please try again in a moment. No estimated or invented rate
+          has been used.
+        </p>
+      </div>
+    `;
+  }
+}
+
+function formatCurrencyValue(value, currency) {
+
+  try {
+
+    return new Intl.NumberFormat(undefined, {
+      style: "currency",
+      currency,
+      maximumFractionDigits:
+        ["JPY","KRW"].includes(currency) ? 0 : 2
+    }).format(value);
+
+  } catch {
+
+    return `${currency} ${Number(value).toLocaleString(undefined,{
+      maximumFractionDigits:2
+    })}`;
+  }
+}
+
+function formatRate(rate) {
+
+  return Number(rate).toLocaleString(undefined,{
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 6
+  });
+}
+
+function resetGlobalCurrencyConverter() {
+
+  $("globalFromCurrency").value = "PHP";
+  $("globalToCurrency").value = "USD";
+  $("globalCurrencyAmount").value = "1000";
+
+  $("globalCurrencyStatus").className =
+    "converter-status";
+
+  $("globalCurrencyStatus").textContent = "";
+
+  $("globalCurrencyResult").innerHTML = "";
+
+  showToast("Currency converter reset.");
+}
+
+/* =========================================================
    CO-PILOT
 ========================================================= */
 
@@ -2308,11 +2676,12 @@ function askCopilot(question) {
     answer = `
       <strong>Currency Calculator</strong>
       <p>
-        Enter the amount and your own exchange rate.
-        This version intentionally doesn't invent live exchange rates.
+        The Currency Calculator lets you enter your own exchange rate.
+        The separate Global Currency Converter can retrieve the latest
+        available reference rate.
       </p>
       <p>
-        You can use a current rate from a trusted source and enter it here.
+        Exchange rates can vary between providers and can change over time.
       </p>
     `;
 
@@ -2711,9 +3080,6 @@ function downloadMoneyMap() {
     showToast("Map your month first.");
     return;
   }
-
-  const history =
-    loadJSON(STORAGE.history,[]);
 
   const text = `
 RESET & GROW
