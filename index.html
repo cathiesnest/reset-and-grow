@@ -8,6 +8,8 @@
 
 <meta name="description" content="Reset & Grow is a gentle financial organization toolbox to help you see your money clearly and find your next move.">
 
+<meta name="theme-color" content="#C8D0C0">
+
 <!-- Google Font -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -54,6 +56,7 @@ function trackEvent(name, params = {}) {
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 105px;
 }
 
 body {
@@ -73,6 +76,15 @@ textarea {
 
 button {
   cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(46,158,91,.35);
+  outline-offset: 2px;
 }
 
 a {
@@ -339,6 +351,7 @@ a {
   font-weight: 600;
   letter-spacing: .08em;
   font-size: 20px;
+  white-space: nowrap;
 }
 
 .nav-links {
@@ -464,6 +477,10 @@ label {
   border-radius: 999px;
   font-weight: 600;
   transition: transform .15s ease, opacity .15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
 }
 
 .btn:hover {
@@ -527,6 +544,12 @@ label {
 
 .center {
   text-align: center;
+}
+
+hr.soft-rule {
+  border: 0;
+  border-top: 1px solid rgba(28,28,28,.1);
+  margin: 25px 0;
 }
 
 /* ---------- HOME ---------- */
@@ -692,6 +715,19 @@ label {
   font-size: 12px;
 }
 
+/* ---------- WELLNESS ---------- */
+
+.check-list label {
+  font-weight: 500;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.check-list input[type="checkbox"] {
+  width: auto;
+  margin-right: 8px;
+}
+
 /* ---------- HISTORY ---------- */
 
 .history-item {
@@ -735,6 +771,7 @@ footer {
   flex-wrap: wrap;
   gap: 15px;
   margin: 20px 0;
+  align-items: center;
 }
 
 .footer-links a {
@@ -767,6 +804,7 @@ footer {
   opacity: 0;
   transition: .3s ease;
   font-size: 13px;
+  max-width: calc(100% - 40px);
 }
 
 .toast.show {
@@ -774,9 +812,51 @@ footer {
   opacity: 1;
 }
 
+/* ---------- PRINT ---------- */
+
+@media print {
+
+  body {
+    background: white;
+  }
+
+  .cover,
+  .nav,
+  footer,
+  .actions,
+  .toast {
+    display: none !important;
+  }
+
+  section {
+    padding: 20px 0;
+    page-break-inside: avoid;
+  }
+
+  .card,
+  .converter-card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+    background: white;
+  }
+
+  .container {
+    width: 100%;
+  }
+
+  h2 {
+    font-size: 30px;
+  }
+
+  .result {
+    background: #f5f5f5;
+  }
+}
+
 /* ---------- RESPONSIVE ---------- */
 
 @media (max-width: 850px) {
+
   .cover-inner {
     grid-template-columns: 1fr;
     text-align: center;
@@ -815,6 +895,7 @@ footer {
 }
 
 @media (max-width: 560px) {
+
   section {
     padding: 60px 0;
   }
@@ -835,6 +916,10 @@ footer {
     grid-template-columns: 1fr auto;
   }
 
+  .grocery-item > div:nth-child(2) {
+    grid-column: 1 / -1;
+  }
+
   .cover {
     min-height: auto;
   }
@@ -846,6 +931,24 @@ footer {
   .oval {
     width: 75%;
   }
+
+  .nav-links button {
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+
+  .actions .btn {
+    width: 100%;
+  }
+
+  .quick-questions button {
+    width: 100%;
+    text-align: left;
+  }
+
+  #copilotQuestion {
+    min-width: 0;
+  }
 }
 </style>
 </head>
@@ -854,6 +957,7 @@ footer {
 
 <!-- COVER -->
 <header class="cover">
+
   <div class="container">
     <div class="rule"></div>
   </div>
@@ -862,16 +966,18 @@ footer {
 
     <div class="cover-visual">
       <div class="oval" aria-label="Plant, coins and tablet growth illustration">
-        <div class="plant">
+
+        <div class="plant" aria-hidden="true">
           <div class="stem"></div>
           <div class="leaf one"></div>
           <div class="leaf two"></div>
           <div class="leaf three"></div>
         </div>
 
-        <div class="tablet">
+        <div class="tablet" aria-hidden="true">
           <div class="tablet-screen">
             <div class="chart-line"></div>
+
             <div class="chart-bars">
               <span></span>
               <span></span>
@@ -882,22 +988,29 @@ footer {
           </div>
         </div>
 
-        <div class="coins">
+        <div class="coins" aria-hidden="true">
           <div class="coin"></div>
           <div class="coin"></div>
           <div class="coin"></div>
           <div class="coin"></div>
         </div>
+
       </div>
     </div>
 
     <div class="cover-copy">
+
       <span class="star">✦</span>
-      <h1 class="cover-title">RESET<br>&amp; GROW</h1>
+
+      <h1 class="cover-title">
+        RESET<br>&amp; GROW
+      </h1>
+
       <div class="cover-tagline">
         YOUR MONEY,<br>
         YOUR NEXT MOVE
       </div>
+
     </div>
 
   </div>
@@ -909,102 +1022,239 @@ footer {
   <div class="cover-footer">
     Powered by Cathiesnest Digital
   </div>
+
 </header>
 
 <!-- NAV -->
-<nav class="nav">
+<nav class="nav" aria-label="Main navigation">
+
   <div class="container nav-inner">
-    <div class="logo">RESET &amp; GROW</div>
+
+    <div class="logo">
+      RESET &amp; GROW
+    </div>
 
     <div class="nav-links">
+
       <button onclick="goTo('home')">Home</button>
-      <button onclick="goTo('money-map')">Money Map</button>
-      <button onclick="goTo('grocery-map')">Grocery</button>
-      <button onclick="goTo('calculator')">Calculator</button>
-      <button onclick="goTo('currency-converter')">FX Converter</button>
-      <button onclick="goTo('copilot')">Co-Pilot</button>
-      <button onclick="goTo('money-buddy')">Money Buddy</button>
-      <button onclick="goTo('what-if')">What If?</button>
-      <button onclick="goTo('history')">History</button>
-      <button onclick="goTo('grow')">Grow</button>
+
+      <button onclick="goTo('money-map')">
+        Money Map
+      </button>
+
+      <button onclick="goTo('grocery-map')">
+        Grocery
+      </button>
+
+      <button onclick="goTo('calculator')">
+        Calculator
+      </button>
+
+      <button onclick="goTo('currency-converter')">
+        FX Converter
+      </button>
+
+      <button onclick="goTo('copilot')">
+        Co-Pilot
+      </button>
+
+      <button onclick="goTo('money-buddy')">
+        Money Buddy
+      </button>
+
+      <button onclick="goTo('what-if')">
+        What If?
+      </button>
+
+      <button onclick="goTo('wellness')">
+        Wellness
+      </button>
+
+      <button onclick="goTo('history')">
+        History
+      </button>
+
+      <button onclick="goTo('grow')">
+        Grow
+      </button>
+
     </div>
+
   </div>
+
 </nav>
 
 <main>
 
-<!-- HOME -->
+<!-- =====================================================
+     HOME
+===================================================== -->
+
 <section id="home">
+
   <div class="container">
 
     <div class="section-head">
-      <span class="eyebrow">A gentle financial reset</span>
+
+      <span class="eyebrow">
+        A gentle financial reset
+      </span>
+
       <div class="hero-message">
         See your money clearly.<br>
         Find your next step. 🌱
       </div>
+
       <p>
         A simple space to organize your money, plan everyday spending,
         explore possibilities and keep growing — without judgment.
       </p>
+
     </div>
 
     <div class="grid grid-3">
 
       <div class="card feature-card">
+
         <div class="feature-icon">🌱</div>
+
         <h3>My Money Map</h3>
-        <p>See income, essentials, debt, savings, flexible spending and what's left.</p>
-        <button class="btn btn-green" onclick="goTo('money-map')">Map My Money</button>
+
+        <p>
+          See income, essentials, debt, savings, flexible spending
+          and what's left.
+        </p>
+
+        <button
+          class="btn btn-green"
+          onclick="goTo('money-map')">
+          Map My Money
+        </button>
+
       </div>
 
       <div class="card feature-card">
+
         <div class="feature-icon">🛒</div>
+
         <h3>Grocery Map</h3>
-        <p>Plan your list, estimate costs and see how close you are to your budget.</p>
-        <button class="btn" onclick="goTo('grocery-map')">Plan Groceries</button>
+
+        <p>
+          Plan your list, estimate costs and see how close you are
+          to your budget.
+        </p>
+
+        <button
+          class="btn"
+          onclick="goTo('grocery-map')">
+          Plan Groceries
+        </button>
+
       </div>
 
       <div class="card feature-card">
+
         <div class="feature-icon">🧮</div>
+
         <h3>Global Calculator</h3>
-        <p>Currency, discounts, percentages, savings, debt and everyday calculations.</p>
-        <button class="btn" onclick="goTo('calculator')">Open Calculator</button>
+
+        <p>
+          Currency, discounts, percentages, savings, debt and
+          everyday calculations.
+        </p>
+
+        <button
+          class="btn"
+          onclick="goTo('calculator')">
+          Open Calculator
+        </button>
+
       </div>
 
       <div class="card feature-card">
+
         <div class="feature-icon">💬</div>
+
         <h3>AI Co-Pilot</h3>
-        <p>Get quick built-in guidance about the tools and everyday money concepts.</p>
-        <button class="btn" onclick="goTo('copilot')">Ask Co-Pilot</button>
+
+        <p>
+          Get quick built-in guidance about the tools and everyday
+          money concepts.
+        </p>
+
+        <button
+          class="btn"
+          onclick="goTo('copilot')">
+          Ask Co-Pilot
+        </button>
+
       </div>
 
       <div class="card feature-card">
+
         <div class="feature-icon">💡</div>
+
         <h3>Money Buddy</h3>
-        <p>Use your own numbers to discover gentle opportunities to save or rebalance.</p>
-        <button class="btn" onclick="goTo('money-buddy')">Meet Money Buddy</button>
+
+        <p>
+          Use your own numbers to discover gentle opportunities
+          to save or rebalance.
+        </p>
+
+        <button
+          class="btn"
+          onclick="goTo('money-buddy')">
+          Meet Money Buddy
+        </button>
+
       </div>
 
       <div class="card feature-card">
+
         <div class="feature-icon">📈</div>
+
         <h3>What If?</h3>
-        <p>Try hypothetical changes before deciding what you actually want to do.</p>
-        <button class="btn" onclick="goTo('what-if')">Explore What If?</button>
+
+        <p>
+          Try hypothetical changes before deciding what you
+          actually want to do.
+        </p>
+
+        <button
+          class="btn"
+          onclick="goTo('what-if')">
+          Explore What If?
+        </button>
+
       </div>
 
     </div>
+
   </div>
+
 </section>
 
-<!-- MONEY MAP -->
+<!-- =====================================================
+     MONEY MAP
+===================================================== -->
+
 <section id="money-map">
+
   <div class="container">
 
     <div class="section-head">
-      <span class="eyebrow">01 · Your starting point</span>
+
+      <span class="eyebrow">
+        01 · Your starting point
+      </span>
+
       <h2>My Money Map</h2>
-      <p>Let's put the pieces on the table. No judgment — just a clearer picture.</p>
+
+      <p>
+        Let's put the pieces on the table.
+        No judgment — just a clearer picture.
+      </p>
+
     </div>
 
     <div class="card">
@@ -1012,8 +1262,13 @@ footer {
       <div class="form-grid">
 
         <div>
-          <label for="currency">Currency</label>
+
+          <label for="currency">
+            Currency
+          </label>
+
           <select id="currency">
+
             <option>PHP</option>
             <option>USD</option>
             <option>EUR</option>
@@ -1025,66 +1280,169 @@ footer {
             <option>SAR</option>
             <option>JPY</option>
             <option>INR</option>
+
           </select>
+
         </div>
 
         <div>
-          <label for="income">Monthly income</label>
-          <input id="income" type="number" min="0" placeholder="50000">
+
+          <label for="income">
+            Monthly income
+          </label>
+
+          <input
+            id="income"
+            type="number"
+            min="0"
+            step="any"
+            placeholder="50000">
+
         </div>
 
         <div>
-          <label for="essentials">Essential expenses</label>
-          <input id="essentials" type="number" min="0" placeholder="25000">
+
+          <label for="essentials">
+            Essential expenses
+          </label>
+
+          <input
+            id="essentials"
+            type="number"
+            min="0"
+            step="any"
+            placeholder="25000">
+
         </div>
 
         <div>
-          <label for="debt">Debt payments</label>
-          <input id="debt" type="number" min="0" placeholder="5000">
+
+          <label for="debt">
+            Debt payments
+          </label>
+
+          <input
+            id="debt"
+            type="number"
+            min="0"
+            step="any"
+            placeholder="5000">
+
         </div>
 
         <div>
-          <label for="savings">Savings</label>
-          <input id="savings" type="number" min="0" placeholder="3000">
+
+          <label for="savings">
+            Savings
+          </label>
+
+          <input
+            id="savings"
+            type="number"
+            min="0"
+            step="any"
+            placeholder="3000">
+
         </div>
 
         <div>
-          <label for="flexible">Flexible spending</label>
-          <input id="flexible" type="number" min="0" placeholder="10000">
+
+          <label for="flexible">
+            Flexible spending
+          </label>
+
+          <input
+            id="flexible"
+            type="number"
+            min="0"
+            step="any"
+            placeholder="10000">
+
         </div>
 
         <div>
-          <label for="monthlyGoal">Monthly goal</label>
-          <input id="monthlyGoal" type="text" placeholder="e.g. Build a small emergency buffer">
+
+          <label for="monthlyGoal">
+            Monthly goal
+          </label>
+
+          <input
+            id="monthlyGoal"
+            type="text"
+            maxlength="160"
+            placeholder="e.g. Build a small emergency buffer">
+
         </div>
 
         <div>
-          <label for="moneyNotes">Notes</label>
-          <input id="moneyNotes" type="text" placeholder="Optional">
+
+          <label for="moneyNotes">
+            Notes
+          </label>
+
+          <input
+            id="moneyNotes"
+            type="text"
+            maxlength="200"
+            placeholder="Optional">
+
         </div>
 
       </div>
 
       <div class="actions">
-        <button class="btn btn-green" onclick="calculateMoneyMap()">Map My Month</button>
-        <button class="btn btn-light" onclick="saveCurrentMonth()">Save This Month</button>
-        <button class="btn btn-light" onclick="resetMoneyMap()">Reset</button>
+
+        <button
+          class="btn btn-green"
+          onclick="calculateMoneyMap()">
+          Map My Month
+        </button>
+
+        <button
+          class="btn btn-light"
+          onclick="saveCurrentMonth()">
+          Save This Month
+        </button>
+
+        <button
+          class="btn btn-light"
+          onclick="resetMoneyMap()">
+          Reset
+        </button>
+
       </div>
 
-      <div id="moneyResult"></div>
+      <div
+        id="moneyResult"
+        aria-live="polite">
+      </div>
 
     </div>
+
   </div>
+
 </section>
 
-<!-- GROCERY -->
+<!-- =====================================================
+     GROCERY
+===================================================== -->
+
 <section id="grocery-map">
+
   <div class="container">
 
     <div class="section-head">
-      <span class="eyebrow">02 · Everyday spending</span>
+
+      <span class="eyebrow">
+        02 · Everyday spending
+      </span>
+
       <h2>Grocery Map</h2>
-      <p>Turn your shopping list into something you can actually see.</p>
+
+      <p>
+        Turn your shopping list into something you can actually see.
+      </p>
+
     </div>
 
     <div class="card">
@@ -1092,233 +1450,703 @@ footer {
       <div class="grocery-row">
 
         <div>
-          <label for="gItem">Item</label>
-          <input id="gItem" placeholder="Rice">
+
+          <label for="gItem">
+            Item
+          </label>
+
+          <input
+            id="gItem"
+            maxlength="100"
+            placeholder="Rice">
+
         </div>
 
         <div>
-          <label for="gQty">Qty</label>
-          <input id="gQty" type="number" min="1" value="1">
+
+          <label for="gQty">
+            Qty
+          </label>
+
+          <input
+            id="gQty"
+            type="number"
+            min="1"
+            step="1"
+            value="1">
+
         </div>
 
         <div>
-          <label for="gPrice">Estimated price</label>
-          <input id="gPrice" type="number" min="0" placeholder="250">
+
+          <label for="gPrice">
+            Estimated price
+          </label>
+
+          <input
+            id="gPrice"
+            type="number"
+            min="0"
+            step="any"
+            placeholder="250">
+
         </div>
 
         <div>
-          <label for="gCategory">Category</label>
+
+          <label for="gCategory">
+            Category
+          </label>
+
           <select id="gCategory">
+
             <option>Food</option>
             <option>Household</option>
             <option>Personal Care</option>
             <option>Baby</option>
             <option>Pet</option>
             <option>Other</option>
+
           </select>
+
         </div>
 
-        <button class="btn btn-green" onclick="addGroceryItem()">Add</button>
+        <button
+          class="btn btn-green"
+          onclick="addGroceryItem()">
+          Add
+        </button>
 
       </div>
 
-      <div class="form-grid" style="margin-top:20px;">
+      <div
+        class="form-grid"
+        style="margin-top:20px;">
+
         <div>
-          <label for="groceryBudget">Grocery budget</label>
-          <input id="groceryBudget" type="number" min="0" placeholder="6000">
+
+          <label for="groceryBudget">
+            Grocery budget
+          </label>
+
+          <input
+            id="groceryBudget"
+            type="number"
+            min="0"
+            step="any"
+            placeholder="6000">
+
         </div>
+
       </div>
 
-      <div id="groceryList" class="grocery-list"></div>
+      <div
+        id="groceryList"
+        class="grocery-list">
+      </div>
 
-      <div id="grocerySummary" class="result"></div>
+      <div
+        id="grocerySummary"
+        class="result"
+        aria-live="polite">
+      </div>
 
       <div class="actions">
-        <button class="btn btn-light" onclick="clearPurchased()">Clear Purchased</button>
-        <button class="btn btn-light" onclick="clearGroceries()">Clear Grocery Map</button>
+
+        <button
+          class="btn btn-light"
+          onclick="clearPurchased()">
+          Clear Purchased
+        </button>
+
+        <button
+          class="btn btn-light"
+          onclick="clearGroceries()">
+          Clear Grocery Map
+        </button>
+
       </div>
 
     </div>
+
   </div>
+
 </section>
 
-<!-- CALCULATOR -->
+<!-- =====================================================
+     CALCULATOR
+===================================================== -->
+
 <section id="calculator">
+
   <div class="container">
 
     <div class="section-head">
-      <span class="eyebrow">03 · Everyday numbers</span>
+
+      <span class="eyebrow">
+        03 · Everyday numbers
+      </span>
+
       <h2>Global Calculator</h2>
-      <p>Simple calculations without pretending to know live financial rates.</p>
+
+      <p>
+        Simple calculations without pretending to know live
+        financial rates.
+      </p>
+
     </div>
 
     <div class="card">
 
       <div class="calc-tabs">
-        <button class="active" onclick="showCalc('currencyCalc',this)">Currency</button>
-        <button onclick="showCalc('percentageCalc',this)">Percentage</button>
-        <button onclick="showCalc('discountCalc',this)">Discount</button>
-        <button onclick="showCalc('tipCalc',this)">Tip</button>
-        <button onclick="showCalc('splitCalc',this)">Split Bill</button>
-        <button onclick="showCalc('savingsCalc',this)">Savings</button>
-        <button onclick="showCalc('debtCalc',this)">Debt</button>
-        <button onclick="showCalc('basicCalc',this)">Basic</button>
+
+        <button
+          class="active"
+          onclick="showCalc('currencyCalc',this)">
+          Currency
+        </button>
+
+        <button
+          onclick="showCalc('percentageCalc',this)">
+          Percentage
+        </button>
+
+        <button
+          onclick="showCalc('discountCalc',this)">
+          Discount
+        </button>
+
+        <button
+          onclick="showCalc('tipCalc',this)">
+          Tip
+        </button>
+
+        <button
+          onclick="showCalc('splitCalc',this)">
+          Split Bill
+        </button>
+
+        <button
+          onclick="showCalc('savingsCalc',this)">
+          Savings
+        </button>
+
+        <button
+          onclick="showCalc('debtCalc',this)">
+          Debt
+        </button>
+
+        <button
+          onclick="showCalc('basicCalc',this)">
+          Basic
+        </button>
+
       </div>
 
-      <div id="currencyCalc" class="calc-panel active">
+      <!-- Currency -->
+
+      <div
+        id="currencyCalc"
+        class="calc-panel active">
+
         <h3>Currency Calculator</h3>
+
         <div class="form-grid">
+
           <div>
-            <label>From</label>
+
+            <label for="fromCurrency">
+              From
+            </label>
+
             <select id="fromCurrency">
-              <option>PHP</option><option>USD</option><option>EUR</option>
-              <option>GBP</option><option>AUD</option><option>CAD</option>
-              <option>SGD</option><option>AED</option><option>SAR</option>
-              <option>JPY</option><option>INR</option>
+              <option>PHP</option>
+              <option>USD</option>
+              <option>EUR</option>
+              <option>GBP</option>
+              <option>AUD</option>
+              <option>CAD</option>
+              <option>SGD</option>
+              <option>AED</option>
+              <option>SAR</option>
+              <option>JPY</option>
+              <option>INR</option>
             </select>
+
           </div>
+
           <div>
-            <label>To</label>
+
+            <label for="toCurrency">
+              To
+            </label>
+
             <select id="toCurrency">
-              <option>USD</option><option>PHP</option><option>EUR</option>
-              <option>GBP</option><option>AUD</option><option>CAD</option>
-              <option>SGD</option><option>AED</option><option>SAR</option>
-              <option>JPY</option><option>INR</option>
+              <option>USD</option>
+              <option>PHP</option>
+              <option>EUR</option>
+              <option>GBP</option>
+              <option>AUD</option>
+              <option>CAD</option>
+              <option>SGD</option>
+              <option>AED</option>
+              <option>SAR</option>
+              <option>JPY</option>
+              <option>INR</option>
             </select>
+
           </div>
+
           <div>
-            <label>Amount</label>
-            <input id="currencyAmount" type="number" placeholder="100">
+
+            <label for="currencyAmount">
+              Amount
+            </label>
+
+            <input
+              id="currencyAmount"
+              type="number"
+              min="0"
+              step="any"
+              placeholder="100">
+
           </div>
+
           <div>
-            <label>Exchange rate</label>
-            <input id="exchangeRate" type="number" step="any" placeholder="Enter current rate">
+
+            <label for="exchangeRate">
+              Exchange rate
+            </label>
+
+            <input
+              id="exchangeRate"
+              type="number"
+              min="0"
+              step="any"
+              placeholder="Enter current rate">
+
           </div>
+
         </div>
-        <button class="btn btn-green" onclick="calculateCurrency()">Calculate</button>
-        <div id="currencyResult"></div>
+
+        <div class="actions">
+
+          <button
+            class="btn btn-green"
+            onclick="calculateCurrency()">
+            Calculate
+          </button>
+
+        </div>
+
+        <div
+          id="currencyResult"
+          aria-live="polite">
+        </div>
+
       </div>
 
-      <div id="percentageCalc" class="calc-panel">
+      <!-- Percentage -->
+
+      <div
+        id="percentageCalc"
+        class="calc-panel">
+
         <h3>Percentage</h3>
+
         <div class="form-grid">
+
           <div>
-            <label>Percentage</label>
-            <input id="pct" type="number" placeholder="20">
+
+            <label for="pct">
+              Percentage
+            </label>
+
+            <input
+              id="pct"
+              type="number"
+              step="any"
+              placeholder="20">
+
           </div>
+
           <div>
-            <label>Of amount</label>
-            <input id="pctAmount" type="number" placeholder="500">
+
+            <label for="pctAmount">
+              Of amount
+            </label>
+
+            <input
+              id="pctAmount"
+              type="number"
+              step="any"
+              placeholder="500">
+
           </div>
+
         </div>
-        <button class="btn btn-green" onclick="calculatePercentage()">Calculate</button>
+
+        <div class="actions">
+
+          <button
+            class="btn btn-green"
+            onclick="calculatePercentage()">
+            Calculate
+          </button>
+
+        </div>
+
         <div id="pctResult"></div>
+
       </div>
 
-      <div id="discountCalc" class="calc-panel">
+      <!-- Discount -->
+
+      <div
+        id="discountCalc"
+        class="calc-panel">
+
         <h3>Discount</h3>
+
         <div class="form-grid">
+
           <div>
-            <label>Original price</label>
-            <input id="discountPrice" type="number" placeholder="1000">
+
+            <label for="discountPrice">
+              Original price
+            </label>
+
+            <input
+              id="discountPrice"
+              type="number"
+              min="0"
+              step="any"
+              placeholder="1000">
+
           </div>
+
           <div>
-            <label>Discount %</label>
-            <input id="discountPct" type="number" placeholder="20">
+
+            <label for="discountPct">
+              Discount %
+            </label>
+
+            <input
+              id="discountPct"
+              type="number"
+              min="0"
+              step="any"
+              placeholder="20">
+
           </div>
+
         </div>
-        <button class="btn btn-green" onclick="calculateDiscount()">Calculate</button>
+
+        <div class="actions">
+
+          <button
+            class="btn btn-green"
+            onclick="calculateDiscount()">
+            Calculate
+          </button>
+
+        </div>
+
         <div id="discountResult"></div>
+
       </div>
 
-      <div id="tipCalc" class="calc-panel">
+      <!-- Tip -->
+
+      <div
+        id="tipCalc"
+        class="calc-panel">
+
         <h3>Tip</h3>
+
         <div class="form-grid">
+
           <div>
-            <label>Bill</label>
-            <input id="tipBill" type="number" placeholder="1000">
+
+            <label for="tipBill">
+              Bill
+            </label>
+
+            <input
+              id="tipBill"
+              type="number"
+              min="0"
+              step="any"
+              placeholder="1000">
+
           </div>
+
           <div>
-            <label>Tip %</label>
-            <input id="tipPct" type="number" placeholder="10">
+
+            <label for="tipPct">
+              Tip %
+            </label>
+
+            <input
+              id="tipPct"
+              type="number"
+              min="0"
+              step="any"
+              placeholder="10">
+
           </div>
+
         </div>
-        <button class="btn btn-green" onclick="calculateTip()">Calculate</button>
+
+        <div class="actions">
+
+          <button
+            class="btn btn-green"
+            onclick="calculateTip()">
+            Calculate
+          </button>
+
+        </div>
+
         <div id="tipResult"></div>
+
       </div>
 
-      <div id="splitCalc" class="calc-panel">
+      <!-- Split -->
+
+      <div
+        id="splitCalc"
+        class="calc-panel">
+
         <h3>Split Bill</h3>
+
         <div class="form-grid">
+
           <div>
-            <label>Total bill</label>
-            <input id="splitBill" type="number" placeholder="2000">
+
+            <label for="splitBill">
+              Total bill
+            </label>
+
+            <input
+              id="splitBill"
+              type="number"
+              min="0"
+              step="any"
+              placeholder="2000">
+
           </div>
+
           <div>
-            <label>People</label>
-            <input id="splitPeople" type="number" min="1" placeholder="4">
+
+            <label for="splitPeople">
+              People
+            </label>
+
+            <input
+              id="splitPeople"
+              type="number"
+              min="1"
+              step="1"
+              placeholder="4">
+
           </div>
+
         </div>
-        <button class="btn btn-green" onclick="calculateSplit()">Calculate</button>
+
+        <div class="actions">
+
+          <button
+            class="btn btn-green"
+            onclick="calculateSplit()">
+            Calculate
+          </button>
+
+        </div>
+
         <div id="splitResult"></div>
+
       </div>
 
-      <div id="savingsCalc" class="calc-panel">
+      <!-- Savings -->
+
+      <div
+        id="savingsCalc"
+        class="calc-panel">
+
         <h3>Savings Calculator</h3>
+
         <div class="form-grid">
+
           <div>
-            <label>Savings goal</label>
-            <input id="saveGoal" type="number" placeholder="10000">
+
+            <label for="saveGoal">
+              Savings goal
+            </label>
+
+            <input
+              id="saveGoal"
+              type="number"
+              min="0"
+              step="any"
+              placeholder="10000">
+
           </div>
+
           <div>
-            <label>Monthly savings</label>
-            <input id="saveMonthly" type="number" placeholder="1000">
+
+            <label for="saveMonthly">
+              Monthly savings
+            </label>
+
+            <input
+              id="saveMonthly"
+              type="number"
+              min="0"
+              step="any"
+              placeholder="1000">
+
           </div>
+
         </div>
-        <button class="btn btn-green" onclick="calculateSavings()">Calculate</button>
+
+        <div class="actions">
+
+          <button
+            class="btn btn-green"
+            onclick="calculateSavings()">
+            Calculate
+          </button>
+
+        </div>
+
         <div id="saveResult"></div>
+
       </div>
 
-      <div id="debtCalc" class="calc-panel">
+      <!-- Debt -->
+
+      <div
+        id="debtCalc"
+        class="calc-panel">
+
         <h3>Simple Debt Payment Estimate</h3>
+
         <div class="form-grid">
+
           <div>
-            <label>Debt balance</label>
-            <input id="debtBalance" type="number" placeholder="20000">
+
+            <label for="debtBalance">
+              Debt balance
+            </label>
+
+            <input
+              id="debtBalance"
+              type="number"
+              min="0"
+              step="any"
+              placeholder="20000">
+
           </div>
+
           <div>
-            <label>Monthly payment</label>
-            <input id="debtMonthly" type="number" placeholder="2000">
+
+            <label for="debtMonthly">
+              Monthly payment
+            </label>
+
+            <input
+              id="debtMonthly"
+              type="number"
+              min="0"
+              step="any"
+              placeholder="2000">
+
           </div>
+
         </div>
-        <button class="btn btn-green" onclick="calculateDebt()">Estimate</button>
+
+        <div class="actions">
+
+          <button
+            class="btn btn-green"
+            onclick="calculateDebt()">
+            Estimate
+          </button>
+
+        </div>
+
         <div id="debtResult"></div>
-        <p class="muted">Simple estimate only. It does not account for interest, fees or lender-specific terms.</p>
+
+        <p class="muted">
+          Simple estimate only. It does not account for interest,
+          fees or lender-specific terms.
+        </p>
+
       </div>
 
-      <div id="basicCalc" class="calc-panel">
+      <!-- Basic -->
+
+      <div
+        id="basicCalc"
+        class="calc-panel">
+
         <h3>Everyday Calculator</h3>
-        <input id="basicExpression" placeholder="Example: 250 + 50 * 2">
-        <button class="btn btn-green" onclick="calculateBasic()">Calculate</button>
+
+        <label for="basicExpression">
+          Expression
+        </label>
+
+        <input
+          id="basicExpression"
+          placeholder="Example: 250 + 50 * 2">
+
+        <div class="actions">
+
+          <button
+            class="btn btn-green"
+            onclick="calculateBasic()">
+            Calculate
+          </button>
+
+        </div>
+
         <div id="basicResult"></div>
-        <p class="muted">For simple arithmetic only.</p>
+
+        <p class="muted">
+          For simple arithmetic only.
+        </p>
+
       </div>
 
     </div>
+
   </div>
+
 </section>
 
-<!-- GLOBAL CURRENCY CONVERTER -->
+<!-- =====================================================
+     GLOBAL CURRENCY CONVERTER
+===================================================== -->
+
 <section id="currency-converter">
+
   <div class="container">
 
     <div class="section-head">
-      <span class="eyebrow">04 · Foreign exchange</span>
+
+      <span class="eyebrow">
+        04 · Foreign exchange
+      </span>
+
       <h2>Global Currency Converter</h2>
+
       <p>
-        Convert currencies using the latest available reference rates from
-        the exchange-rate service. Rates can change throughout the day.
+        Convert currencies using the latest available reference
+        rates from the exchange-rate service. Rates can change
+        throughout the day.
       </p>
+
     </div>
 
     <div class="converter-card">
@@ -1326,55 +2154,179 @@ footer {
       <div class="form-grid">
 
         <div>
-          <label for="globalFromCurrency">From currency</label>
+
+          <label for="globalFromCurrency">
+            From currency
+          </label>
+
           <select id="globalFromCurrency">
-            <option value="PHP" selected>PHP — Philippine Peso</option>
-            <option value="USD">USD — US Dollar</option>
-            <option value="EUR">EUR — Euro</option>
-            <option value="GBP">GBP — British Pound</option>
-            <option value="JPY">JPY — Japanese Yen</option>
-            <option value="AUD">AUD — Australian Dollar</option>
-            <option value="CAD">CAD — Canadian Dollar</option>
-            <option value="SGD">SGD — Singapore Dollar</option>
-            <option value="AED">AED — UAE Dirham</option>
-            <option value="SAR">SAR — Saudi Riyal</option>
-            <option value="INR">INR — Indian Rupee</option>
-            <option value="CHF">CHF — Swiss Franc</option>
-            <option value="HKD">HKD — Hong Kong Dollar</option>
-            <option value="NZD">NZD — New Zealand Dollar</option>
-            <option value="CNY">CNY — Chinese Yuan</option>
-            <option value="KRW">KRW — South Korean Won</option>
-            <option value="THB">THB — Thai Baht</option>
-            <option value="MYR">MYR — Malaysian Ringgit</option>
+
+            <option value="PHP" selected>
+              PHP — Philippine Peso
+            </option>
+
+            <option value="USD">
+              USD — US Dollar
+            </option>
+
+            <option value="EUR">
+              EUR — Euro
+            </option>
+
+            <option value="GBP">
+              GBP — British Pound
+            </option>
+
+            <option value="JPY">
+              JPY — Japanese Yen
+            </option>
+
+            <option value="AUD">
+              AUD — Australian Dollar
+            </option>
+
+            <option value="CAD">
+              CAD — Canadian Dollar
+            </option>
+
+            <option value="SGD">
+              SGD — Singapore Dollar
+            </option>
+
+            <option value="AED">
+              AED — UAE Dirham
+            </option>
+
+            <option value="SAR">
+              SAR — Saudi Riyal
+            </option>
+
+            <option value="INR">
+              INR — Indian Rupee
+            </option>
+
+            <option value="CHF">
+              CHF — Swiss Franc
+            </option>
+
+            <option value="HKD">
+              HKD — Hong Kong Dollar
+            </option>
+
+            <option value="NZD">
+              NZD — New Zealand Dollar
+            </option>
+
+            <option value="CNY">
+              CNY — Chinese Yuan
+            </option>
+
+            <option value="KRW">
+              KRW — South Korean Won
+            </option>
+
+            <option value="THB">
+              THB — Thai Baht
+            </option>
+
+            <option value="MYR">
+              MYR — Malaysian Ringgit
+            </option>
+
           </select>
+
         </div>
 
         <div>
-          <label for="globalToCurrency">To currency</label>
+
+          <label for="globalToCurrency">
+            To currency
+          </label>
+
           <select id="globalToCurrency">
-            <option value="USD" selected>USD — US Dollar</option>
-            <option value="PHP">PHP — Philippine Peso</option>
-            <option value="EUR">EUR — Euro</option>
-            <option value="GBP">GBP — British Pound</option>
-            <option value="JPY">JPY — Japanese Yen</option>
-            <option value="AUD">AUD — Australian Dollar</option>
-            <option value="CAD">CAD — Canadian Dollar</option>
-            <option value="SGD">SGD — Singapore Dollar</option>
-            <option value="AED">AED — UAE Dirham</option>
-            <option value="SAR">SAR — Saudi Riyal</option>
-            <option value="INR">INR — Indian Rupee</option>
-            <option value="CHF">CHF — Swiss Franc</option>
-            <option value="HKD">HKD — Hong Kong Dollar</option>
-            <option value="NZD">NZD — New Zealand Dollar</option>
-            <option value="CNY">CNY — Chinese Yuan</option>
-            <option value="KRW">KRW — South Korean Won</option>
-            <option value="THB">THB — Thai Baht</option>
-            <option value="MYR">MYR — Malaysian Ringgit</option>
+
+            <option value="USD" selected>
+              USD — US Dollar
+            </option>
+
+            <option value="PHP">
+              PHP — Philippine Peso
+            </option>
+
+            <option value="EUR">
+              EUR — Euro
+            </option>
+
+            <option value="GBP">
+              GBP — British Pound
+            </option>
+
+            <option value="JPY">
+              JPY — Japanese Yen
+            </option>
+
+            <option value="AUD">
+              AUD — Australian Dollar
+            </option>
+
+            <option value="CAD">
+              CAD — Canadian Dollar
+            </option>
+
+            <option value="SGD">
+              SGD — Singapore Dollar
+            </option>
+
+            <option value="AED">
+              AED — UAE Dirham
+            </option>
+
+            <option value="SAR">
+              SAR — Saudi Riyal
+            </option>
+
+            <option value="INR">
+              INR — Indian Rupee
+            </option>
+
+            <option value="CHF">
+              CHF — Swiss Franc
+            </option>
+
+            <option value="HKD">
+              HKD — Hong Kong Dollar
+            </option>
+
+            <option value="NZD">
+              NZD — New Zealand Dollar
+            </option>
+
+            <option value="CNY">
+              CNY — Chinese Yuan
+            </option>
+
+            <option value="KRW">
+              KRW — South Korean Won
+            </option>
+
+            <option value="THB">
+              THB — Thai Baht
+            </option>
+
+            <option value="MYR">
+              MYR — Malaysian Ringgit
+            </option>
+
           </select>
+
         </div>
 
         <div>
-          <label for="globalCurrencyAmount">Amount</label>
+
+          <label for="globalCurrencyAmount">
+            Amount
+          </label>
+
           <input
             id="globalCurrencyAmount"
             type="number"
@@ -1382,114 +2334,232 @@ footer {
             step="any"
             value="1000"
             placeholder="1000">
+
         </div>
 
       </div>
 
       <div class="actions">
-        <button class="btn btn-green" onclick="convertGlobalCurrency()">
+
+        <button
+          class="btn btn-green"
+          onclick="convertGlobalCurrency()">
           Convert
         </button>
 
-        <button class="btn btn-light" onclick="resetGlobalCurrencyConverter()">
+        <button
+          class="btn btn-light"
+          onclick="resetGlobalCurrencyConverter()">
           Reset
         </button>
+
       </div>
 
-      <div id="globalCurrencyStatus" class="converter-status"></div>
+      <div
+        id="globalCurrencyStatus"
+        class="converter-status"
+        aria-live="polite">
+      </div>
 
-      <div id="globalCurrencyResult"></div>
+      <div
+        id="globalCurrencyResult"
+        aria-live="polite">
+      </div>
 
-      <p class="muted" style="margin-top:18px;">
-        Reference rates are supplied by an external exchange-rate service and
-        may differ from the rate offered by banks, cards, money-transfer services
-        or exchange counters.
+      <p
+        class="muted"
+        style="margin-top:18px;">
+
+        Reference rates are supplied by an external exchange-rate
+        service and may differ from the rate offered by banks,
+        cards, money-transfer services or exchange counters.
+
       </p>
 
     </div>
+
   </div>
+
 </section>
 
-<!-- COPILOT -->
+<!-- =====================================================
+     COPILOT
+===================================================== -->
+
 <section id="copilot">
+
   <div class="container">
 
     <div class="section-head">
-      <span class="eyebrow">05 · Built-in guidance</span>
+
+      <span class="eyebrow">
+        05 · Built-in guidance
+      </span>
+
       <h2>AI Co-Pilot</h2>
+
       <p>
         Ask about the tools and everyday money concepts.
-        This first version uses a built-in knowledge system rather than an external AI API.
+        This version uses a built-in knowledge system rather than
+        an external AI API.
       </p>
+
     </div>
 
     <div class="card">
 
       <div class="quick-questions">
-        <button onclick="askCopilot('What is flexible spending?')">What is flexible spending?</button>
-        <button onclick="askCopilot('How do I use the grocery map?')">How do I use Grocery Map?</button>
-        <button onclick="askCopilot('How does the savings calculator work?')">Savings calculator?</button>
-        <button onclick="askCopilot('How do I calculate a discount?')">How do I calculate a discount?</button>
+
+        <button
+          onclick="askCopilot('What is flexible spending?')">
+          What is flexible spending?
+        </button>
+
+        <button
+          onclick="askCopilot('How do I use the grocery map?')">
+          How do I use Grocery Map?
+        </button>
+
+        <button
+          onclick="askCopilot('How does the savings calculator work?')">
+          Savings calculator?
+        </button>
+
+        <button
+          onclick="askCopilot('How do I calculate a discount?')">
+          How do I calculate a discount?
+        </button>
+
       </div>
 
-      <div class="chat-box">
+      <div
+        class="chat-box"
+        aria-live="polite">
+
         <div id="copilotAnswer">
+
           <div class="chat-answer">
-            <strong>Hi. I'm your Co-Pilot. 🌱</strong>
-            <p>Ask me how the tools work or about simple money concepts.</p>
+
+            <strong>
+              Hi. I'm your Co-Pilot. 🌱
+            </strong>
+
+            <p>
+              Ask me how the tools work or about simple money concepts.
+            </p>
+
           </div>
+
         </div>
+
       </div>
 
-      <div style="display:flex;gap:10px;margin-top:15px;">
-        <input id="copilotQuestion" placeholder="Ask something...">
-        <button class="btn btn-green" onclick="submitCopilot()">Ask</button>
+      <div
+        style="display:flex;gap:10px;margin-top:15px;">
+
+        <input
+          id="copilotQuestion"
+          placeholder="Ask something..."
+          onkeydown="if(event.key === 'Enter') submitCopilot()">
+
+        <button
+          class="btn btn-green"
+          onclick="submitCopilot()">
+          Ask
+        </button>
+
       </div>
 
     </div>
+
   </div>
+
 </section>
 
-<!-- MONEY BUDDY -->
+<!-- =====================================================
+     MONEY BUDDY
+===================================================== -->
+
 <section id="money-buddy">
+
   <div class="container">
 
     <div class="section-head">
-      <span class="eyebrow">06 · Gentle observations</span>
+
+      <span class="eyebrow">
+        06 · Gentle observations
+      </span>
+
       <h2>Money Buddy</h2>
+
       <p>
-        Money Buddy looks at the numbers you entered and offers simple,
-        non-judgmental suggestions.
+        Money Buddy looks at the numbers you entered and offers
+        simple, non-judgmental suggestions.
       </p>
+
     </div>
 
     <div class="card center">
-      <div style="font-size:50px;">💡</div>
 
-      <div id="buddyTip" class="result">
-        <p>Map your month first, then I'll look for a small next step.</p>
+      <div style="font-size:50px;">
+        💡
       </div>
 
-      <div class="actions" style="justify-content:center;">
-        <button class="btn btn-green" onclick="generateMoneyBuddyTip()">Give Me a Tip</button>
+      <div
+        id="buddyTip"
+        class="result"
+        aria-live="polite">
+
+        <p>
+          Map your month first, then I'll look for a small next step.
+        </p>
+
+      </div>
+
+      <div
+        class="actions"
+        style="justify-content:center;">
+
+        <button
+          class="btn btn-green"
+          onclick="generateMoneyBuddyTip()">
+          Give Me a Tip
+        </button>
+
       </div>
 
       <p class="muted">
-        General educational suggestions only — not professional financial advice.
+        General educational suggestions only —
+        not professional financial advice.
       </p>
+
     </div>
 
   </div>
+
 </section>
 
-<!-- WHAT IF -->
+<!-- =====================================================
+     WHAT IF
+===================================================== -->
+
 <section id="what-if">
+
   <div class="container">
 
     <div class="section-head">
-      <span class="eyebrow">07 · Explore possibilities</span>
+
+      <span class="eyebrow">
+        07 · Explore possibilities
+      </span>
+
       <h2>What If?</h2>
-      <p>Try a hypothetical change and see what the numbers would look like.</p>
+
+      <p>
+        Try a hypothetical change and see what the numbers
+        would look like.
+      </p>
+
     </div>
 
     <div class="card">
@@ -1497,195 +2567,453 @@ footer {
       <div class="form-grid">
 
         <div>
-          <label>Extra savings</label>
-          <input id="whatSave" type="number" placeholder="500">
+
+          <label for="whatSave">
+            Extra savings
+          </label>
+
+          <input
+            id="whatSave"
+            type="number"
+            min="0"
+            step="any"
+            placeholder="500">
+
         </div>
 
         <div>
-          <label>Reduce groceries</label>
-          <input id="whatGrocery" type="number" placeholder="500">
+
+          <label for="whatGrocery">
+            Reduce groceries
+          </label>
+
+          <input
+            id="whatGrocery"
+            type="number"
+            min="0"
+            step="any"
+            placeholder="500">
+
         </div>
 
         <div>
-          <label>Reduce flexible spending</label>
-          <input id="whatFlexible" type="number" placeholder="500">
+
+          <label for="whatFlexible">
+            Reduce flexible spending
+          </label>
+
+          <input
+            id="whatFlexible"
+            type="number"
+            min="0"
+            step="any"
+            placeholder="500">
+
         </div>
 
         <div>
-          <label>Increase income</label>
-          <input id="whatIncome" type="number" placeholder="1000">
+
+          <label for="whatIncome">
+            Increase income
+          </label>
+
+          <input
+            id="whatIncome"
+            type="number"
+            min="0"
+            step="any"
+            placeholder="1000">
+
         </div>
 
         <div>
-          <label>Increase debt payment</label>
-          <input id="whatDebt" type="number" placeholder="500">
+
+          <label for="whatDebt">
+            Increase debt payment
+          </label>
+
+          <input
+            id="whatDebt"
+            type="number"
+            min="0"
+            step="any"
+            placeholder="500">
+
         </div>
 
       </div>
 
-      <button class="btn btn-green" onclick="runWhatIf()">Explore Scenario</button>
+      <div class="actions">
 
-      <div id="whatIfResult"></div>
+        <button
+          class="btn btn-green"
+          onclick="runWhatIf()">
+          Explore Scenario
+        </button>
+
+      </div>
+
+      <div
+        id="whatIfResult"
+        aria-live="polite">
+      </div>
 
       <p class="muted">
-        This is hypothetical math, not a recommendation about what you should do.
+        This is hypothetical math, not a recommendation about
+        what you should do.
       </p>
 
     </div>
+
   </div>
+
 </section>
 
-<!-- WELLNESS -->
+<!-- =====================================================
+     WELLNESS
+===================================================== -->
+
 <section id="wellness">
+
   <div class="container">
 
     <div class="section-head">
-      <span class="eyebrow">08 · Take care of the person behind the numbers</span>
+
+      <span class="eyebrow">
+        08 · Take care of the person behind the numbers
+      </span>
+
       <h2>Health &amp; Wellness</h2>
+
       <p>
-        A healthier money map is easier to maintain when you're taking care of yourself, too. 🌱
+        A healthier money map is easier to maintain when you're
+        taking care of yourself, too. 🌱
       </p>
+
     </div>
 
     <div class="card">
 
       <div class="grid grid-2">
 
-        <div class="soft-card">
-          <label><input type="checkbox" id="sleepCheck"> I got enough rest</label>
-          <label><input type="checkbox" id="waterCheck"> I drank enough water</label>
-          <label><input type="checkbox" id="movementCheck"> I moved my body</label>
-          <label><input type="checkbox" id="personalCheck"> I had personal time</label>
-          <label><input type="checkbox" id="habitCheck"> I practiced a healthy habit</label>
+        <div class="soft-card check-list">
+
+          <label>
+            <input
+              type="checkbox"
+              id="sleepCheck">
+            I got enough rest
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              id="waterCheck">
+            I drank enough water
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              id="movementCheck">
+            I moved my body
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              id="personalCheck">
+            I had personal time
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              id="habitCheck">
+            I practiced a healthy habit
+          </label>
+
         </div>
 
         <div>
-          <label for="mood">Mood</label>
+
+          <label for="mood">
+            Mood
+          </label>
+
           <select id="mood">
-            <option value="">Prefer not to say</option>
-            <option>Good</option>
-            <option>Okay</option>
-            <option>Low</option>
+
+            <option value="">
+              Prefer not to say
+            </option>
+
+            <option>
+              Good
+            </option>
+
+            <option>
+              Okay
+            </option>
+
+            <option>
+              Low
+            </option>
+
           </select>
 
-          <label for="energy" style="margin-top:15px;">Energy</label>
+          <label
+            for="energy"
+            style="margin-top:15px;">
+            Energy
+          </label>
+
           <select id="energy">
-            <option value="">Prefer not to say</option>
-            <option>High</option>
-            <option>Moderate</option>
-            <option>Low</option>
+
+            <option value="">
+              Prefer not to say
+            </option>
+
+            <option>
+              High
+            </option>
+
+            <option>
+              Moderate
+            </option>
+
+            <option>
+              Low
+            </option>
+
           </select>
 
-          <label for="wellnessNotes" style="margin-top:15px;">Notes</label>
-          <textarea id="wellnessNotes" rows="3" placeholder="Optional"></textarea>
+          <label
+            for="wellnessNotes"
+            style="margin-top:15px;">
+            Notes
+          </label>
+
+          <textarea
+            id="wellnessNotes"
+            rows="3"
+            maxlength="500"
+            placeholder="Optional"></textarea>
+
         </div>
 
       </div>
 
       <div class="actions">
-        <button class="btn btn-green" onclick="saveWellness()">Save Today</button>
-        <button class="btn btn-light" onclick="clearWellness()">Clear</button>
+
+        <button
+          class="btn btn-green"
+          onclick="saveWellness()">
+          Save Today
+        </button>
+
+        <button
+          class="btn btn-light"
+          onclick="clearWellness()">
+          Clear
+        </button>
+
       </div>
 
-      <div id="wellnessResult"></div>
+      <div
+        id="wellnessResult"
+        aria-live="polite">
+      </div>
 
       <p class="muted">
-        This is a general wellness organization tool, not medical advice or a health assessment.
+        This is a general wellness organization tool,
+        not medical advice or a health assessment.
       </p>
 
     </div>
+
   </div>
+
 </section>
 
-<!-- HISTORY -->
+<!-- =====================================================
+     HISTORY
+===================================================== -->
+
 <section id="history">
+
   <div class="container">
 
     <div class="section-head">
-      <span class="eyebrow">09 · Look back gently</span>
+
+      <span class="eyebrow">
+        09 · Look back gently
+      </span>
+
       <h2>Monthly History</h2>
-      <p>Keep a private record of the maps you choose to save on this device.</p>
+
+      <p>
+        Keep a private record of the maps you choose to save
+        on this device.
+      </p>
+
     </div>
 
     <div class="card">
 
-      <div id="historyList">
-        <p class="muted">No saved months yet.</p>
+      <div
+        id="historyList"
+        aria-live="polite">
+
+        <p class="muted">
+          No saved months yet.
+        </p>
+
       </div>
 
       <div class="actions">
-        <button class="btn btn-green" onclick="downloadMoneyMap()">Download My Money Map</button>
-        <button class="btn btn-light" onclick="shareMoneyMap()">Share</button>
-        <button class="btn btn-light" onclick="emailMoneyMap()">Email My Money Map</button>
+
+        <button
+          class="btn btn-green"
+          onclick="downloadMoneyMap()">
+          Print / Save as PDF
+        </button>
+
+        <button
+          class="btn btn-light"
+          onclick="shareMoneyMap()">
+          Share
+        </button>
+
+        <button
+          class="btn btn-light"
+          onclick="emailMoneyMap()">
+          Email My Money Map
+        </button>
+
       </div>
 
+      <p class="muted" style="margin-top:15px;">
+        The PDF option opens your browser's print window.
+        Choose <strong>Save as PDF</strong> there.
+      </p>
+
     </div>
+
   </div>
+
 </section>
 
-<!-- GROW -->
+<!-- =====================================================
+     GROW
+===================================================== -->
+
 <section id="grow">
+
   <div class="container">
 
     <div class="section-head center">
-      <span class="eyebrow">10 · Grow your map</span>
-      <h2>Grow Your Map 🌱</h2>
+
+      <span class="eyebrow">
+        10 · Grow your map
+      </span>
+
+      <h2>
+        Grow Your Map 🌱
+      </h2>
 
       <p style="margin-left:auto;margin-right:auto;">
         Your next investment doesn't always have to be money.
         Sometimes it's a skill.
       </p>
+
     </div>
 
     <div class="grid grid-3">
 
       <div class="card grow-card">
-        <div class="icon">🌱</div>
-        <h3>Personal Development</h3>
-        <p>Free learning can be a gentle place to start.</p>
-        <button class="btn btn-green" onclick="openAlison()">Explore Alison</button>
+
+        <div class="icon">
+          🌱
+        </div>
+
+        <h3>
+          Personal Development
+        </h3>
+
+        <p>
+          Free learning can be a gentle place to start.
+        </p>
+
+        <button
+          class="btn btn-green"
+          onclick="openAlison()">
+          Explore Alison
+        </button>
+
       </div>
 
     </div>
 
     <p class="disclosure">
+
       The Alison link shared on this website belongs to the site's owner,
       who is a registered Alison Affiliate Partner and may earn a commission
       from qualifying purchases or actions, at no extra cost to you.
       This is a paid referral arrangement only. It does not represent an
       endorsement by Alison or a partnership between Reset &amp; Grow and Alison.
+
     </p>
 
-    <div class="card center" style="margin-top:30px;">
-      <h3>Keep growing with Cathiesnest Digital 🌱</h3>
+    <div
+      class="card center"
+      style="margin-top:30px;">
+
+      <h3>
+        Keep growing with Cathiesnest Digital 🌱
+      </h3>
 
       <p>
-        Practical digital tools, gentle career resources and small steps toward your next move.
+        Practical digital tools, gentle career resources
+        and small steps toward your next move.
       </p>
 
-      <div class="actions" style="justify-content:center;">
+      <div
+        class="actions"
+        style="justify-content:center;">
 
-        <a class="btn btn-light"
-           href="https://ph.pinterest.com/CathiesnestDigitalHub/"
-           target="_blank"
-           rel="noopener noreferrer"
-           onclick="trackEvent('pinterest_click')">
+        <a
+          class="btn btn-light"
+          href="https://cathiesnest.github.io/tabing-guhit-hub/"
+          target="_blank"
+          rel="noopener noreferrer"
+          onclick="trackEvent('tabing_guhit_hub_click')">
+          Tabing Guhit Hub
+        </a>
+
+        <a
+          class="btn btn-light"
+          href="https://ph.pinterest.com/CathiesnestDigitalHub/"
+          target="_blank"
+          rel="noopener noreferrer"
+          onclick="trackEvent('pinterest_click')">
           Pinterest
         </a>
 
-        <a class="btn btn-light"
-           href="https://www.facebook.com/profile.php?id=61580857530656"
-           target="_blank"
-           rel="noopener noreferrer"
-           onclick="trackEvent('facebook_click')">
+        <a
+          class="btn btn-light"
+          href="https://www.facebook.com/profile.php?id=61580857530656"
+          target="_blank"
+          rel="noopener noreferrer"
+          onclick="trackEvent('facebook_click')">
           Facebook
         </a>
 
-        <a class="btn btn-green"
-           href="https://cathiesnest.github.io/tabing-guhit-3.0/"
-           target="_blank"
-           rel="noopener noreferrer"
-           onclick="trackEvent('tabing_guhit_click')">
+        <a
+          class="btn btn-green"
+          href="https://cathiesnest.github.io/tabing-guhit-3.0/"
+          target="_blank"
+          rel="noopener noreferrer"
+          onclick="trackEvent('tabing_guhit_click')">
           Find Your Niche →
         </a>
 
@@ -1698,15 +3026,22 @@ footer {
     </div>
 
   </div>
+
 </section>
 
 </main>
 
-<!-- FOOTER -->
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
 <footer>
+
   <div class="container">
 
-    <div class="footer-brand">RESET &amp; GROW</div>
+    <div class="footer-brand">
+      RESET &amp; GROW
+    </div>
 
     <p>
       See your money clearly. Find your next step. 🌱
@@ -1714,37 +3049,53 @@ footer {
 
     <div class="footer-links">
 
-      <a href="https://ph.pinterest.com/CathiesnestDigitalHub/"
-         target="_blank"
-         rel="noopener noreferrer">
+      <a
+        href="https://cathiesnest.github.io/tabing-guhit-hub/"
+        target="_blank"
+        rel="noopener noreferrer">
+        Tabing Guhit Hub
+      </a>
+
+      <a
+        href="https://ph.pinterest.com/CathiesnestDigitalHub/"
+        target="_blank"
+        rel="noopener noreferrer">
         Pinterest
       </a>
 
-      <a href="https://www.facebook.com/profile.php?id=61580857530656"
-         target="_blank"
-         rel="noopener noreferrer">
+      <a
+        href="https://www.facebook.com/profile.php?id=61580857530656"
+        target="_blank"
+        rel="noopener noreferrer">
         Facebook
       </a>
 
-      <a href="https://cathiesnest.github.io/tabing-guhit-3.0/"
-         target="_blank"
-         rel="noopener noreferrer">
+      <a
+        href="https://cathiesnest.github.io/tabing-guhit-3.0/"
+        target="_blank"
+        rel="noopener noreferrer">
         Tabing Guhit
       </a>
 
-      <a href="#home">Back to top ↑</a>
+      <a href="#home">
+        Back to top ↑
+      </a>
 
-      <button class="btn btn-light" onclick="clearAllData()">
+      <button
+        class="btn btn-light"
+        onclick="clearAllData()">
         Clear My Data
       </button>
 
     </div>
 
     <p class="disclaimer">
+
       Reset &amp; Grow is an educational organization tool and does not provide
       financial, investment, tax, legal, medical or other professional advice.
-      Your information is stored locally on this device. No bank or card connections
-      are used.
+      Your information is stored locally on this device. No bank or card
+      connections are used.
+
     </p>
 
     <p class="disclaimer">
@@ -1752,9 +3103,15 @@ footer {
     </p>
 
   </div>
+
 </footer>
 
-<div id="toast" class="toast"></div>
+<div
+  id="toast"
+  class="toast"
+  role="status"
+  aria-live="polite">
+</div>
 
 <script>
 
@@ -1765,23 +3122,27 @@ footer {
 const ALISON_AFFILIATE_URL =
 "https://alison.com/courses/personal-development?utm_source=alison_user&utm_medium=affiliate&utm_campaign=42404117";
 
-/*
-  Global Currency Converter
-  Uses Frankfurter's public exchange-rate API.
-  No API key is stored in this frontend.
-*/
 const FX_API_BASE =
 "https://api.frankfurter.app";
 
 const STORAGE = {
+
   money: "financialMoneyMap",
+
   history: "financialMoneyMapHistory",
+
   groceries: "financialMoneyMapGroceries",
+
   wellness: "financialMoneyMapWellness"
+
 };
 
-let groceryItems = loadJSON(STORAGE.groceries, []);
-let lastMoneyMap = loadJSON(STORAGE.money, null);
+let groceryItems =
+  loadJSON(STORAGE.groceries, []);
+
+let lastMoneyMap =
+  loadJSON(STORAGE.money, null);
+
 
 /* =========================================================
    UTILITIES
@@ -1792,57 +3153,116 @@ function $(id) {
 }
 
 function money(value, currency = "PHP") {
-  const num = Number(value) || 0;
+
+  const amount =
+    Number(value) || 0;
 
   try {
+
     return new Intl.NumberFormat(undefined, {
       style: "currency",
       currency
-    }).format(num);
+    }).format(amount);
+
   } catch {
-    return `${currency} ${num.toFixed(2)}`;
+
+    return `${currency} ${amount.toFixed(2)}`;
+
   }
 }
 
 function num(id) {
-  const value = parseFloat($(id)?.value);
-  return Number.isFinite(value) ? value : 0;
+
+  const value =
+    parseFloat($(id)?.value);
+
+  return Number.isFinite(value)
+    ? value
+    : 0;
+}
+
+function safePositiveNumber(id) {
+
+  const value = num(id);
+
+  return value >= 0
+    ? value
+    : 0;
 }
 
 function loadJSON(key, fallback) {
+
   try {
-    const data = localStorage.getItem(key);
-    return data ? JSON.parse(data) : fallback;
+
+    const data =
+      localStorage.getItem(key);
+
+    return data
+      ? JSON.parse(data)
+      : fallback;
+
   } catch {
+
     return fallback;
+
   }
 }
 
 function saveJSON(key, value) {
+
   try {
-    localStorage.setItem(key, JSON.stringify(value));
+
+    localStorage.setItem(
+      key,
+      JSON.stringify(value)
+    );
+
     return true;
+
   } catch {
-    showToast("Your browser could not save this information.");
+
+    showToast(
+      "Your browser could not save this information."
+    );
+
     return false;
+
   }
 }
 
 function showToast(message) {
-  const toast = $("toast");
-  toast.textContent = message;
+
+  const toast =
+    $("toast");
+
+  toast.textContent =
+    message;
+
   toast.classList.add("show");
 
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 2800);
+  clearTimeout(
+    window.__toastTimer
+  );
+
+  window.__toastTimer =
+    setTimeout(() => {
+
+      toast.classList.remove("show");
+
+    }, 2800);
+
 }
 
 function goTo(id) {
-  document.getElementById(id)?.scrollIntoView({
-    behavior: "smooth"
-  });
+
+  document
+    .getElementById(id)
+    ?.scrollIntoView({
+      behavior: "smooth"
+    });
+
 }
+
 
 /* =========================================================
    MONEY MAP
@@ -1850,13 +3270,23 @@ function goTo(id) {
 
 function calculateMoneyMap() {
 
-  const currency = $("currency").value;
+  const currency =
+    $("currency").value;
 
-  const income = num("income");
-  const essentials = num("essentials");
-  const debt = num("debt");
-  const savings = num("savings");
-  const flexible = num("flexible");
+  const income =
+    safePositiveNumber("income");
+
+  const essentials =
+    safePositiveNumber("essentials");
+
+  const debt =
+    safePositiveNumber("debt");
+
+  const savings =
+    safePositiveNumber("savings");
+
+  const flexible =
+    safePositiveNumber("flexible");
 
   const totalOutflow =
     essentials +
@@ -1869,114 +3299,225 @@ function calculateMoneyMap() {
     totalOutflow;
 
   const savingsPct =
-    income > 0 ? (savings / income) * 100 : 0;
+    income > 0
+      ? (savings / income) * 100
+      : 0;
 
   const essentialsPct =
-    income > 0 ? (essentials / income) * 100 : 0;
+    income > 0
+      ? (essentials / income) * 100
+      : 0;
 
   const flexiblePct =
-    income > 0 ? (flexible / income) * 100 : 0;
+    income > 0
+      ? (flexible / income) * 100
+      : 0;
 
   lastMoneyMap = {
-    date: new Date().toISOString(),
-    month: new Date().toLocaleString(undefined, {
-      month: "long",
-      year: "numeric"
-    }),
+
+    date:
+      new Date().toISOString(),
+
+    month:
+      new Date().toLocaleString(
+        undefined,
+        {
+          month: "long",
+          year: "numeric"
+        }
+      ),
+
     currency,
+
     income,
+
     essentials,
+
     debt,
+
     savings,
+
     flexible,
+
     totalOutflow,
+
     remaining,
+
     savingsPct,
+
     essentialsPct,
+
     flexiblePct,
-    goal: $("monthlyGoal").value.trim(),
-    notes: $("moneyNotes").value.trim()
+
+    goal:
+      $("monthlyGoal").value.trim(),
+
+    notes:
+      $("moneyNotes").value.trim()
+
   };
 
-  saveJSON(STORAGE.money, lastMoneyMap);
+  saveJSON(
+    STORAGE.money,
+    lastMoneyMap
+  );
 
   let message = "";
 
   if (income <= 0) {
+
     message = `
+
       <div class="result">
-        <strong>Let's start with your income. 🌱</strong>
-        <p>Enter your monthly income to create your first map.</p>
-      </div>
-    `;
-  } else if (remaining < 0) {
-    message = `
-      <div class="result">
-        <strong class="warn">Okay. We have something to work with.</strong>
+
+        <strong>
+          Let's start with your income. 🌱
+        </strong>
+
         <p>
-          Your current entries are ${money(Math.abs(remaining), currency)}
-          above your income. Look for the easiest category to review first.
+          Enter your monthly income to create your first map.
         </p>
+
       </div>
+
     `;
-  } else if (remaining === 0) {
+
+  } else if (remaining < 0) {
+
     message = `
+
       <div class="result">
-        <strong>Your map is balanced at the moment.</strong>
+
+        <strong class="warn">
+          Okay. We have something to work with.
+        </strong>
+
+        <p>
+          Your current entries are
+          ${money(Math.abs(remaining), currency)}
+          above your income.
+          Look for the easiest category to review first.
+        </p>
+
+      </div>
+
+    `;
+
+  } else if (remaining === 0) {
+
+    message = `
+
+      <div class="result">
+
+        <strong>
+          Your map is balanced at the moment.
+        </strong>
+
         <p>
           There isn't anything left over based on these entries.
           Even a small future adjustment can create breathing room.
         </p>
+
       </div>
+
     `;
+
   } else {
+
     message = `
+
       <div class="result">
-        <strong class="good">You have ${money(remaining, currency)} left.</strong>
+
+        <strong class="good">
+          You have
+          ${money(remaining, currency)}
+          left.
+        </strong>
+
         <p>
-          That's your current breathing room after the amounts you entered.
-          You can decide whether that belongs toward savings, a goal,
-          debt or simply more flexibility.
+          That's your current breathing room after the amounts
+          you entered. You can decide whether that belongs toward
+          savings, a goal, debt or simply more flexibility.
         </p>
+
       </div>
+
     `;
+
   }
 
   $("moneyResult").innerHTML = `
+
     <div class="result">
+
       <div class="grid grid-3">
 
         <div>
-          <div class="muted">Total outflow</div>
-          <div class="big-number">${money(totalOutflow,currency)}</div>
+
+          <div class="muted">
+            Total outflow
+          </div>
+
+          <div class="big-number">
+            ${money(totalOutflow,currency)}
+          </div>
+
         </div>
 
         <div>
-          <div class="muted">Remaining</div>
-          <div class="big-number">${money(remaining,currency)}</div>
+
+          <div class="muted">
+            Remaining
+          </div>
+
+          <div class="big-number">
+            ${money(remaining,currency)}
+          </div>
+
         </div>
 
         <div>
-          <div class="muted">Savings rate</div>
-          <div class="big-number">${savingsPct.toFixed(1)}%</div>
+
+          <div class="muted">
+            Savings rate
+          </div>
+
+          <div class="big-number">
+            ${savingsPct.toFixed(1)}%
+          </div>
+
         </div>
 
       </div>
 
-      <hr style="border:0;border-top:1px solid rgba(28,28,28,.1);margin:25px 0;">
+      <hr class="soft-rule">
 
       <p>
-        Essentials: <strong>${essentialsPct.toFixed(1)}%</strong>
+        Essentials:
+        <strong>
+          ${essentialsPct.toFixed(1)}%
+        </strong>
+
         &nbsp; · &nbsp;
-        Flexible: <strong>${flexiblePct.toFixed(1)}%</strong>
+
+        Flexible:
+        <strong>
+          ${flexiblePct.toFixed(1)}%
+        </strong>
       </p>
 
       ${message}
+
     </div>
+
   `;
 
-  trackEvent("money_map_completed");
+  trackEvent(
+    "money_map_completed"
+  );
+
   generateMoneyBuddyTip();
+
 }
 
 function saveCurrentMonth() {
@@ -1985,25 +3526,48 @@ function saveCurrentMonth() {
     calculateMoneyMap();
   }
 
-  if (!lastMoneyMap || !lastMoneyMap.income) {
-    showToast("Map your month first.");
+  if (
+    !lastMoneyMap ||
+    !lastMoneyMap.income
+  ) {
+
+    showToast(
+      "Map your month first."
+    );
+
     return;
   }
 
-  const history = loadJSON(STORAGE.history, []);
+  const history =
+    loadJSON(
+      STORAGE.history,
+      []
+    );
 
   history.unshift({
+
     ...lastMoneyMap,
-    savedAt: new Date().toISOString()
+
+    savedAt:
+      new Date().toISOString()
+
   });
 
-  saveJSON(STORAGE.history, history.slice(0,24));
+  saveJSON(
+    STORAGE.history,
+    history.slice(0,24)
+  );
 
   renderHistory();
 
-  trackEvent("monthly_map_saved");
+  trackEvent(
+    "monthly_map_saved"
+  );
 
-  showToast("Your month was saved on this device. 🌱");
+  showToast(
+    "Your month was saved on this device. 🌱"
+  );
+
 }
 
 function resetMoneyMap() {
@@ -2017,17 +3581,27 @@ function resetMoneyMap() {
     "monthlyGoal",
     "moneyNotes"
   ].forEach(id => {
-    if ($(id)) $(id).value = "";
+
+    if ($(id)) {
+      $(id).value = "";
+    }
+
   });
 
   $("moneyResult").innerHTML = "";
 
   lastMoneyMap = null;
 
-  localStorage.removeItem(STORAGE.money);
+  localStorage.removeItem(
+    STORAGE.money
+  );
 
-  showToast("Money Map reset.");
+  showToast(
+    "Money Map reset."
+  );
+
 }
+
 
 /* =========================================================
    GROCERY MAP
@@ -2035,167 +3609,338 @@ function resetMoneyMap() {
 
 function addGroceryItem() {
 
-  const item = $("gItem").value.trim();
-  const quantity = Math.max(1, num("gQty"));
-  const price = num("gPrice");
-  const category = $("gCategory").value;
+  const item =
+    $("gItem").value.trim();
+
+  const quantity =
+    Math.max(
+      1,
+      Math.round(
+        safePositiveNumber("gQty")
+      )
+    );
+
+  const price =
+    safePositiveNumber("gPrice");
+
+  const category =
+    $("gCategory").value;
 
   if (!item) {
-    showToast("Add an item first.");
+
+    showToast(
+      "Add an item first."
+    );
+
+    $("gItem").focus();
+
     return;
   }
 
   groceryItems.push({
-    id: Date.now(),
+
+    id:
+      Date.now() +
+      Math.random(),
+
     item,
+
     quantity,
+
     price,
+
     category,
+
     purchased: false
+
   });
 
-  saveJSON(STORAGE.groceries, groceryItems);
+  saveJSON(
+    STORAGE.groceries,
+    groceryItems
+  );
 
   $("gItem").value = "";
+
   $("gQty").value = "1";
+
   $("gPrice").value = "";
 
   renderGroceries();
 
-  trackEvent("grocery_item_added");
+  trackEvent(
+    "grocery_item_added"
+  );
+
 }
 
 function renderGroceries() {
 
-  const list = $("groceryList");
+  const list =
+    $("groceryList");
 
   if (!groceryItems.length) {
+
     list.innerHTML = `
+
       <div class="soft-card">
-        <p class="muted">Your grocery map is empty. Add your first item above.</p>
+
+        <p class="muted">
+          Your grocery map is empty.
+          Add your first item above.
+        </p>
+
       </div>
+
     `;
+
   } else {
 
-    list.innerHTML = groceryItems.map(item => `
-      <div class="grocery-item ${item.purchased ? "purchased" : ""}">
+    list.innerHTML =
+      groceryItems.map(item => `
 
-        <div>
-          <strong>${escapeHTML(item.item)}</strong>
-          <div class="muted">
-            ${item.category} · Qty ${item.quantity}
+        <div
+          class="grocery-item
+          ${item.purchased ? "purchased" : ""}">
+
+          <div>
+
+            <strong>
+              ${escapeHTML(item.item)}
+            </strong>
+
+            <div class="muted">
+              ${escapeHTML(item.category)}
+              · Qty ${item.quantity}
+            </div>
+
           </div>
+
+          <div>
+            ${money(
+              item.price * item.quantity,
+              $("currency").value
+            )}
+          </div>
+
+          <button
+            class="btn btn-light"
+            onclick="togglePurchased('${item.id}')">
+
+            ${item.purchased
+              ? "Undo"
+              : "Bought"}
+
+          </button>
+
+          <button
+            class="btn btn-danger"
+            aria-label="Delete ${escapeHTML(item.item)}"
+            onclick="deleteGrocery('${item.id}')">
+            ×
+          </button>
+
         </div>
 
-        <div>
-          ${money(item.price * item.quantity, $("currency").value)}
-        </div>
+      `).join("");
 
-        <button class="btn btn-light"
-          onclick="togglePurchased(${item.id})">
-          ${item.purchased ? "Undo" : "Bought"}
-        </button>
-
-        <button class="btn btn-danger"
-          onclick="deleteGrocery(${item.id})">
-          ×
-        </button>
-
-      </div>
-    `).join("");
   }
 
   updateGrocerySummary();
+
 }
 
 function updateGrocerySummary() {
 
-  const total = groceryItems.reduce(
-    (sum,item) => sum + (item.price * item.quantity),
-    0
-  );
+  const total =
+    groceryItems.reduce(
+      (sum,item) =>
+        sum +
+        (
+          Number(item.price) *
+          Number(item.quantity)
+        ),
+      0
+    );
 
-  const budget = num("groceryBudget");
-  const remaining = budget - total;
-  const currency = $("currency").value;
+  const budget =
+    safePositiveNumber(
+      "groceryBudget"
+    );
+
+  const remaining =
+    budget - total;
+
+  const currency =
+    $("currency").value;
 
   let message = "";
 
-  if (budget > 0 && remaining < 0) {
+  if (
+    budget > 0 &&
+    remaining < 0
+  ) {
+
     message = `
+
       <p class="warn">
-        You're ${money(Math.abs(remaining),currency)} over the grocery budget.
+
+        You're
+        ${money(
+          Math.abs(remaining),
+          currency
+        )}
+        over the grocery budget.
+
         Consider reviewing nonessential items first.
+
       </p>
+
     `;
-  } else if (budget > 0) {
+
+  } else if (
+    budget > 0
+  ) {
+
     message = `
+
       <p class="good">
-        You have ${money(remaining,currency)} left in the grocery budget.
+
+        You have
+        ${money(
+          remaining,
+          currency
+        )}
+        left in the grocery budget.
+
       </p>
+
     `;
+
   }
 
   $("grocerySummary").innerHTML = `
+
     <div class="grid grid-2">
+
       <div>
-        <div class="muted">Current grocery total</div>
-        <div class="big-number">${money(total,currency)}</div>
+
+        <div class="muted">
+          Current grocery total
+        </div>
+
+        <div class="big-number">
+          ${money(total,currency)}
+        </div>
+
       </div>
 
       <div>
-        <div class="muted">Budget</div>
-        <div class="big-number">
-          ${budget > 0 ? money(budget,currency) : "—"}
+
+        <div class="muted">
+          Budget
         </div>
+
+        <div class="big-number">
+          ${
+            budget > 0
+              ? money(budget,currency)
+              : "—"
+          }
+        </div>
+
       </div>
+
     </div>
 
     ${message}
+
   `;
+
 }
 
 function togglePurchased(id) {
 
-  const item = groceryItems.find(x => x.id === id);
+  const item =
+    groceryItems.find(
+      x => String(x.id) === String(id)
+    );
 
-  if (item) {
-    item.purchased = !item.purchased;
-    saveJSON(STORAGE.groceries, groceryItems);
-    renderGroceries();
-  }
+  if (!item) return;
+
+  item.purchased =
+    !item.purchased;
+
+  saveJSON(
+    STORAGE.groceries,
+    groceryItems
+  );
+
+  renderGroceries();
+
 }
 
 function deleteGrocery(id) {
 
   groceryItems =
-    groceryItems.filter(item => item.id !== id);
+    groceryItems.filter(
+      item =>
+        String(item.id) !== String(id)
+    );
 
-  saveJSON(STORAGE.groceries, groceryItems);
+  saveJSON(
+    STORAGE.groceries,
+    groceryItems
+  );
 
   renderGroceries();
+
 }
 
 function clearPurchased() {
 
   groceryItems =
-    groceryItems.filter(item => !item.purchased);
+    groceryItems.filter(
+      item =>
+        !item.purchased
+    );
 
-  saveJSON(STORAGE.groceries, groceryItems);
+  saveJSON(
+    STORAGE.groceries,
+    groceryItems
+  );
 
   renderGroceries();
+
+  showToast(
+    "Purchased items cleared."
+  );
+
 }
 
 function clearGroceries() {
 
-  if (!confirm("Clear your entire grocery map?")) return;
+  if (
+    !confirm(
+      "Clear your entire grocery map?"
+    )
+  ) return;
 
   groceryItems = [];
 
-  saveJSON(STORAGE.groceries, groceryItems);
+  saveJSON(
+    STORAGE.groceries,
+    groceryItems
+  );
 
   renderGroceries();
+
+  showToast(
+    "Grocery Map cleared."
+  );
+
 }
+
 
 /* =========================================================
    CALCULATORS
@@ -2203,174 +3948,447 @@ function clearGroceries() {
 
 function showCalc(id, button) {
 
-  document.querySelectorAll(".calc-panel")
-    .forEach(panel => panel.classList.remove("active"));
+  document
+    .querySelectorAll(".calc-panel")
+    .forEach(panel =>
+      panel.classList.remove("active")
+    );
 
-  document.querySelectorAll(".calc-tabs button")
-    .forEach(btn => btn.classList.remove("active"));
+  document
+    .querySelectorAll(".calc-tabs button")
+    .forEach(btn =>
+      btn.classList.remove("active")
+    );
 
-  $(id).classList.add("active");
-  button.classList.add("active");
+  $(id)
+    ?.classList.add("active");
 
-  trackEvent("calculator_used", {
-    calculator_type: id
-  });
+  button
+    ?.classList.add("active");
+
+  trackEvent(
+    "calculator_used",
+    {
+      calculator_type: id
+    }
+  );
+
 }
 
 function calculateCurrency() {
 
-  const amount = num("currencyAmount");
-  const rate = parseFloat($("exchangeRate").value);
+  const amount =
+    safePositiveNumber(
+      "currencyAmount"
+    );
 
-  if (!amount || !Number.isFinite(rate) || rate <= 0) {
+  const rate =
+    parseFloat(
+      $("exchangeRate").value
+    );
+
+  if (
+    !Number.isFinite(rate) ||
+    rate <= 0
+  ) {
+
     $("currencyResult").innerHTML =
-      `<div class="result">Enter an amount and a valid exchange rate.</div>`;
+      `<div class="result">
+        Enter an amount and a valid exchange rate.
+      </div>`;
+
     return;
+
   }
 
-  const result = amount * rate;
+  const result =
+    amount * rate;
 
   $("currencyResult").innerHTML = `
+
     <div class="result">
-      <div class="big-number">${result.toLocaleString(undefined,{maximumFractionDigits:2})}</div>
+
+      <div class="big-number">
+        ${result.toLocaleString(
+          undefined,
+          {
+            maximumFractionDigits:2
+          }
+        )}
+      </div>
+
       <p>
-        ${amount.toLocaleString()} ${$("fromCurrency").value}
+
+        ${amount.toLocaleString()}
+        ${$("fromCurrency").value}
+
         × ${rate}
-        = ${result.toLocaleString(undefined,{maximumFractionDigits:2})}
+
+        =
+        ${result.toLocaleString(
+          undefined,
+          {
+            maximumFractionDigits:2
+          }
+        )}
+
         ${$("toCurrency").value}
+
       </p>
+
     </div>
+
   `;
+
 }
 
 function calculatePercentage() {
 
-  const pct = num("pct");
-  const amount = num("pctAmount");
-  const result = amount * pct / 100;
+  const pct =
+    num("pct");
 
-  $("pctResult").innerHTML =
-    `<div class="result"><div class="big-number">${result.toLocaleString(undefined,{maximumFractionDigits:2})}</div></div>`;
+  const amount =
+    num("pctAmount");
+
+  const result =
+    amount * pct / 100;
+
+  $("pctResult").innerHTML = `
+
+    <div class="result">
+
+      <div class="big-number">
+        ${result.toLocaleString(
+          undefined,
+          {
+            maximumFractionDigits:2
+          }
+        )}
+      </div>
+
+    </div>
+
+  `;
+
 }
 
 function calculateDiscount() {
 
-  const price = num("discountPrice");
-  const pct = num("discountPct");
+  const price =
+    safePositiveNumber(
+      "discountPrice"
+    );
 
-  const savings = price * pct / 100;
-  const finalPrice = price - savings;
+  const pct =
+    safePositiveNumber(
+      "discountPct"
+    );
+
+  const savings =
+    price * pct / 100;
+
+  const finalPrice =
+    price - savings;
 
   $("discountResult").innerHTML = `
+
     <div class="result">
-      <p>You save</p>
-      <div class="big-number">${savings.toLocaleString(undefined,{maximumFractionDigits:2})}</div>
-      <p>Final price: <strong>${finalPrice.toLocaleString(undefined,{maximumFractionDigits:2})}</strong></p>
+
+      <p>
+        You save
+      </p>
+
+      <div class="big-number">
+        ${savings.toLocaleString(
+          undefined,
+          {
+            maximumFractionDigits:2
+          }
+        )}
+      </div>
+
+      <p>
+        Final price:
+        <strong>
+          ${finalPrice.toLocaleString(
+            undefined,
+            {
+              maximumFractionDigits:2
+            }
+          )}
+        </strong>
+      </p>
+
     </div>
+
   `;
+
 }
 
 function calculateTip() {
 
-  const bill = num("tipBill");
-  const pct = num("tipPct");
+  const bill =
+    safePositiveNumber(
+      "tipBill"
+    );
 
-  const tip = bill * pct / 100;
-  const total = bill + tip;
+  const pct =
+    safePositiveNumber(
+      "tipPct"
+    );
+
+  const tip =
+    bill * pct / 100;
+
+  const total =
+    bill + tip;
 
   $("tipResult").innerHTML = `
+
     <div class="result">
-      <p>Tip: <strong>${tip.toLocaleString(undefined,{maximumFractionDigits:2})}</strong></p>
-      <p>Total: <strong>${total.toLocaleString(undefined,{maximumFractionDigits:2})}</strong></p>
+
+      <p>
+        Tip:
+        <strong>
+          ${tip.toLocaleString(
+            undefined,
+            {
+              maximumFractionDigits:2
+            }
+          )}
+        </strong>
+      </p>
+
+      <p>
+        Total:
+        <strong>
+          ${total.toLocaleString(
+            undefined,
+            {
+              maximumFractionDigits:2
+            }
+          )}
+        </strong>
+      </p>
+
     </div>
+
   `;
+
 }
 
 function calculateSplit() {
 
-  const bill = num("splitBill");
-  const people = Math.max(1,num("splitPeople"));
+  const bill =
+    safePositiveNumber(
+      "splitBill"
+    );
 
-  const each = bill / people;
+  const people =
+    Math.max(
+      1,
+      Math.round(
+        safePositiveNumber(
+          "splitPeople"
+        )
+      )
+    );
+
+  const each =
+    bill / people;
 
   $("splitResult").innerHTML = `
+
     <div class="result">
-      <div class="big-number">${each.toLocaleString(undefined,{maximumFractionDigits:2})}</div>
-      <p>per person</p>
+
+      <div class="big-number">
+        ${each.toLocaleString(
+          undefined,
+          {
+            maximumFractionDigits:2
+          }
+        )}
+      </div>
+
+      <p>
+        per person
+      </p>
+
     </div>
+
   `;
+
 }
 
 function calculateSavings() {
 
-  const goal = num("saveGoal");
-  const monthly = num("saveMonthly");
+  const goal =
+    safePositiveNumber(
+      "saveGoal"
+    );
+
+  const monthly =
+    safePositiveNumber(
+      "saveMonthly"
+    );
 
   if (monthly <= 0) {
+
     $("saveResult").innerHTML =
-      `<div class="result">Enter a monthly savings amount.</div>`;
+      `<div class="result">
+        Enter a monthly savings amount.
+      </div>`;
+
     return;
+
   }
 
-  const months = Math.ceil(goal / monthly);
+  const months =
+    Math.ceil(
+      goal / monthly
+    );
 
   $("saveResult").innerHTML = `
+
     <div class="result">
-      <div class="big-number">${months}</div>
-      <p>months at ${monthly.toLocaleString()} per month to reach ${goal.toLocaleString()}.</p>
+
+      <div class="big-number">
+        ${months}
+      </div>
+
+      <p>
+        months at
+        ${monthly.toLocaleString()}
+        per month to reach
+        ${goal.toLocaleString()}.
+      </p>
+
     </div>
+
   `;
+
 }
 
 function calculateDebt() {
 
-  const balance = num("debtBalance");
-  const monthly = num("debtMonthly");
+  const balance =
+    safePositiveNumber(
+      "debtBalance"
+    );
+
+  const monthly =
+    safePositiveNumber(
+      "debtMonthly"
+    );
 
   if (monthly <= 0) {
+
     $("debtResult").innerHTML =
-      `<div class="result">Enter a monthly payment.</div>`;
+      `<div class="result">
+        Enter a monthly payment.
+      </div>`;
+
     return;
+
   }
 
-  const months = Math.ceil(balance / monthly);
+  const months =
+    Math.ceil(
+      balance / monthly
+    );
 
   $("debtResult").innerHTML = `
+
     <div class="result">
-      <div class="big-number">${months}</div>
-      <p>estimated months at the entered payment, before interest and fees.</p>
+
+      <div class="big-number">
+        ${months}
+      </div>
+
+      <p>
+        estimated months at the entered payment,
+        before interest and fees.
+      </p>
+
     </div>
+
   `;
+
 }
 
 function calculateBasic() {
 
-  const expression = $("basicExpression").value.trim();
+  const expression =
+    $("basicExpression")
+      .value
+      .trim();
 
-  if (!expression) return;
+  if (!expression) {
 
-  if (!/^[0-9+\-*/().%\s]+$/.test(expression)) {
     $("basicResult").innerHTML =
-      `<div class="result">Please use simple arithmetic only.</div>`;
+      `<div class="result">
+        Enter a simple arithmetic expression.
+      </div>`;
+
     return;
+
+  }
+
+  /*
+    Only permit numbers, spaces and basic operators.
+    This keeps the calculator intentionally limited.
+  */
+
+  if (
+    !/^[0-9+\-*/().%\s]+$/
+      .test(expression)
+  ) {
+
+    $("basicResult").innerHTML =
+      `<div class="result">
+        Please use simple arithmetic only.
+      </div>`;
+
+    return;
+
   }
 
   try {
 
-    const result = Function(
-      `"use strict"; return (${expression})`
-    )();
+    const result =
+      Function(
+        `"use strict"; return (${expression})`
+      )();
 
-    if (!Number.isFinite(result)) throw new Error();
+    if (
+      !Number.isFinite(result)
+    ) {
+      throw new Error();
+    }
 
-    $("basicResult").innerHTML =
-      `<div class="result"><div class="big-number">${result}</div></div>`;
+    $("basicResult").innerHTML = `
+
+      <div class="result">
+
+        <div class="big-number">
+          ${result}
+        </div>
+
+      </div>
+
+    `;
 
   } catch {
+
     $("basicResult").innerHTML =
-      `<div class="result">I couldn't calculate that expression.</div>`;
+      `<div class="result">
+        I couldn't calculate that expression.
+      </div>`;
+
   }
+
 }
+
 
 /* =========================================================
    GLOBAL CURRENCY CONVERTER
@@ -2385,7 +4403,9 @@ async function convertGlobalCurrency() {
     $("globalToCurrency").value;
 
   const amount =
-    parseFloat($("globalCurrencyAmount").value);
+    parseFloat(
+      $("globalCurrencyAmount").value
+    );
 
   const status =
     $("globalCurrencyStatus");
@@ -2395,46 +4415,72 @@ async function convertGlobalCurrency() {
 
   resultBox.innerHTML = "";
 
-  if (!Number.isFinite(amount) || amount < 0) {
+  if (
+    !Number.isFinite(amount) ||
+    amount < 0
+  ) {
 
-    status.className = "converter-status error";
+    status.className =
+      "converter-status error";
 
     status.textContent =
       "Enter a valid amount.";
 
     return;
+
   }
 
   if (from === to) {
 
-    status.className = "converter-status";
+    status.className =
+      "converter-status";
 
     status.textContent =
       "Same currency selected. No exchange-rate lookup is needed.";
 
     resultBox.innerHTML = `
+
       <div class="converter-result">
+
         <div class="conversion-line">
-          ${amount.toLocaleString(undefined,{maximumFractionDigits:2})} ${from}
+
+          ${amount.toLocaleString(
+            undefined,
+            {
+              maximumFractionDigits:2
+            }
+          )}
+          ${from}
+
         </div>
 
         <div class="converted-value">
-          ${formatCurrencyValue(amount,to)}
+          ${formatCurrencyValue(
+            amount,
+            to
+          )}
         </div>
 
         <div class="converter-rate">
-          Exchange rate: 1 ${from} = 1 ${to}
+          Exchange rate:
+          1 ${from} = 1 ${to}
         </div>
+
       </div>
+
     `;
 
-    trackEvent("global_currency_conversion", {
-      from_currency: from,
-      to_currency: to,
-      same_currency: true
-    });
+    trackEvent(
+      "global_currency_conversion",
+      {
+        from_currency: from,
+        to_currency: to,
+        same_currency: true
+      }
+    );
 
     return;
+
   }
 
   status.className =
@@ -2449,25 +4495,40 @@ async function convertGlobalCurrency() {
       `${FX_API_BASE}/latest?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
 
     const response =
-      await fetch(url, {
-        method: "GET",
-        headers: {
-          "Accept": "application/json"
+      await fetch(
+        url,
+        {
+          method: "GET",
+          headers: {
+            "Accept":
+              "application/json"
+          }
         }
-      });
+      );
 
     if (!response.ok) {
-      throw new Error("Exchange-rate request failed.");
+      throw new Error(
+        "Exchange-rate request failed."
+      );
     }
 
     const data =
       await response.json();
 
     const rate =
-      Number(data?.rates?.[to]);
+      Number(
+        data?.rates?.[to]
+      );
 
-    if (!Number.isFinite(rate) || rate <= 0) {
-      throw new Error("No valid exchange rate was returned.");
+    if (
+      !Number.isFinite(rate) ||
+      rate <= 0
+    ) {
+
+      throw new Error(
+        "No valid exchange rate was returned."
+      );
+
     }
 
     const converted =
@@ -2485,18 +4546,33 @@ async function convertGlobalCurrency() {
       "Conversion completed.";
 
     resultBox.innerHTML = `
+
       <div class="converter-result">
 
         <div class="conversion-line">
-          ${amount.toLocaleString(undefined,{maximumFractionDigits:2})} ${from}
+
+          ${amount.toLocaleString(
+            undefined,
+            {
+              maximumFractionDigits:2
+            }
+          )}
+          ${from}
+
         </div>
 
         <div class="converted-value">
-          ${formatCurrencyValue(converted,to)}
+          ${formatCurrencyValue(
+            converted,
+            to
+          )}
         </div>
 
         <div class="converter-rate">
-          1 ${from} = ${formatRate(rate)} ${to}
+          1 ${from}
+          =
+          ${formatRate(rate)}
+          ${to}
         </div>
 
         <div class="converter-rate">
@@ -2504,14 +4580,18 @@ async function convertGlobalCurrency() {
         </div>
 
       </div>
+
     `;
 
-    trackEvent("global_currency_conversion", {
-      from_currency: from,
-      to_currency: to
-    });
+    trackEvent(
+      "global_currency_conversion",
+      {
+        from_currency: from,
+        to_currency: to
+      }
+    );
 
-  } catch (error) {
+  } catch {
 
     status.className =
       "converter-status error";
@@ -2520,59 +4600,101 @@ async function convertGlobalCurrency() {
       "I couldn't retrieve the exchange rate right now.";
 
     resultBox.innerHTML = `
+
       <div class="result">
-        <strong>Exchange rate unavailable</strong>
+
+        <strong>
+          Exchange rate unavailable
+        </strong>
+
         <p>
-          Please try again in a moment. No estimated or invented rate
-          has been used.
+          Please try again in a moment.
+          No estimated or invented rate has been used.
         </p>
+
       </div>
+
     `;
+
   }
+
 }
 
-function formatCurrencyValue(value, currency) {
+function formatCurrencyValue(
+  value,
+  currency
+) {
 
   try {
 
-    return new Intl.NumberFormat(undefined, {
-      style: "currency",
-      currency,
-      maximumFractionDigits:
-        ["JPY","KRW"].includes(currency) ? 0 : 2
-    }).format(value);
+    return new Intl.NumberFormat(
+      undefined,
+      {
+        style: "currency",
+        currency,
+        maximumFractionDigits:
+          ["JPY","KRW"]
+            .includes(currency)
+            ? 0
+            : 2
+      }
+    ).format(value);
 
   } catch {
 
-    return `${currency} ${Number(value).toLocaleString(undefined,{
-      maximumFractionDigits:2
-    })}`;
+    return `${currency} ${
+      Number(value).toLocaleString(
+        undefined,
+        {
+          maximumFractionDigits:2
+        }
+      )
+    }`;
+
   }
+
 }
 
 function formatRate(rate) {
 
-  return Number(rate).toLocaleString(undefined,{
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 6
-  });
+  return Number(rate)
+    .toLocaleString(
+      undefined,
+      {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 6
+      }
+    );
+
 }
 
 function resetGlobalCurrencyConverter() {
 
-  $("globalFromCurrency").value = "PHP";
-  $("globalToCurrency").value = "USD";
-  $("globalCurrencyAmount").value = "1000";
+  $("globalFromCurrency").value =
+    "PHP";
 
-  $("globalCurrencyStatus").className =
-    "converter-status";
+  $("globalToCurrency").value =
+    "USD";
 
-  $("globalCurrencyStatus").textContent = "";
+  $("globalCurrencyAmount").value =
+    "1000";
 
-  $("globalCurrencyResult").innerHTML = "";
+  $("globalCurrencyStatus")
+    .className =
+      "converter-status";
 
-  showToast("Currency converter reset.");
+  $("globalCurrencyStatus")
+    .textContent = "";
+
+  $("globalCurrencyResult")
+    .innerHTML = "";
+
+  showToast(
+    "Currency converter reset."
+  );
+
 }
+
 
 /* =========================================================
    CO-PILOT
@@ -2580,92 +4702,152 @@ function resetGlobalCurrencyConverter() {
 
 function submitCopilot() {
 
-  const question = $("copilotQuestion").value.trim();
+  const question =
+    $("copilotQuestion")
+      .value
+      .trim();
 
-  if (!question) return;
+  if (!question) {
 
-  askCopilot(question);
+    $("copilotQuestion")
+      .focus();
 
-  $("copilotQuestion").value = "";
+    return;
+
+  }
+
+  askCopilot(
+    question
+  );
+
+  $("copilotQuestion")
+    .value = "";
+
 }
 
 function askCopilot(question) {
 
-  const q = question.toLowerCase();
+  const q =
+    question.toLowerCase();
 
   let answer = "";
 
   if (
     q.includes("flexible") &&
-    (q.includes("spending") || q.includes("expense"))
+    (
+      q.includes("spending") ||
+      q.includes("expense")
+    )
   ) {
 
     answer = `
-      <strong>Flexible spending</strong>
+
+      <strong>
+        Flexible spending
+      </strong>
+
       <p>
-        Flexible spending is money that isn't usually required for
-        basic needs. Examples can include eating out, entertainment,
-        shopping or optional subscriptions.
+        Flexible spending is money that isn't usually required
+        for basic needs. Examples can include eating out,
+        entertainment, shopping or optional subscriptions.
       </p>
+
       <p>
-        It doesn't mean those things are bad. It simply helps separate
-        them from expenses that are harder to change.
+        It doesn't mean those things are bad.
+        It simply helps separate them from expenses
+        that may be harder to change.
       </p>
+
     `;
 
-  } else if (q.includes("grocery")) {
+  } else if (
+    q.includes("grocery")
+  ) {
 
     answer = `
-      <strong>Using Grocery Map</strong>
+
+      <strong>
+        Using Grocery Map
+      </strong>
+
       <p>
-        Add each item, quantity and estimated price. You can choose a
-        category, mark items as purchased and set a grocery budget.
+        Add each item, quantity and estimated price.
+        You can choose a category, mark items as purchased
+        and set a grocery budget.
       </p>
+
       <p>
-        The map then shows your running total and remaining budget.
+        The map then shows your running total
+        and remaining budget.
       </p>
+
     `;
 
-  } else if (q.includes("saving")) {
+  } else if (
+    q.includes("saving")
+  ) {
 
     answer = `
-      <strong>Savings Calculator</strong>
+
+      <strong>
+        Savings Calculator
+      </strong>
+
       <p>
-        Enter your savings goal and the amount you expect to save each
-        month. The calculator estimates how many months it could take.
+        Enter your savings goal and the amount you expect
+        to save each month. The calculator estimates
+        how many months it could take.
       </p>
+
       <p>
-        It's a simple estimate and doesn't account for interest or
-        investment returns.
+        It's a simple estimate and doesn't account
+        for interest or investment returns.
       </p>
+
     `;
 
-  } else if (q.includes("discount")) {
+  } else if (
+    q.includes("discount")
+  ) {
 
     answer = `
-      <strong>Discount Calculator</strong>
+
+      <strong>
+        Discount Calculator
+      </strong>
+
       <p>
         Enter the original price and discount percentage.
         I'll show the amount saved and the estimated final price.
       </p>
+
     `;
 
   } else if (
     q.includes("money map") ||
     q.includes("how do i start") ||
-    q.includes("start")
+    q === "start"
   ) {
 
     answer = `
-      <strong>Start with your Money Map</strong>
+
+      <strong>
+        Start with your Money Map
+      </strong>
+
       <p>
-        Enter your monthly income, essential expenses, debt payments,
-        savings and flexible spending.
+        Enter your monthly income, essential expenses,
+        debt payments, savings and flexible spending.
       </p>
+
       <p>
-        Then select <strong>Map My Month</strong>. You'll get a simple
-        picture of what remains.
+        Then select
+        <strong>
+          Map My Month
+        </strong>.
+        You'll get a simple picture of what remains.
       </p>
+
     `;
 
   } else if (
@@ -2674,15 +4856,22 @@ function askCopilot(question) {
   ) {
 
     answer = `
-      <strong>Currency Calculator</strong>
+
+      <strong>
+        Currency Calculator
+      </strong>
+
       <p>
-        The Currency Calculator lets you enter your own exchange rate.
-        The separate Global Currency Converter can retrieve the latest
-        available reference rate.
+        The Currency Calculator lets you enter your own
+        exchange rate. The separate Global Currency Converter
+        can retrieve the latest available reference rate.
       </p>
+
       <p>
-        Exchange rates can vary between providers and can change over time.
+        Exchange rates can vary between providers
+        and can change over time.
       </p>
+
     `;
 
   } else if (
@@ -2690,52 +4879,90 @@ function askCopilot(question) {
   ) {
 
     answer = `
-      <strong>What If?</strong>
+
+      <strong>
+        What If?
+      </strong>
+
       <p>
-        This section lets you test hypothetical changes such as saving
-        a little more, reducing groceries or increasing income.
+        This section lets you test hypothetical changes
+        such as saving a little more, reducing groceries
+        or increasing income.
       </p>
+
       <p>
-        It shows the mathematical effect without telling you what decision
-        you should make.
+        It shows the mathematical effect without telling you
+        what decision you should make.
       </p>
+
     `;
 
   } else {
 
     answer = `
-      <strong>Let's keep it simple. 🌱</strong>
+
+      <strong>
+        Let's keep it simple. 🌱
+      </strong>
+
       <p>
-        I can currently help with Money Map, Grocery Map, the built-in
-        calculators, savings concepts, discounts, currency calculations
-        and the What If tool.
+        I can currently help with Money Map, Grocery Map,
+        the built-in calculators, savings concepts,
+        discounts, currency calculations and the What If tool.
       </p>
+
       <p>
-        I don't reliably answer complex personal financial questions yet.
+        I don't reliably answer complex personal financial
+        questions yet.
       </p>
+
     `;
+
   }
 
   $("copilotAnswer").innerHTML =
     `<div class="chat-answer">${answer}</div>`;
 
-  trackEvent("copilot_question_submitted", {
-    topic: detectTopic(q)
-  });
+  trackEvent(
+    "copilot_question_submitted",
+    {
+      topic:
+        detectTopic(q)
+    }
+  );
+
 }
 
 function detectTopic(q) {
 
-  if (q.includes("grocery")) return "grocery";
-  if (q.includes("saving")) return "savings";
-  if (q.includes("discount")) return "discount";
-  if (q.includes("currency")) return "currency";
-  if (q.includes("debt")) return "debt";
-  if (q.includes("budget")) return "budget";
-  if (q.includes("what if")) return "what_if";
+  if (q.includes("grocery"))
+    return "grocery";
+
+  if (q.includes("saving"))
+    return "savings";
+
+  if (q.includes("discount"))
+    return "discount";
+
+  if (
+    q.includes("currency") ||
+    q.includes("exchange")
+  )
+    return "currency";
+
+  if (q.includes("debt"))
+    return "debt";
+
+  if (q.includes("budget"))
+    return "budget";
+
+  if (q.includes("what if"))
+    return "what_if";
 
   return "general";
+
 }
+
 
 /* =========================================================
    MONEY BUDDY
@@ -2743,39 +4970,70 @@ function detectTopic(q) {
 
 function generateMoneyBuddyTip() {
 
-  const map = lastMoneyMap || loadJSON(STORAGE.money,null);
+  const map =
+    lastMoneyMap ||
+    loadJSON(
+      STORAGE.money,
+      null
+    );
 
-  if (!map || !map.income) {
+  if (
+    !map ||
+    !map.income
+  ) {
 
     $("buddyTip").innerHTML = `
-      <strong>Let's map your month first. 🌱</strong>
+
+      <strong>
+        Let's map your month first. 🌱
+      </strong>
+
       <p>
         Once you have some numbers in your Money Map,
         I can look for a gentle next step.
       </p>
+
     `;
 
     return;
+
   }
 
   const groceryTotal =
     groceryItems.reduce(
-      (sum,item) => sum + item.price * item.quantity,
+      (sum,item) =>
+        sum +
+        (
+          Number(item.price) *
+          Number(item.quantity)
+        ),
       0
     );
 
-  const groceryBudget = num("groceryBudget");
+  const groceryBudget =
+    safePositiveNumber(
+      "groceryBudget"
+    );
 
-  let tips = [];
+  let tip = "";
 
-  if (groceryBudget > 0 && groceryTotal > groceryBudget) {
+  if (
+    groceryBudget > 0 &&
+    groceryTotal > groceryBudget
+  ) {
 
-    tips.push(`
+    tip = `
+
       Your grocery map is currently
-      ${money(groceryTotal - groceryBudget,map.currency)}
-      above the budget you entered. You could review a few
-      nonessential items or compare prices before the next shop.
-    `);
+      ${money(
+        groceryTotal - groceryBudget,
+        map.currency
+      )}
+      above the budget you entered.
+      You could review a few nonessential items
+      or compare prices before the next shop.
+
+    `;
 
   } else if (
     groceryBudget > 0 &&
@@ -2783,62 +5041,102 @@ function generateMoneyBuddyTip() {
     groceryTotal < groceryBudget
   ) {
 
-    tips.push(`
+    tip = `
+
       Your grocery total is currently below your budget.
-      You could keep the difference as breathing room rather than
-      automatically spending it.
-    `);
+      You could keep the difference as breathing room
+      rather than automatically spending it.
 
-  } else if (map.remaining < 0) {
+    `;
 
-    tips.push(`
+  } else if (
+    map.remaining < 0
+  ) {
+
+    tip = `
+
       Your current map is above income.
-      Instead of changing everything at once, look for one flexible
-      category that could be reviewed first.
-    `);
+      Instead of changing everything at once,
+      look for one flexible category that could
+      be reviewed first.
 
-  } else if (map.savingsPct < 5) {
+    `;
 
-    tips.push(`
+  } else if (
+    map.savingsPct < 5
+  ) {
+
+    tip = `
+
       Your current savings entry is under 5% of income.
-      If saving is one of your goals, even a small consistent amount
-      may be easier to maintain than a large target.
-    `);
+      If saving is one of your goals, even a small
+      consistent amount may be easier to maintain
+      than a large target.
 
-  } else if (map.flexiblePct > 25) {
+    `;
 
-    tips.push(`
+  } else if (
+    map.flexiblePct > 25
+  ) {
+
+    tip = `
+
       Flexible spending is currently around
       ${map.flexiblePct.toFixed(1)}% of income.
-      If you want more breathing room, consider reviewing one flexible
-      category rather than trying to cut everything.
-    `);
+      If you want more breathing room, consider reviewing
+      one flexible category rather than trying to cut everything.
 
-  } else if (map.remaining > 0) {
+    `;
 
-    tips.push(`
-      You currently have ${money(map.remaining,map.currency)}
+  } else if (
+    map.remaining > 0
+  ) {
+
+    tip = `
+
+      You currently have
+      ${money(
+        map.remaining,
+        map.currency
+      )}
       left after the amounts you entered.
-      That could become breathing room, savings, a goal contribution
-      or simply remain unassigned until you know what you need.
-    `);
+      That could become breathing room, savings,
+      a goal contribution or simply remain unassigned
+      until you know what you need.
+
+    `;
 
   } else {
 
-    tips.push(`
+    tip = `
+
       Your map gives you a starting picture.
       You don't need to solve everything today.
-      One small, clear adjustment can be enough for the next step.
-    `);
+      One small, clear adjustment can be enough
+      for the next step.
+
+    `;
+
   }
 
   $("buddyTip").innerHTML = `
-    <strong>One thought for you 🌱</strong>
-    <p>${tips[0]}</p>
+
+    <strong>
+      One thought for you 🌱
+    </strong>
+
+    <p>
+      ${tip}
+    </p>
+
   `;
 
-  trackEvent("money_buddy_tip_generated");
+  trackEvent(
+    "money_buddy_tip_generated"
+  );
+
 }
+
 
 /* =========================================================
    WHAT IF
@@ -2846,26 +5144,60 @@ function generateMoneyBuddyTip() {
 
 function runWhatIf() {
 
-  const map = lastMoneyMap || loadJSON(STORAGE.money,null);
+  const map =
+    lastMoneyMap ||
+    loadJSON(
+      STORAGE.money,
+      null
+    );
 
-  if (!map || !map.income) {
+  if (
+    !map ||
+    !map.income
+  ) {
 
     $("whatIfResult").innerHTML = `
+
       <div class="result">
-        Map your current month first so we have a starting point.
+
+        Map your current month first
+        so we have a starting point.
+
       </div>
+
     `;
 
     return;
+
   }
 
-  const extraSavings = num("whatSave");
-  const groceryReduction = num("whatGrocery");
-  const flexibleReduction = num("whatFlexible");
-  const incomeIncrease = num("whatIncome");
-  const extraDebt = num("whatDebt");
+  const extraSavings =
+    safePositiveNumber(
+      "whatSave"
+    );
 
-  const currentRemaining = map.remaining;
+  const groceryReduction =
+    safePositiveNumber(
+      "whatGrocery"
+    );
+
+  const flexibleReduction =
+    safePositiveNumber(
+      "whatFlexible"
+    );
+
+  const incomeIncrease =
+    safePositiveNumber(
+      "whatIncome"
+    );
+
+  const extraDebt =
+    safePositiveNumber(
+      "whatDebt"
+    );
+
+  const currentRemaining =
+    map.remaining;
 
   const hypotheticalRemaining =
     currentRemaining +
@@ -2875,41 +5207,73 @@ function runWhatIf() {
     extraSavings -
     extraDebt;
 
+  const difference =
+    hypotheticalRemaining -
+    currentRemaining;
+
   $("whatIfResult").innerHTML = `
+
     <div class="result">
 
       <div class="grid grid-2">
 
         <div>
-          <div class="muted">Current remaining</div>
-          <div class="big-number">
-            ${money(currentRemaining,map.currency)}
+
+          <div class="muted">
+            Current remaining
           </div>
+
+          <div class="big-number">
+            ${money(
+              currentRemaining,
+              map.currency
+            )}
+          </div>
+
         </div>
 
         <div>
-          <div class="muted">Hypothetical remaining</div>
-          <div class="big-number">
-            ${money(hypotheticalRemaining,map.currency)}
+
+          <div class="muted">
+            Hypothetical remaining
           </div>
+
+          <div class="big-number">
+            ${money(
+              hypotheticalRemaining,
+              map.currency
+            )}
+          </div>
+
         </div>
 
       </div>
 
-      <hr style="border:0;border-top:1px solid rgba(28,28,28,.1);margin:20px 0;">
+      <hr class="soft-rule">
 
       <p>
+
         Difference:
+
         <strong>
-          ${money(hypotheticalRemaining-currentRemaining,map.currency)}
+          ${money(
+            difference,
+            map.currency
+          )}
         </strong>
+
       </p>
 
     </div>
+
   `;
 
-  trackEvent("what_if_used");
+  trackEvent(
+    "what_if_used"
+  );
+
 }
+
 
 /* =========================================================
    WELLNESS
@@ -2919,7 +5283,8 @@ function saveWellness() {
 
   const data = {
 
-    date: new Date().toISOString(),
+    date:
+      new Date().toISOString(),
 
     sleep:
       $("sleepCheck").checked,
@@ -2943,11 +5308,16 @@ function saveWellness() {
       $("energy").value,
 
     notes:
-      $("wellnessNotes").value.trim()
+      $("wellnessNotes")
+        .value
+        .trim()
 
   };
 
-  saveJSON(STORAGE.wellness,data);
+  saveJSON(
+    STORAGE.wellness,
+    data
+  );
 
   const completed =
     [
@@ -2956,29 +5326,50 @@ function saveWellness() {
       data.movement,
       data.personal,
       data.healthyHabit
-    ].filter(Boolean).length;
+    ]
+    .filter(Boolean)
+    .length;
 
   $("wellnessResult").innerHTML = `
+
     <div class="result">
-      <strong>${completed}/5 habits checked today. 🌱</strong>
+
+      <strong>
+        ${completed}/5 habits checked today. 🌱
+      </strong>
+
       <p>
         Small consistency matters more than perfection.
       </p>
+
     </div>
+
   `;
 
-  trackEvent("wellness_checkin", {
-    feature: "wellness"
-  });
+  trackEvent(
+    "wellness_checkin",
+    {
+      feature: "wellness"
+    }
+  );
 
-  showToast("Wellness check-in saved.");
+  showToast(
+    "Wellness check-in saved."
+  );
+
 }
 
 function clearWellness() {
 
-  if (!confirm("Clear today's wellness check-in?")) return;
+  if (
+    !confirm(
+      "Clear today's wellness check-in?"
+    )
+  ) return;
 
-  localStorage.removeItem(STORAGE.wellness);
+  localStorage.removeItem(
+    STORAGE.wellness
+  );
 
   [
     "sleepCheck",
@@ -2986,16 +5377,27 @@ function clearWellness() {
     "movementCheck",
     "personalCheck",
     "habitCheck"
-  ].forEach(id => $(id).checked = false);
+  ].forEach(id => {
+
+    $(id).checked = false;
+
+  });
 
   $("mood").value = "";
+
   $("energy").value = "";
+
   $("wellnessNotes").value = "";
 
-  $("wellnessResult").innerHTML = "";
+  $("wellnessResult")
+    .innerHTML = "";
 
-  showToast("Wellness check-in cleared.");
+  showToast(
+    "Wellness check-in cleared."
+  );
+
 }
+
 
 /* =========================================================
    HISTORY
@@ -3003,143 +5405,190 @@ function clearWellness() {
 
 function renderHistory() {
 
-  const history = loadJSON(STORAGE.history, []);
+  const history =
+    loadJSON(
+      STORAGE.history,
+      []
+    );
 
   if (!history.length) {
 
     $("historyList").innerHTML = `
+
       <p class="muted">
-        No saved months yet. Save your first Money Map when you're ready.
+        No saved months yet.
+        Save your first Money Map when you're ready.
       </p>
+
     `;
 
     return;
+
   }
 
   $("historyList").innerHTML =
-    history.map((item,index) => `
+    history.map(
+      (item,index) => `
 
-      <div class="history-item">
+        <div class="history-item">
 
-        <strong>
-          ${escapeHTML(item.month || "Saved month")}
-        </strong>
+          <strong>
+            ${escapeHTML(
+              item.month ||
+              "Saved month"
+            )}
+          </strong>
 
-        <div class="muted">
-          ${item.currency} · Income ${money(item.income,item.currency)}
+          <div class="muted">
+
+            ${escapeHTML(
+              item.currency || "PHP"
+            )}
+
+            · Income
+
+            ${money(
+              item.income,
+              item.currency || "PHP"
+            )}
+
+          </div>
+
+          <p>
+
+            Remaining:
+
+            <strong>
+              ${money(
+                item.remaining,
+                item.currency || "PHP"
+              )}
+            </strong>
+
+          </p>
+
+          ${
+            item.goal
+              ? `
+                <p class="muted">
+                  Goal:
+                  ${escapeHTML(item.goal)}
+                </p>
+              `
+              : ""
+          }
+
+          <button
+            class="btn btn-danger"
+            onclick="deleteHistory(${index})">
+            Delete
+          </button>
+
         </div>
 
-        <p>
-          Remaining:
-          <strong>
-            ${money(item.remaining,item.currency)}
-          </strong>
-        </p>
+      `
+    ).join("");
 
-        ${
-          item.goal
-          ? `<p class="muted">Goal: ${escapeHTML(item.goal)}</p>`
-          : ""
-        }
-
-        <button
-          class="btn btn-danger"
-          onclick="deleteHistory(${index})">
-          Delete
-        </button>
-
-      </div>
-
-    `).join("");
-
-  trackEvent("history_viewed");
 }
 
 function deleteHistory(index) {
 
-  const history = loadJSON(STORAGE.history, []);
+  const history =
+    loadJSON(
+      STORAGE.history,
+      []
+    );
 
-  history.splice(index,1);
+  history.splice(
+    index,
+    1
+  );
 
-  saveJSON(STORAGE.history,history);
+  saveJSON(
+    STORAGE.history,
+    history
+  );
 
   renderHistory();
+
+  showToast(
+    "Saved month deleted."
+  );
+
 }
 
+
 /* =========================================================
-   PDF / SHARE / EMAIL
+   PRINT / PDF / SHARE / EMAIL
 ========================================================= */
 
 function downloadMoneyMap() {
 
   const map =
     lastMoneyMap ||
-    loadJSON(STORAGE.money,null);
+    loadJSON(
+      STORAGE.money,
+      null
+    );
 
   if (!map) {
-    showToast("Map your month first.");
+
+    showToast(
+      "Map your month first."
+    );
+
     return;
+
   }
 
-  const text = `
-RESET & GROW
-Your Money, Your Next Move
+  const groceryTotal =
+    groceryItems.reduce(
+      (sum,item) =>
+        sum +
+        (
+          Number(item.price) *
+          Number(item.quantity)
+        ),
+      0
+    );
 
-${map.month}
-Currency: ${map.currency}
+  const originalTitle =
+    document.title;
 
-Income: ${money(map.income,map.currency)}
-Essentials: ${money(map.essentials,map.currency)}
-Debt payments: ${money(map.debt,map.currency)}
-Savings: ${money(map.savings,map.currency)}
-Flexible spending: ${money(map.flexible,map.currency)}
+  document.title =
+    `Reset & Grow — ${map.month}`;
 
-Total outflow: ${money(map.totalOutflow,map.currency)}
-Remaining: ${money(map.remaining,map.currency)}
+  const cleanup =
+    () => {
 
-Savings rate: ${map.savingsPct.toFixed(1)}%
+      document.title =
+        originalTitle;
 
-Goal:
-${map.goal || "No goal entered"}
+      window.removeEventListener(
+        "afterprint",
+        cleanup
+      );
 
-Notes:
-${map.notes || "No notes entered"}
+    };
 
-Grocery total:
-${money(
-  groceryItems.reduce((sum,item)=>sum + item.price*item.quantity,0),
-  map.currency
-)}
+  window.addEventListener(
+    "afterprint",
+    cleanup
+  );
 
----
+  trackEvent(
+    "pdf_print_opened"
+  );
 
-Powered by Cathiesnest Digital
+  showToast(
+    "Choose Save as PDF in the print window."
+  );
 
-Educational organization tool.
-Not financial, investment, tax, legal or professional advice.
-`;
+  setTimeout(
+    () => window.print(),
+    150
+  );
 
-  const blob =
-    new Blob([text],{type:"text/plain"});
-
-  const url =
-    URL.createObjectURL(blob);
-
-  const a =
-    document.createElement("a");
-
-  a.href = url;
-
-  a.download =
-    `Financial-Money-Map-${map.month.replace(/\s+/g,"-")}.txt`;
-
-  a.click();
-
-  URL.revokeObjectURL(url);
-
-  trackEvent("pdf_downloaded");
-
-  showToast("Your Money Map file is ready.");
 }
 
 async function shareMoneyMap() {
@@ -3147,73 +5596,125 @@ async function shareMoneyMap() {
   const shareText =
     "I mapped my month with Reset & Grow 🌱 Small steps. Clearer direction.";
 
-  trackEvent("share", {
-    feature: "money_map",
-    share_method: navigator.share ? "web_share" : "copy"
-  });
+  trackEvent(
+    "share",
+    {
+      feature: "money_map",
+      share_method:
+        navigator.share
+          ? "web_share"
+          : "copy"
+    }
+  );
 
-  if (navigator.share) {
+  if (
+    navigator.share
+  ) {
 
     try {
 
       await navigator.share({
-        title: "Reset & Grow",
-        text: shareText,
-        url: location.href
+
+        title:
+          "Reset & Grow",
+
+        text:
+          shareText,
+
+        url:
+          location.href
+
       });
 
       return;
 
     } catch {}
+
   }
 
   try {
 
-    await navigator.clipboard.writeText(shareText);
+    await navigator.clipboard.writeText(
+      shareText
+    );
 
-    showToast("Share message copied.");
+    showToast(
+      "Share message copied."
+    );
 
   } catch {
 
-    showToast(shareText);
+    showToast(
+      shareText
+    );
+
   }
+
 }
 
 function emailMoneyMap() {
 
   const map =
     lastMoneyMap ||
-    loadJSON(STORAGE.money,null);
+    loadJSON(
+      STORAGE.money,
+      null
+    );
 
   if (!map) {
-    showToast("Map your month first.");
+
+    showToast(
+      "Map your month first."
+    );
+
     return;
+
   }
 
   const subject =
-    encodeURIComponent(`My Reset & Grow Money Map — ${map.month}`);
+    encodeURIComponent(
+      `My Reset & Grow Money Map — ${map.month}`
+    );
 
   const body =
     encodeURIComponent(`
+
 My Reset & Grow Money Map
 
-Income: ${money(map.income,map.currency)}
-Essentials: ${money(map.essentials,map.currency)}
-Debt payments: ${money(map.debt,map.currency)}
-Savings: ${money(map.savings,map.currency)}
-Flexible spending: ${money(map.flexible,map.currency)}
-Remaining: ${money(map.remaining,map.currency)}
+Income:
+${money(map.income,map.currency)}
 
-Goal: ${map.goal || "None"}
+Essentials:
+${money(map.essentials,map.currency)}
+
+Debt payments:
+${money(map.debt,map.currency)}
+
+Savings:
+${money(map.savings,map.currency)}
+
+Flexible spending:
+${money(map.flexible,map.currency)}
+
+Remaining:
+${money(map.remaining,map.currency)}
+
+Goal:
+${map.goal || "None"}
 
 Small steps. Clearer direction. 🌱
-`);
+
+    `);
 
   window.location.href =
     `mailto:?subject=${subject}&body=${body}`;
 
-  trackEvent("money_map_emailed");
+  trackEvent(
+    "money_map_emailed"
+  );
+
 }
+
 
 /* =========================================================
    ALISON
@@ -3221,29 +5722,44 @@ Small steps. Clearer direction. 🌱
 
 function openAlison() {
 
-  trackEvent("alison_click", {
-    source: "financial_money_map",
-    placement: "grow_your_map",
-    learning_category: "personal_development"
-  });
+  trackEvent(
+    "alison_click",
+    {
+      source:
+        "financial_money_map",
+
+      placement:
+        "grow_your_map",
+
+      learning_category:
+        "personal_development"
+    }
+  );
 
   window.open(
     ALISON_AFFILIATE_URL,
     "_blank",
     "noopener,noreferrer"
   );
+
 }
 
 function selectLearning(category) {
 
-  trackEvent("learning_category_selected", {
-    learning_category: category
-  });
+  trackEvent(
+    "learning_category_selected",
+    {
+      learning_category:
+        category
+    }
+  );
 
   showToast(
     `${category} learning path selected. 🌱`
   );
+
 }
+
 
 /* =========================================================
    DATA / PRIVACY
@@ -3258,14 +5774,21 @@ function clearAllData() {
 
   if (!confirmed) return;
 
-  Object.values(STORAGE)
-    .forEach(key => localStorage.removeItem(key));
+  Object.values(
+    STORAGE
+  ).forEach(
+    key =>
+      localStorage.removeItem(key)
+  );
 
   groceryItems = [];
+
   lastMoneyMap = null;
 
   location.reload();
+
 }
+
 
 /* =========================================================
    SECURITY
@@ -3274,72 +5797,166 @@ function clearAllData() {
 function escapeHTML(value) {
 
   return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
 }
+
+
+/* =========================================================
+   RESTORE MONEY MAP
+========================================================= */
+
+function restoreMoneyMap() {
+
+  const map =
+    loadJSON(
+      STORAGE.money,
+      null
+    );
+
+  if (!map) return;
+
+  lastMoneyMap =
+    map;
+
+  $("currency").value =
+    map.currency ||
+    "PHP";
+
+  $("income").value =
+    map.income ?? "";
+
+  $("essentials").value =
+    map.essentials ?? "";
+
+  $("debt").value =
+    map.debt ?? "";
+
+  $("savings").value =
+    map.savings ?? "";
+
+  $("flexible").value =
+    map.flexible ?? "";
+
+  $("monthlyGoal").value =
+    map.goal || "";
+
+  $("moneyNotes").value =
+    map.notes || "";
+
+}
+
+
+/* =========================================================
+   RESTORE WELLNESS
+========================================================= */
+
+function restoreWellness() {
+
+  const data =
+    loadJSON(
+      STORAGE.wellness,
+      null
+    );
+
+  if (!data) return;
+
+  $("sleepCheck").checked =
+    !!data.sleep;
+
+  $("waterCheck").checked =
+    !!data.water;
+
+  $("movementCheck").checked =
+    !!data.movement;
+
+  $("personalCheck").checked =
+    !!data.personal;
+
+  $("habitCheck").checked =
+    !!data.healthyHabit;
+
+  $("mood").value =
+    data.mood || "";
+
+  $("energy").value =
+    data.energy || "";
+
+  $("wellnessNotes").value =
+    data.notes || "";
+
+}
+
 
 /* =========================================================
    INITIALIZE
 ========================================================= */
 
-$("groceryBudget").addEventListener(
-  "input",
-  updateGrocerySummary
-);
-
-$("currency").addEventListener(
-  "change",
-  updateGrocerySummary
-);
-
-function restoreMoneyMap() {
-
-  const map =
-    loadJSON(STORAGE.money,null);
-
-  if (!map) return;
-
-  lastMoneyMap = map;
-
-  $("currency").value = map.currency || "PHP";
-  $("income").value = map.income || "";
-  $("essentials").value = map.essentials || "";
-  $("debt").value = map.debt || "";
-  $("savings").value = map.savings || "";
-  $("flexible").value = map.flexible || "";
-  $("monthlyGoal").value = map.goal || "";
-  $("moneyNotes").value = map.notes || "";
-}
-
-function restoreWellness() {
-
-  const data =
-    loadJSON(STORAGE.wellness,null);
-
-  if (!data) return;
-
-  $("sleepCheck").checked = !!data.sleep;
-  $("waterCheck").checked = !!data.water;
-  $("movementCheck").checked = !!data.movement;
-  $("personalCheck").checked = !!data.personal;
-  $("habitCheck").checked = !!data.healthyHabit;
-
-  $("mood").value = data.mood || "";
-  $("energy").value = data.energy || "";
-  $("wellnessNotes").value = data.notes || "";
-}
-
 function init() {
 
+  const groceryBudget =
+    $("groceryBudget");
+
+  const currency =
+    $("currency");
+
+  if (groceryBudget) {
+
+    groceryBudget.addEventListener(
+      "input",
+      updateGrocerySummary
+    );
+
+  }
+
+  if (currency) {
+
+    currency.addEventListener(
+      "change",
+      () => {
+
+        updateGrocerySummary();
+
+        if (groceryItems.length) {
+          renderGroceries();
+        }
+
+      }
+    );
+
+  }
+
   restoreMoneyMap();
+
   restoreWellness();
+
   renderGroceries();
+
   renderHistory();
 
-  trackEvent("page_view");
+  trackEvent(
+    "reset_grow_opened"
+  );
+
 }
 
 init();
