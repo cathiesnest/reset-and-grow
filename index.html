@@ -2515,6 +2515,22 @@ footer {
 
       </div>
 
+      <div
+        style="display:flex;gap:10px;margin-top:15px;">
+
+        <input
+          id="copilotQuestion"
+          placeholder="Ask something..."
+          onkeydown="if(event.key === 'Enter') submitCopilot()">
+
+        <button
+          class="btn btn-green"
+          onclick="submitCopilot()">
+          Ask
+        </button>
+
+      </div>
+
     </div>
 
   </div>
@@ -3163,46 +3179,8 @@ footer {
 const ALISON_AFFILIATE_URL =
 "https://alison.com/courses/personal-development?utm_source=alison_user&utm_medium=affiliate&utm_campaign=42404117";
 
-/*
-  Exchange-rate sources, tried in order.
-  1) open.er-api.com   - covers every currency in the list (incl. AED, SAR)
-  2) Frankfurter (ECB) - backup source; does not carry AED or SAR
-*/
-const FX_PROVIDERS = [
-
-  {
-    name: "ExchangeRate-API",
-
-    url: (from) =>
-      `https://open.er-api.com/v6/latest/${encodeURIComponent(from)}`,
-
-    parse: (data, to) => ({
-      rate:
-        data?.result === "success"
-          ? Number(data?.rates?.[to])
-          : NaN,
-
-      date:
-        data?.time_last_update_utc
-          ? String(data.time_last_update_utc)
-              .replace(/ \+0000$/, " UTC")
-          : ""
-    })
-  },
-
-  {
-    name: "Frankfurter (ECB)",
-
-    url: (from, to) =>
-      `https://api.frankfurter.dev/v1/latest?base=${encodeURIComponent(from)}&symbols=${encodeURIComponent(to)}`,
-
-    parse: (data, to) => ({
-      rate: Number(data?.rates?.[to]),
-      date: data?.date || ""
-    })
-  }
-
-];
+const FX_API_BASE =
+"https://api.frankfurter.app";
 
 const STORAGE = {
 
@@ -4614,19 +4592,53 @@ async function convertGlobalCurrency() {
 
   try {
 
-    const {
-      rate,
-      date,
-      source
-    } = await fetchExchangeRate(from, to);
+    const url =
+      `${FX_API_BASE}/latest?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
+
+    const response =
+      await fetch(
+        url,
+        {
+          method: "GET",
+          headers: {
+            "Accept":
+              "application/json"
+          }
+        }
+      );
+
+    if (!response.ok) {
+      throw new Error(
+        "Exchange-rate request failed."
+      );
+    }
+
+    const data =
+      await response.json();
+
+    const rate =
+      Number(
+        data?.rates?.[to]
+      );
+
+    if (
+      !Number.isFinite(rate) ||
+      rate <= 0
+    ) {
+
+      throw new Error(
+        "No valid exchange rate was returned."
+      );
+
+    }
 
     const converted =
       amount * rate;
 
     const dateText =
-      date
-        ? `Reference date: ${date} · Source: ${source}`
-        : `Source: ${source}`;
+      data.date
+        ? `Reference date: ${data.date}`
+        : "Latest available reference rate";
 
     status.className =
       "converter-status";
@@ -4706,82 +4718,6 @@ async function convertGlobalCurrency() {
     `;
 
   }
-
-}
-
-async function fetchExchangeRate(from, to) {
-
-  for (const provider of FX_PROVIDERS) {
-
-    const controller =
-      new AbortController();
-
-    const timer =
-      setTimeout(
-        () => controller.abort(),
-        8000
-      );
-
-    try {
-
-      const response =
-        await fetch(
-          provider.url(from, to),
-          {
-            method: "GET",
-            headers: {
-              "Accept":
-                "application/json"
-            },
-            signal:
-              controller.signal
-          }
-        );
-
-      if (!response.ok) {
-        throw new Error(
-          "Exchange-rate request failed."
-        );
-      }
-
-      const data =
-        await response.json();
-
-      const parsed =
-        provider.parse(data, to);
-
-      if (
-        !Number.isFinite(parsed.rate) ||
-        parsed.rate <= 0
-      ) {
-
-        throw new Error(
-          "No valid exchange rate was returned."
-        );
-
-      }
-
-      return {
-        rate: parsed.rate,
-        date: parsed.date,
-        source: provider.name
-      };
-
-    } catch (error) {
-
-      /* Try the next source */
-
-    } finally {
-
-      clearTimeout(timer);
-
-    }
-
-  }
-
-  throw new Error(
-    "All exchange-rate sources failed."
-  );
 
 }
 
@@ -5533,3 +5469,632 @@ function clearWellness() {
   ) return;
 
   localStorage.removeItem(
+    STORAGE.wellness
+  );
+
+  [
+    "sleepCheck",
+    "waterCheck",
+    "movementCheck",
+    "personalCheck",
+    "habitCheck"
+  ].forEach(id => {
+
+    $(id).checked = false;
+
+  });
+
+  $("mood").value = "";
+
+  $("energy").value = "";
+
+  $("wellnessNotes").value = "";
+
+  $("wellnessResult")
+    .innerHTML = "";
+
+  showToast(
+    "Wellness check-in cleared."
+  );
+
+}
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+function renderHistory() {
+
+  const history =
+    loadJSON(
+      STORAGE.history,
+      []
+    );
+
+  if (!history.length) {
+
+    $("historyList").innerHTML = `
+
+      <p class="muted">
+        No saved months yet.
+        Save your first Money Map when you're ready.
+      </p>
+
+    `;
+
+    return;
+
+  }
+
+  $("historyList").innerHTML =
+    history.map(
+      (item,index) => `
+
+        <div class="history-item">
+
+          <strong>
+            ${escapeHTML(
+              item.month ||
+              "Saved month"
+            )}
+          </strong>
+
+          <div class="muted">
+
+            ${escapeHTML(
+              item.currency || "PHP"
+            )}
+
+            · Income
+
+            ${money(
+              item.income,
+              item.currency || "PHP"
+            )}
+
+          </div>
+
+          <p>
+
+            Remaining:
+
+            <strong>
+              ${money(
+                item.remaining,
+                item.currency || "PHP"
+              )}
+            </strong>
+
+          </p>
+
+          ${
+            item.goal
+              ? `
+                <p class="muted">
+                  Goal:
+                  ${escapeHTML(item.goal)}
+                </p>
+              `
+              : ""
+          }
+
+          <button
+            class="btn btn-danger"
+            onclick="deleteHistory(${index})">
+            Delete
+          </button>
+
+        </div>
+
+      `
+    ).join("");
+
+}
+
+function deleteHistory(index) {
+
+  const history =
+    loadJSON(
+      STORAGE.history,
+      []
+    );
+
+  history.splice(
+    index,
+    1
+  );
+
+  saveJSON(
+    STORAGE.history,
+    history
+  );
+
+  renderHistory();
+
+  showToast(
+    "Saved month deleted."
+  );
+
+}
+
+
+/* =========================================================
+   PRINT / PDF / SHARE / EMAIL
+========================================================= */
+
+function downloadMoneyMap() {
+
+  const map =
+    lastMoneyMap ||
+    loadJSON(
+      STORAGE.money,
+      null
+    );
+
+  if (!map) {
+
+    showToast(
+      "Map your month first."
+    );
+
+    return;
+
+  }
+
+  const groceryTotal =
+    groceryItems.reduce(
+      (sum,item) =>
+        sum +
+        (
+          Number(item.price) *
+          Number(item.quantity)
+        ),
+      0
+    );
+
+  const originalTitle =
+    document.title;
+
+  document.title =
+    `Reset & Grow — ${map.month}`;
+
+  const cleanup =
+    () => {
+
+      document.title =
+        originalTitle;
+
+      window.removeEventListener(
+        "afterprint",
+        cleanup
+      );
+
+    };
+
+  window.addEventListener(
+    "afterprint",
+    cleanup
+  );
+
+  trackEvent(
+    "pdf_print_opened"
+  );
+
+  showToast(
+    "Choose Save as PDF in the print window."
+  );
+
+  setTimeout(
+    () => window.print(),
+    150
+  );
+
+}
+
+async function shareMoneyMap() {
+
+  const shareText =
+    "I mapped my month with Reset & Grow 🌱 Small steps. Clearer direction.";
+
+  trackEvent(
+    "share",
+    {
+      feature: "money_map",
+      share_method:
+        navigator.share
+          ? "web_share"
+          : "copy"
+    }
+  );
+
+  if (
+    navigator.share
+  ) {
+
+    try {
+
+      await navigator.share({
+
+        title:
+          "Reset & Grow",
+
+        text:
+          shareText,
+
+        url:
+          location.href
+
+      });
+
+      return;
+
+    } catch {}
+
+  }
+
+  try {
+
+    await navigator.clipboard.writeText(
+      shareText
+    );
+
+    showToast(
+      "Share message copied."
+    );
+
+  } catch {
+
+    showToast(
+      shareText
+    );
+
+  }
+
+}
+
+function emailMoneyMap() {
+
+  const map =
+    lastMoneyMap ||
+    loadJSON(
+      STORAGE.money,
+      null
+    );
+
+  if (!map) {
+
+    showToast(
+      "Map your month first."
+    );
+
+    return;
+
+  }
+
+  const subject =
+    encodeURIComponent(
+      `My Reset & Grow Money Map — ${map.month}`
+    );
+
+  const body =
+    encodeURIComponent(`
+
+My Reset & Grow Money Map
+
+Income:
+${money(map.income,map.currency)}
+
+Essentials:
+${money(map.essentials,map.currency)}
+
+Debt payments:
+${money(map.debt,map.currency)}
+
+Savings:
+${money(map.savings,map.currency)}
+
+Flexible spending:
+${money(map.flexible,map.currency)}
+
+Remaining:
+${money(map.remaining,map.currency)}
+
+Goal:
+${map.goal || "None"}
+
+Small steps. Clearer direction. 🌱
+
+    `);
+
+  window.location.href =
+    `mailto:?subject=${subject}&body=${body}`;
+
+  trackEvent(
+    "money_map_emailed"
+  );
+
+}
+
+
+/* =========================================================
+   ALISON
+========================================================= */
+
+function openAlison() {
+
+  trackEvent(
+    "alison_click",
+    {
+      source:
+        "financial_money_map",
+
+      placement:
+        "grow_your_map",
+
+      learning_category:
+        "personal_development"
+    }
+  );
+
+  window.open(
+    ALISON_AFFILIATE_URL,
+    "_blank",
+    "noopener,noreferrer"
+  );
+
+}
+
+function selectLearning(category) {
+
+  trackEvent(
+    "learning_category_selected",
+    {
+      learning_category:
+        category
+    }
+  );
+
+  showToast(
+    `${category} learning path selected. 🌱`
+  );
+
+}
+
+
+/* =========================================================
+   DATA / PRIVACY
+========================================================= */
+
+function clearAllData() {
+
+  const confirmed =
+    confirm(
+      "This will remove your saved Money Map, history, groceries and wellness information from this device. Continue?"
+    );
+
+  if (!confirmed) return;
+
+  Object.values(
+    STORAGE
+  ).forEach(
+    key =>
+      localStorage.removeItem(key)
+  );
+
+  groceryItems = [];
+
+  lastMoneyMap = null;
+
+  location.reload();
+
+}
+
+
+/* =========================================================
+   SECURITY
+========================================================= */
+
+function escapeHTML(value) {
+
+  return String(value)
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+/* =========================================================
+   RESTORE MONEY MAP
+========================================================= */
+
+function restoreMoneyMap() {
+
+  const map =
+    loadJSON(
+      STORAGE.money,
+      null
+    );
+
+  if (!map) return;
+
+  lastMoneyMap =
+    map;
+
+  $("currency").value =
+    map.currency ||
+    "PHP";
+
+  $("income").value =
+    map.income ?? "";
+
+  $("essentials").value =
+    map.essentials ?? "";
+
+  $("debt").value =
+    map.debt ?? "";
+
+  $("savings").value =
+    map.savings ?? "";
+
+  $("flexible").value =
+    map.flexible ?? "";
+
+  $("monthlyGoal").value =
+    map.goal || "";
+
+  $("moneyNotes").value =
+    map.notes || "";
+
+}
+
+
+/* =========================================================
+   RESTORE WELLNESS
+========================================================= */
+
+function restoreWellness() {
+
+  const data =
+    loadJSON(
+      STORAGE.wellness,
+      null
+    );
+
+  if (!data) return;
+
+  $("sleepCheck").checked =
+    !!data.sleep;
+
+  $("waterCheck").checked =
+    !!data.water;
+
+  $("movementCheck").checked =
+    !!data.movement;
+
+  $("personalCheck").checked =
+    !!data.personal;
+
+  $("habitCheck").checked =
+    !!data.healthyHabit;
+
+  $("mood").value =
+    data.mood || "";
+
+  $("energy").value =
+    data.energy || "";
+
+  $("wellnessNotes").value =
+    data.notes || "";
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+function init() {
+
+  const groceryBudget =
+    $("groceryBudget");
+
+  const currency =
+    $("currency");
+
+  if (groceryBudget) {
+
+    groceryBudget.addEventListener(
+      "input",
+      updateGrocerySummary
+    );
+
+  }
+
+  if (currency) {
+
+    currency.addEventListener(
+      "change",
+      () => {
+
+        updateGrocerySummary();
+
+        if (groceryItems.length) {
+          renderGroceries();
+        }
+
+      }
+    );
+
+  }
+
+  /*
+    Calculator tabs: pressing Enter in any field
+    runs that tab's Calculate / Estimate button.
+  */
+
+  document
+    .querySelectorAll(".calc-panel input")
+    .forEach(input => {
+
+      input.addEventListener(
+        "keydown",
+        event => {
+
+          if (event.key !== "Enter") return;
+
+          event.preventDefault();
+
+          const panel =
+            input.closest(".calc-panel");
+
+          const calculateButton =
+            panel?.querySelector(".btn-green");
+
+          if (calculateButton) {
+            calculateButton.click();
+          }
+
+        }
+      );
+
+    });
+
+  restoreMoneyMap();
+
+  restoreWellness();
+
+  renderGroceries();
+
+  renderHistory();
+
+  trackEvent(
+    "reset_grow_opened"
+  );
+
+}
+
+init();
+
+</script>
+
+</body>
+</html>
