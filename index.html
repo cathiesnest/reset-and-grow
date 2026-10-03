@@ -754,6 +754,15 @@ hr.soft-rule {
   margin-top: 18px;
 }
 
+/* Disclaimer placed beside the Personal Development card */
+.grow-disclosure {
+  grid-column: span 2;
+  align-self: center;
+  margin-top: 0;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
 /* ---------- FOOTER ---------- */
 
 footer {
@@ -879,6 +888,10 @@ footer {
   .grid-3,
   .grid-2 {
     grid-template-columns: 1fr;
+  }
+
+  .grow-disclosure {
+    grid-column: auto;
   }
 
   .nav-inner {
@@ -1737,6 +1750,12 @@ footer {
             Calculate
           </button>
 
+          <button
+            class="btn btn-light"
+            onclick="resetCalc('currencyCalc')">
+            Reset
+          </button>
+
         </div>
 
         <div
@@ -1792,6 +1811,12 @@ footer {
             class="btn btn-green"
             onclick="calculatePercentage()">
             Calculate
+          </button>
+
+          <button
+            class="btn btn-light"
+            onclick="resetCalc('percentageCalc')">
+            Reset
           </button>
 
         </div>
@@ -1850,6 +1875,12 @@ footer {
             Calculate
           </button>
 
+          <button
+            class="btn btn-light"
+            onclick="resetCalc('discountCalc')">
+            Reset
+          </button>
+
         </div>
 
         <div id="discountResult"></div>
@@ -1904,6 +1935,12 @@ footer {
             class="btn btn-green"
             onclick="calculateTip()">
             Calculate
+          </button>
+
+          <button
+            class="btn btn-light"
+            onclick="resetCalc('tipCalc')">
+            Reset
           </button>
 
         </div>
@@ -1962,6 +1999,12 @@ footer {
             Calculate
           </button>
 
+          <button
+            class="btn btn-light"
+            onclick="resetCalc('splitCalc')">
+            Reset
+          </button>
+
         </div>
 
         <div id="splitResult"></div>
@@ -2016,6 +2059,12 @@ footer {
             class="btn btn-green"
             onclick="calculateSavings()">
             Calculate
+          </button>
+
+          <button
+            class="btn btn-light"
+            onclick="resetCalc('savingsCalc')">
+            Reset
           </button>
 
         </div>
@@ -2074,6 +2123,12 @@ footer {
             Estimate
           </button>
 
+          <button
+            class="btn btn-light"
+            onclick="resetCalc('debtCalc')">
+            Reset
+          </button>
+
         </div>
 
         <div id="debtResult"></div>
@@ -2107,6 +2162,12 @@ footer {
             class="btn btn-green"
             onclick="calculateBasic()">
             Calculate
+          </button>
+
+          <button
+            class="btn btn-light"
+            onclick="resetCalc('basicCalc')">
+            Reset
           </button>
 
         </div>
@@ -2952,17 +3013,17 @@ footer {
 
       </div>
 
+      <p class="disclosure grow-disclosure">
+
+        The Alison link shared on this website belongs to the site's owner,
+        who is a registered Alison Affiliate Partner and may earn a commission
+        from qualifying purchases or actions, at no extra cost to you.
+        This is a paid referral arrangement only. It does not represent an
+        endorsement by Alison or a partnership between Reset &amp; Grow and Alison.
+
+      </p>
+
     </div>
-
-    <p class="disclosure">
-
-      The Alison link shared on this website belongs to the site's owner,
-      who is a registered Alison Affiliate Partner and may earn a commission
-      from qualifying purchases or actions, at no extra cost to you.
-      This is a paid referral arrangement only. It does not represent an
-      endorsement by Alison or a partnership between Reset &amp; Grow and Alison.
-
-    </p>
 
     <div
       class="card center"
@@ -3018,10 +3079,6 @@ footer {
         </a>
 
       </div>
-
-      <p class="muted">
-        Four questions. One clearer next step.
-      </p>
 
     </div>
 
@@ -3971,6 +4028,50 @@ function showCalc(id, button) {
     {
       calculator_type: id
     }
+  );
+
+}
+
+/*
+  Reset / Clear for every calculator tab.
+  Empties the inputs, returns dropdowns to their first option
+  and clears the result shown in that tab.
+*/
+
+function resetCalc(panelId) {
+
+  const panel =
+    $(panelId);
+
+  if (!panel) return;
+
+  panel
+    .querySelectorAll("input")
+    .forEach(input => {
+      input.value = "";
+    });
+
+  panel
+    .querySelectorAll("select")
+    .forEach(select => {
+      select.selectedIndex = 0;
+    });
+
+  panel
+    .querySelectorAll('[id$="Result"]')
+    .forEach(result => {
+      result.innerHTML = "";
+    });
+
+  const firstInput =
+    panel.querySelector("input");
+
+  if (firstInput) {
+    firstInput.focus();
+  }
+
+  showToast(
+    "Calculator cleared."
   );
 
 }
@@ -5944,6 +6045,38 @@ function init() {
     );
 
   }
+
+  /*
+    Calculator tabs: pressing Enter in any field
+    runs that tab's Calculate / Estimate button.
+  */
+
+  document
+    .querySelectorAll(".calc-panel input")
+    .forEach(input => {
+
+      input.addEventListener(
+        "keydown",
+        event => {
+
+          if (event.key !== "Enter") return;
+
+          event.preventDefault();
+
+          const panel =
+            input.closest(".calc-panel");
+
+          const calculateButton =
+            panel?.querySelector(".btn-green");
+
+          if (calculateButton) {
+            calculateButton.click();
+          }
+
+        }
+      );
+
+    });
 
   restoreMoneyMap();
 
